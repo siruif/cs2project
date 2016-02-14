@@ -39,8 +39,8 @@ Notes:
         school['school_score'] = school_score
         school['school_score_second_rank'] = school_score_second_rank
 
-    sorted(dictionary_school_info.items(), key = lambda x: x[1], reverse = True)
 
+    # need to bring dictionary back into datable so we can sort by school_score, and then school_score_second_rank
 
 
 
