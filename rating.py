@@ -1,4 +1,5 @@
 import sqlite3
+import math
 connection = sqlite3.connect("EducationData.db")
 cursor = connection.cursor()
 
@@ -24,8 +25,31 @@ for each in rating_data:
 	if key not in rating_dict:
 		rating_dict[key]={}
 		rating = each[RATING]
+		score = rate_criteria[rating]
+
+		expend = each[EXPEND]
+		expend = expend.replace(",","")
+		expend = float(expend)
+
+		total = each[TOTAL]
+		total = total.replace(",","")
+		total = float(total)
+
 		rating_dict[key]["rating"] = rate_criteria[rating]
-		rating_dict[key]["expenditure"] = each[EXPEND]
-		rating_dict[key]["total"] = each[TOTAL]
+		rating_dict[key]["expenditure"] = expend
+		rating_dict[key]["total"] = total
+
+		print("the type of score is", type(score))
+		print("the type of expend is", type(expend))
+		print("the type of total is", type(total))
+		print("the total is", total)
+		print("the expenditure is:", expend)
+		if score!=None:
+			if expend >0:
+			
+				rating_dict[key]["scoreperexpend"] = math.log(score / (expend/total))
+		else:
+			rating_dict[key]["scoreperexpend"] = None
+print(rating_dict)
 
 connection.close()
