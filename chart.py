@@ -61,6 +61,15 @@ values = []
 
 for key in sample_school.keys():
     if key in Expenditure_Cat:
-
+        labels.append(key)
+        values.append(sample_school[key])
 
 colors = tableau20[0: len(labels) + 1]
+
+plt.pie(values, labels = labels, colors = colors, autopct = '%1.1f%%',\
+        shadow = True, startangle = 90)
+
+plt.axis('equal')
+
+fig = plt.figure()
+plt.show()
