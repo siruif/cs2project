@@ -20,7 +20,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/1.8/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '4_m#4xtfw=piqo3sypc7!t3vs82+p!wy98fquahw22g5t^!8lf'
+SECRET_KEY = '@!0zjp_g&=twb*t0i0j0ht@00$ugqz^&p-a_9#@p39h68c$oe_'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -37,7 +37,7 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'diary'
+    'edmoneyball'
 )
 
 MIDDLEWARE_CLASSES = (
@@ -101,3 +101,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.8/howto/static-files/
 
 STATIC_URL = '/static/'
+
+#Turab: Adding the path where template files are 
+
+#TEMPLATE_DIRS = (os.path.join(BASE_DIR, "templates"),)

@@ -17,7 +17,6 @@ from django.conf.urls import include, url
 from django.contrib import admin
 
 urlpatterns = [
-    url(r'^admin/', admin.site.urls),
-    url(r'', include('diary.urls')),
-    url(r'^$', 'diary.views.start'),
+    url(r'^googlemaps/', include('edmoneyball.urls')),
+    url(r'^admin/', include(admin.site.urls)),
 ]
