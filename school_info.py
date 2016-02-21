@@ -95,7 +95,7 @@ def get_radius(lon1, lat1):
 
 def find_radius_helper(lon1, lat1, lon2, lat2):
 	'''
-	calculates the km distance between two points, assuming the radius of earth is 6371 km.
+	calculates the miles distance between two points, assuming the radius of earth is 3959 miles.
 	http://stackoverflow.com/questions/15736995/how-can-i-quickly-estimate-the-distance-between-two-latitude-longitude-points
 	'''
 	#print(long1, lat1, long2, lat2)
@@ -105,8 +105,8 @@ def find_radius_helper(lon1, lat1, lon2, lat2):
 	dlat = lat2 - lat1 
 	a = sin(dlat/2)**2 + cos(lat1) * cos(lat2) * sin(dlon/2)**2
 	c = 2 * asin(sqrt(a)) 
-	km = 6371 * c
+	mile = 3959 * c
 
-	return km
+	return mile
 
 get_radius(-87.6297982, 41.8781136)
