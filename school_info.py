@@ -10,14 +10,15 @@ def create_school_dictionary():
 	cursor = connection.cursor()
 
 	s1 = "SELECT g.CPSUnit, g.FullName, g.SchoolType, g.Latitude, g.longitude, \
-	e.Expenditures, e.CategoriesName, \
+	SUM(e.Expenditures) AS expend, e.CategoriesName, \
 	p.SQRPRating, p.SQRPTotalPointsEarned, \
 	l.Total, l.FreeReducedPercent, l.SpEdPercent, \
 	r.WhitePercentage, r.AfricanAmericanPercentage, r.HispanicPercentage, r.MultiRacialPercentage, r.AsianPercentage \
 	FROM 'general' AS g JOIN 'expenditure' AS e ON g.CPSUnit = e.CPSUnit \
 	JOIN performance AS p ON p.CPSUnit = e.CPSUnit \
 	JOIN lunch AS l ON l.CPSUnit = p.CPSUnit \
-	JOIN race AS r ON r.CPSUnit = l.CPSUnit;"
+	JOIN race AS r ON r.CPSUnit = l.CPSUnit \
+	GROUP by g.FullName, e.CategoriesName;"
 	#s1 is for building a dictionary for the comparison
 
 
@@ -47,16 +48,16 @@ def create_school_dictionary():
 		
 		key = each[NAME]
 		
+		
 		if key not in school_dictionary:
 			school_dictionary[key] = {}
 			school_dictionary[key]['unit'] = each[UNIT]
-			#school_dictionary[key]["name"] = each[NAME]
 			school_dictionary[key]['type'] = each[TYPE]
 			school_dictionary[key]['lat'] = each[LAT]
 			school_dictionary[key]['lon'] = each[LON]
-			school_dictionary[key]['expenditure'] = each[EXPEND]
-			school_dictionary[key]['category'] = each[CATEG]
-			#print(school_dictionary)
+			category = each[CATEG]
+			school_dictionary[key][category] = each[EXPEND]
+			school_dictionary[key]['total_expend'] = each[EXPEND]
 			school_dictionary[key]['rating'] = each[RATING]
 			school_dictionary[key]['points'] = each[POINTS]
 			school_dictionary[key]['total'] = each[TOTAL]
@@ -67,9 +68,13 @@ def create_school_dictionary():
 			school_dictionary[key]['hispanic'] = each[HISPANIC]
 			school_dictionary[key]['multi'] = each[MULTI]
 			school_dictionary[key]['asian'] = each[ASIAN]
+		else:
+			category = each[CATEG]
+			school_dictionary[key][category] = each[EXPEND]
+			school_dictionary[key]['total_expend'] += each[EXPEND]
+
 
 	connection.close()
-	print(len(school_dictionary))
 
 	return school_dictionary
 
