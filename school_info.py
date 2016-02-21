@@ -1,5 +1,6 @@
 import sqlite3
 from math import *
+import operator
 
 def create_school_dictionary():
 	'''
@@ -8,7 +9,7 @@ def create_school_dictionary():
 	connection = sqlite3.connect("EducationData.db")
 	cursor = connection.cursor()
 
-	s1 = "SELECT g.CPSUnit, g.SchoolName, g.SchoolType, g.Latitude, g.longitude, \
+	s1 = "SELECT g.CPSUnit, g.FullName, g.SchoolType, g.Latitude, g.longitude, \
 	e.Expenditures, e.CategoriesName, \
 	p.SQRPRating, p.SQRPTotalPointsEarned, \
 	l.Total, l.FreeReducedPercent, l.SpEdPercent, \
@@ -26,7 +27,7 @@ def create_school_dictionary():
 	NAME = 1
 	TYPE = 2
 	LAT = 3
-	LONG = 4
+	LON = 4
 	EXPEND = 5
 	CATEG = 6
 	RATING = 7
@@ -48,11 +49,11 @@ def create_school_dictionary():
 		
 		if key not in school_dictionary:
 			school_dictionary[key] = {}
-			school_dictionary[key]["unit"] = each[UNIT]
+			school_dictionary[key]['unit'] = each[UNIT]
 			#school_dictionary[key]["name"] = each[NAME]
-			school_dictionary[key]["type"] = each[TYPE]
-			school_dictionary[key]["lat"] = each[LAT]
-			school_dictionary[key]['long'] = each[LONG]
+			school_dictionary[key]['type'] = each[TYPE]
+			school_dictionary[key]['lat'] = each[LAT]
+			school_dictionary[key]['lon'] = each[LON]
 			school_dictionary[key]['expenditure'] = each[EXPEND]
 			school_dictionary[key]['category'] = each[CATEG]
 			#print(school_dictionary)
@@ -68,16 +69,37 @@ def create_school_dictionary():
 			school_dictionary[key]['asian'] = each[ASIAN]
 
 	connection.close()
+	print(len(school_dictionary))
 
 	return school_dictionary
 
-def find_radius(long1, lat1, long2, lat2):
+def get_radius(lon1, lat1):
 	'''
-	calculates the miles distance between two points, assuming the radius of earth is 3959 mile.
+	Constructs a dictionary, key is the school name and value is the distance to long1 lat1
+	'''
+	distance_dict = {}
+	school_dictionary = create_school_dictionary()
+	for school in school_dictionary:
+		#print(school_dictionary[school])
+		lon2 = float(school_dictionary[school]['lon'])
+		#print(long2)
+		lat2 = float(school_dictionary[school]['lat'])
+		#print(lat2)
+		distance = find_radius_helper(lon1, lat1, lon2, lat2)
+		distance_dict[school] = distance
+	#print(distance_dict)
+
+	return distance_dict
+
+
+
+def find_radius_helper(lon1, lat1, lon2, lat2):
+	'''
+	calculates the km distance between two points, assuming the radius of earth is 6371 km.
 	http://stackoverflow.com/questions/15736995/how-can-i-quickly-estimate-the-distance-between-two-latitude-longitude-points
 	'''
-
-	lon1, lat1, lon2, lat2 = map(radians, [long1, lat1, long2, lat2])
+	#print(long1, lat1, long2, lat2)
+	lon1, lat1, lon2, lat2 = map(radians, [lon1, lat1, lon2, lat2])
 	# haversine formula 
 	dlon = lon2 - lon1 
 	dlat = lat2 - lat1 
@@ -86,5 +108,5 @@ def find_radius(long1, lat1, long2, lat2):
 	km = 6371 * c
 
 	return km
-	
-print(find_radius(-87.71295615, 41.86293259, -87.63899431, 41.66487274))
+
+get_radius(-87.6297982, 41.8781136)
