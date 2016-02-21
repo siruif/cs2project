@@ -15,9 +15,9 @@ UNIT = 0
 RATING = 1
 EXPEND = 2
 TOTAL = 3
-rate_criteria={"Level 1+": 4.0, "Level 1":3.5, "Level 2+": 3.0, "Level 2": 2.0, "Level 3": 1.0, "Inability to Rate": None}
+rate_criteria={"Level 1+": 90, "Level 1":70, "Level 2+": 50, "Level 2": 40, "Level 3": 20, "Inability to Rate": None}
 #reference: http://cps.edu/SiteCollectionDocuments/SQRP_one_pager.pdf
-#for Level 3: assign 1
+#for Level 3: assign 20
 
 rating_dict = {}
 for each in rating_data:
