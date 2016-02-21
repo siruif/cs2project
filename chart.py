@@ -1,5 +1,5 @@
 import school_info
-import matplotlib as plt
+import matplotlib.pylab as plt
 import numpy as np
 
 # These are the "Tableau 20" colors as RGB.    
@@ -46,12 +46,12 @@ plt.xticks(fontsize=14)
 
 # Create expenditure pie charts
 
-Expenditure_Cat = set('Admin Salary & Benefits', 'Unknown', '#N/A', \
+Expenditure_Cat = set(['Admin Salary & Benefits', 'Unknown', '#N/A', \
                    'Operational Expenses', 'Teacher Salary & Benefits', \
-                    'Pensions', 'Capital Expenses', 'Instructional-Related Expenses')
+                    'Pensions', 'Capital Expenses', 'Instructional-Related Expenses'])
 
 
-create_data = school_info.create_school_dict()
+create_data = school_info.create_school_dictionary()
 school_data = create_data
 sample_school = school_data['Edward K Ellington Elementary School']
 
@@ -71,5 +71,7 @@ plt.pie(values, labels = labels, colors = colors, autopct = '%1.1f%%',\
 
 plt.axis('equal')
 
-fig = plt.figure()
+plt.legend(title = "Expenditure Categories", loc = 'best')
+
+plt.tight_layout()
 plt.show()
