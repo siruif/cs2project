@@ -1,6 +1,11 @@
 import school_info
 import matplotlib.pylab as plt
 import numpy as np
+import plotly.plotly as py
+import plotly.tools as tls 
+from plotly.graph_objs import *
+import plotly.graph_objs as go
+py.sign_in('vi-tnguyen', '2j59j4yh6y')
 
 # These are the "Tableau 20" colors as RGB.    
 tableau20 = [(31, 119, 180), (174, 199, 232), (255, 127, 14), 
@@ -17,61 +22,72 @@ for i in range(len(tableau20)):
     r, g, b = tableau20[i]    
     tableau20[i] = (r / 255., g / 255., b / 255.)
 
-plt.figure(figsize = (12, 9))
+def create_labels_values(school_name, data_labels, renamed_labels = {}):
+    
+    school_data = school_info.create_school_dictionary()
+    sample_school = school_data[school_name]
+    labels = []
+    values = []
 
-# Remove the plot frame lines. They are unnecessary chartjunk.    
-ax = plt.subplot(111)    
-ax.spines["top"].set_visible(False)    
-ax.spines["bottom"].set_visible(False)    
-ax.spines["right"].set_visible(False)    
-ax.spines["left"].set_visible(False)  
+    for key in sample_school.keys():
+        if key in data_labels:
+            if key in renamed_labels.keys():
+                new_key = renamed_labels[key]
+                labels.append(new_key)
+            else:
+                labels.append(key)
+            values.append(sample_school[key])
 
-# Ensure that the axis ticks only show up on the bottom and left of 
-# the plot. Ticks on the right and top of the plot are generally 
-# unnecessary chartjunk.    
-ax.get_xaxis().tick_bottom()    
-ax.get_yaxis().tick_left()    
-  
-# Limit the range of the plot to only where the data is.    
-# Avoid unnecessary whitespace.    
-plt.ylim(0, 90)    
-plt.xlim(1968, 2014)
-
-# Make sure your axis ticks are large enough to be easily read.    
-# You don't want your viewers squinting to read your plot.    
-plt.yticks(range(0, 91, 10), [str(x) + "%" for x in range(0, 91, 10)],\
-    fontsize=14)    
-plt.xticks(fontsize=14)
+    return labels, values, sample_school
 
 
 # Create expenditure pie charts
+def expenditure_pie(school_name):
+    Expenditure_Cat = set(['Admin Salary & Benefits', \
+                      'Operational Expenses', 'Teacher Salary & Benefits',\
+                      'Pensions', 'Capital Expenses', 
+                      'Instructional-Related Expenses'])
+    Expenditure_Cat_Unknown = set(['Unknown','#N/A'])
+    Expenditure_Cat_Rename = {'Operational Expenses': 'Operations', \
+                              'Capital Expenses':'Capital', \
+                              'Instructional-Related Expenses': 'Instructional-Related'}
 
-Expenditure_Cat = set(['Admin Salary & Benefits', 'Unknown', '#N/A', \
-                   'Operational Expenses', 'Teacher Salary & Benefits', \
-                    'Pensions', 'Capital Expenses', 'Instructional-Related Expenses'])
+    labels, values, sample_school = create_labels_values(school_name, Expenditure_Cat, \
+                     renamed_labels = Expenditure_Cat_Rename)
+    
+    # Grouping all 'unknown' or '#N/A' categories together
+    unknown_sum = 0
+    for key in sample_school.keys():
+        if key in Expenditure_Cat_Unknown:
+            unknown_sum = unknown_sum + sample_school[key]
+    labels.append('Unknown')
+    values.append(unknown_sum)
+
+    # Creating chart
+    title = 'Expenditures: {0} \n Total: ${1}' .format(school_name, 
+        "{:,.0f}".format(sample_school['total_expend']))
+    
+    fig = {
+    'data': [{'labels': labels, 'values': values, 'type': 'pie'}],
+    'layout': {'title': title}}
+
+    url = py.plot(fig, filename='Pie Chart Example')
 
 
-create_data = school_info.create_school_dictionary()
-school_data = create_data
-sample_school = school_data['Edward K Ellington Elementary School']
+def demographic_bar(school_name):
+    ethnicity_cat = set(['asian', 'white', 'african', 'hispanic', 'multi'])
+    ethnicity_cat_rename = {'asian': 'Asian', \
+                            'white': 'Caucasian', \
+                            'african': 'African American', \
+                            'hispanic':' Hispanic',\
+                            'multi': 'Multi-racial'}
+    labels, values, sample_school = create_labels_values(school_name, ethnicity_cat,\
+                                    renamed_labels = ethnicity_cat_rename)
 
-labels = []
-values = []
+    trace1 = [go.Bar(x = labels,y = values)]
 
+    layout = go.Layout(yaxis = dict(title = 'Percentage (%)'))
 
-for key in sample_school.keys():
-    if key in Expenditure_Cat:
-        labels.append(key)
-        values.append(sample_school[key])
+    fig = go.Figure(data = trace1, layout = layout)
 
-colors = tableau20[0: len(labels) + 1]
-
-plt.pie(values, labels = labels, colors = colors, autopct = '%1.1f%%',\
-        shadow = True, startangle = 90)
-
-plt.axis('equal')
-
-plt.legend(title = "Expenditure Categories", loc = 'best')
-
-plt.tight_layout()
-plt.show()
+    url = py.plot(fig, filename='Bar Chart Example')
