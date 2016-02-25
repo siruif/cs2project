@@ -84,18 +84,13 @@ def get_radius(lon1, lat1):
 	'''
 	distance_dict = {}
 	school_dictionary = create_school_dictionary()
+	#print(school_dictionary['Agustin Lara Elementary Academy'])
 	for school in school_dictionary:
-		#print(school_dictionary[school])
 		lon2 = float(school_dictionary[school]['lon'])
-		#print(long2)
 		lat2 = float(school_dictionary[school]['lat'])
-		#print(lat2)
 		distance = find_radius_helper(lon1, lat1, lon2, lat2)
 		distance_dict[school] = distance
-	#print(distance_dict)
-
 	return distance_dict
-
 
 
 def find_radius_helper(lon1, lat1, lon2, lat2):
@@ -114,4 +109,16 @@ def find_radius_helper(lon1, lat1, lon2, lat2):
 
 	return mile
 
-get_radius(-87.6297982, 41.8781136)
+def find_neighbor_schools(location, radius):
+	(ulat, ulon) = location
+	distance_dict = get_radius(ulon, ulat)
+	#print(distance_dict)
+	school_in_range = []
+	for key in distance_dict:
+		if distance_dict[key]<=radius:
+			school_in_range.append(key)
+	return school_in_range
+
+
+
+print(find_neighbor_schools((41.8781136, -87.6297982), 10))
