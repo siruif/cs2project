@@ -17,61 +17,56 @@ for i in range(len(tableau20)):
     r, g, b = tableau20[i]    
     tableau20[i] = (r / 255., g / 255., b / 255.)
 
-plt.figure(figsize = (12, 9))
-
-# Remove the plot frame lines. They are unnecessary chartjunk.    
-ax = plt.subplot(111)    
-ax.spines["top"].set_visible(False)    
-ax.spines["bottom"].set_visible(False)    
-ax.spines["right"].set_visible(False)    
-ax.spines["left"].set_visible(False)  
-
-# Ensure that the axis ticks only show up on the bottom and left of 
-# the plot. Ticks on the right and top of the plot are generally 
-# unnecessary chartjunk.    
-ax.get_xaxis().tick_bottom()    
-ax.get_yaxis().tick_left()    
-  
-# Limit the range of the plot to only where the data is.    
-# Avoid unnecessary whitespace.    
-plt.ylim(0, 90)    
-plt.xlim(1968, 2014)
-
-# Make sure your axis ticks are large enough to be easily read.    
-# You don't want your viewers squinting to read your plot.    
-plt.yticks(range(0, 91, 10), [str(x) + "%" for x in range(0, 91, 10)],\
-    fontsize=14)    
-plt.xticks(fontsize=14)
-
-
 # Create expenditure pie charts
+def expenditure_pie(school_name):
+    Expenditure_Cat = set(['Admin Salary & Benefits', \
+                      'Operational Expenses', 'Teacher Salary & Benefits',\
+                      'Pensions', 'Capital Expenses', 
+                      'Instructional-Related Expenses'])
+    Expenditure_Cat_Unknown = set(['Unknown','#N/A'])
+    Expenditure_Cat_Rename = {}
+    Expenditure_Cat_Rename['Operational Expenses'] = 'Operations'
+    Expenditure_Cat_Rename['Capital Expenses'] = 'Capital' 
+    Expenditure_Cat_Rename['Instructional-Related Expenses'] = 'Instructional-Related'
 
-Expenditure_Cat = set(['Admin Salary & Benefits', 'Unknown', '#N/A', \
-                   'Operational Expenses', 'Teacher Salary & Benefits', \
-                    'Pensions', 'Capital Expenses', 'Instructional-Related Expenses'])
+    create_data = school_info.create_school_dictionary()
+    school_data = create_data
+    sample_school = school_data[school_name]
+
+    labels = []
+    values = []
+    unknown_sum = 0
 
 
-create_data = school_info.create_school_dictionary()
-school_data = create_data
-sample_school = school_data['Edward K Ellington Elementary School']
+    for key in sample_school.keys():
+        if key in Expenditure_Cat:
+            if key in Expenditure_Cat_Rename.keys():
+                new_key = Expenditure_Cat_Rename[key]
+                labels.append(new_key)
+            else:
+                labels.append(key)
+            values.append(sample_school[key])
+        elif key in Expenditure_Cat_Unknown:
+            unknown_sum = unknown_sum + sample_school[key]
 
-labels = []
-values = []
+    # grouping all 'unknown' or '#N/A' categories together
+    labels.append('Unknown')
+    values.append(unknown_sum)
+
+    colors = tableau20[0: len(labels) + 1]
 
 
-for key in sample_school.keys():
-    if key in Expenditure_Cat:
-        labels.append(key)
-        values.append(sample_school[key])
+    fig = plt.figure()
+    ax = fig.add_axes([.15, .1, .7, .7])
+    ax.pie(values, labels = labels, colors = colors, autopct = '%1.f%%',\
+            shadow = True, startangle = 90)
 
-colors = tableau20[0: len(labels) + 1]
+    plt.title('Expenditures: {0} \n Total: ${1}' .format(school_name, 
+        "{:,.0f}".format(school_data[school_name]['total_expend'])))
 
-plt.pie(values, labels = labels, colors = colors, autopct = '%1.1f%%',\
-        shadow = True, startangle = 90)
+    image = plt.show()
+    return image
 
-plt.axis('equal')
-
-plt.legend(title = "Expenditure Categories", loc = 'best')
-
-plt.tight_layout()
-plt.show()
+def demographic_bar(school_name):
+    ethnicity_cat = set(['asian', 'white', 'african', 'hispanic', 'multi'])
+    
