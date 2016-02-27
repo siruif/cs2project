@@ -7,12 +7,14 @@ def create_school_dictionary():
 	'''
 	Constructs a dictionary that stores information of the school. The key is the school name.
 	'''
-	connection = sqlite3.connect("EducationData.db")
+	db_path = 'EducationData.db'
+	csv_path = 'UpdatedLocations.csv'
+	connection = sqlite3.connect(db_path)
 	cursor = connection.cursor()
 
 	s1 = "SELECT g.CPSUnit, g.FullName, g.SchoolType, g.Latitude, g.longitude, \
 	SUM(e.Expenditures) AS expend, e.CategoriesName, \
-	p.SQRPRating, p.SQRPTotalPointsEarned, \
+	p.SQRPRating, p.SQRPTotalPointsEarned, p.`NationalSchoolGrowthPercentile-Maths-Score`, p.`NationalSchoolGrowthPercentile-Reading-Score`, \
 	l.Total, l.FreeReducedPercent, l.SpEdPercent, \
 	r.WhitePercentage, r.AfricanAmericanPercentage, r.HispanicPercentage, r.MultiRacialPercentage, r.AsianPercentage \
 	FROM 'general' AS g JOIN 'expenditure' AS e ON g.CPSUnit = e.CPSUnit \
@@ -34,14 +36,16 @@ def create_school_dictionary():
 	CATEG = 6
 	RATING = 7
 	POINTS = 8
-	TOTAL = 9
-	LUNCH = 10
-	SPED = 11
-	WHITE = 12
-	AFRICAN = 13
-	HISPANIC = 14
-	MULTI = 15
-	ASIAN = 16
+	MATH_GROWTH = 9
+	RDG_GROWTH = 10
+	TOTALNO = 11
+	LUNCH = 12
+	SPED = 13
+	WHITE = 14
+	AFRICAN = 15
+	HISPANIC = 16
+	MULTI = 17
+	ASIAN = 18
 
 	school_dictionary = {}
 
@@ -61,7 +65,7 @@ def create_school_dictionary():
 			school_dictionary[key]['total_expend'] = each[EXPEND]
 			school_dictionary[key]['perf_rating'] = each[RATING]
 			school_dictionary[key]['perf_points'] = each[POINTS]
-			school_dictionary[key]['total_students'] = each[TOTAL]
+			school_dictionary[key]['total_students'] = each[TOTALNO]
 			school_dictionary[key]['free_red_lunch'] = each[LUNCH]
 			school_dictionary[key]['special_educ'] = each[SPED]
 			school_dictionary[key]['white'] = each[WHITE]
@@ -69,6 +73,8 @@ def create_school_dictionary():
 			school_dictionary[key]['hispanic'] = each[HISPANIC]
 			school_dictionary[key]['multi'] = each[MULTI]
 			school_dictionary[key]['asian'] = each[ASIAN]
+			school_dictionary[key]['math_growth'] = each[MATH_GROWTH]
+			school_dictionary[key]['rdg_growth'] = each[RDG_GROWTH]
 		else:
 			category = each[CATEG]
 			school_dictionary[key][category] = each[EXPEND]
@@ -76,24 +82,19 @@ def create_school_dictionary():
 
 
 	connection.close()
-
-	return school_dictionary
-def update_school_dictionary():
-	schools = create_school_dictionary()
-
-	with open('UpdatedLocations.csv') as csvfile:
+	with open(csv_path) as csvfile:
 		locationreader = csv.reader(csvfile, delimiter = ',')
 		next(locationreader)
 		for row in locationreader:
 			school_name = row[0]
-			if school_name in schools:
+			if school_name in school_dictionary:
 				updated_lat = row[2]
 				updated_lon = row[3]
-				schools[school_name]['lat'] = updated_lat
-				schools[school_name]['lon'] = updated_lon
-	return schools
+				school_dictionary[school_name]['lat'] = updated_lat
+				school_dictionary[school_name]['lon'] = updated_lon
+	print(school_dictionary)
 
-
+	return school_dictionary
 
 def get_radius(lat1, lon1):
 	'''
@@ -101,7 +102,7 @@ def get_radius(lat1, lon1):
 	 with distance lat1 lon1; the key names are distance, lat and lon respectively
 	'''
 	distance_dict = {}
-	school_dictionary = update_school_dictionary()
+	school_dictionary = create_school_dictionary()
 	for school in school_dictionary:
 		distance_dict[school] = {}
 		lon2 = float(school_dictionary[school]['lon'])
@@ -137,7 +138,9 @@ def find_neighbor_schools(location, radius):
 		if distance_dict[key]['distance'] <= radius:
 			school=[]
 			school.append(key)
-			school.append(distance_dict[key]['lat'])
-			school.append(distance_dict[key]['lon'])
+			school.append(float(distance_dict[key]['lat']))
+			school.append(float(distance_dict[key]['lon']))
 			schools_in_range.append(school)
 	return schools_in_range
+
+find_neighbor_schools((41.9449905,-87.6843248),1)
