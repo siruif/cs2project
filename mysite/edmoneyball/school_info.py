@@ -92,7 +92,6 @@ def create_school_dictionary():
 				updated_lon = row[3]
 				school_dictionary[school_name]['lat'] = updated_lat
 				school_dictionary[school_name]['lon'] = updated_lon
-	print(school_dictionary)
 
 	return school_dictionary
 
