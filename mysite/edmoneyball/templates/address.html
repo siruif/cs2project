@@ -25,7 +25,7 @@
     <script>
 
       function initMap() {
-        var myLatLng = { lat: {{ location.0.0 }}, lng: {{ location.0.1 }} };
+        var myLatLng = { lat: {{ location.0 }}, lng: {{ location.1 }} };
 
         var map = new google.maps.Map(document.getElementById('map'), {
           zoom: 14,

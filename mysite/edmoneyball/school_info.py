@@ -112,7 +112,7 @@ def find_neighbor_schools(location, radius):
 	distance_dict = get_radius(ulon, ulat)
 	school_in_range = []
 	for key in distance_dict:
-		if distance_dict[key]<=radius:
+		if distance_dict[key] <= radius:
 			school_in_range.append(key)
 	return school_in_range
 
