@@ -1,6 +1,7 @@
 import sqlite3
 from math import *
 import operator
+import csv
 
 def create_school_dictionary():
 	'''
@@ -77,18 +78,39 @@ def create_school_dictionary():
 	connection.close()
 
 	return school_dictionary
+def update_school_dictionary():
+	schools = create_school_dictionary()
 
-def get_radius(lon1, lat1):
+	with open('UpdatedLocations.csv') as csvfile:
+		locationreader = csv.reader(csvfile, delimiter = ',')
+		next(locationreader)
+		for row in locationreader:
+			school_name = row[0]
+			if school_name in schools:
+				updated_lat = row[2]
+				updated_lon = row[3]
+				schools[school_name]['lat'] = updated_lat
+				schools[school_name]['lon'] = updated_lon
+	return schools
+
+
+
+def get_radius(lat1, lon1):
 	'''
-	Constructs a dictionary, key is the school name and value is the distance to long1 lat1
+	Constructs a dictionary of dictionaries, key is the school name and value is a dictionary
+	 with distance lat1 lon1; the key names are distance, lat and lon respectively
 	'''
 	distance_dict = {}
-	school_dictionary = create_school_dictionary()
+	school_dictionary = update_school_dictionary()
 	for school in school_dictionary:
+		distance_dict[school] = {}
 		lon2 = float(school_dictionary[school]['lon'])
 		lat2 = float(school_dictionary[school]['lat'])
 		distance = find_radius_helper(lon1, lat1, lon2, lat2)
-		distance_dict[school] = distance
+		distance_dict[school]['distance'] = distance
+		distance_dict[school]['lat'] = lat2
+		distance_dict[school]['lon'] = lon2
+	
 	return distance_dict
 
 
@@ -109,12 +131,13 @@ def find_radius_helper(lon1, lat1, lon2, lat2):
 
 def find_neighbor_schools(location, radius):
 	(ulat, ulon) = location
-	distance_dict = get_radius(ulon, ulat)
-	school_in_range = []
+	distance_dict = get_radius(ulat, ulon)
+	schools_in_range = []
 	for key in distance_dict:
-		if distance_dict[key] <= radius:
-			school_in_range.append(key)
-	return school_in_range
-
-
-
+		if distance_dict[key]['distance'] <= radius:
+			school=[]
+			school.append(key)
+			school.append(distance_dict[key]['lat'])
+			school.append(distance_dict[key]['lon'])
+			schools_in_range.append(school)
+	return schools_in_range
