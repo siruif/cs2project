@@ -18,8 +18,10 @@ def index(request):
             address = urllib.parse.quote_plus(data['address_form'])
             latlon = geocode.get_latlon(address)
             school_list = school_info.find_neighbor_schools(latlon,1)
-            print (school_list)
-            context['location'] = geocode.get_latlon(address)
+            latlon.insert ( 0,'Home' ) 
+            school_list.insert( 0,latlon )
+            context['location'] = school_list
+            print(context['location']) 
         return render( request, 'address.html', context)
     else:
         context['location'] = getcontext.extract_location()
