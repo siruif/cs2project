@@ -5,7 +5,9 @@ import plotly.plotly as py
 import plotly.tools as tls 
 from plotly.graph_objs import *
 import plotly.graph_objs as go
-py.sign_in('vi-tnguyen', '2j59j4yh6y')
+#py.sign_in('vi-tnguyen', '2j59j4yh6y')
+#py.sign_in('siruif', '1xbbym8vxv')
+py.sign_in('nvi613', 'dceant1x53')
 
 # These are the "Tableau 20" colors as RGB.    
 tableau20 = [(31, 119, 180), (174, 199, 232), (255, 127, 14), 
@@ -105,7 +107,7 @@ def expenditure_pie(school_name):
     # converting values to numpy arrays to get spend per student
     values = np.array(values)
     students = school_data['total_students']
-    students = students.strip(',')
+    students = students.replace(',', '')
     students = int(students)
     values = values / students
     values = values.tolist()
@@ -136,8 +138,14 @@ def demographic_bar(school_name):
                                     renamed_labels = ethnicity_cat_rename)
 
     trace1 = [go.Bar(x = labels, y = values)]
+
+    students = school_data['total_students']
+    students = students.strip(',')
+    print(students)
+    students = int(students)
+
     title = 'Ethnicity: {0} \n Total Students: {1}' .format(school_name, 
-        "{:,.0f}".format(int(school_data['total_students'])))
+        "{:,.0f}".format(students))
     layout = go.Layout(yaxis = dict(title = 'Percentage (%)'), \
              title = title)
     fig = go.Figure(data = trace1, layout = layout)
@@ -167,94 +175,19 @@ def frlunch_pie(school_name):
 
     return url, labels, values
 
-def compare(list_of_schools, function):
-    # max number of schools to compare is 5
+def compare(list_of_schools, function, chart_title):
     list_traces = []
     print(list_of_schools)
-    if len(list_of_schools) > 0:
-        school_name = list_of_schools[0]
-        url, labels, values = function(school_name)
-        trace1 = go.Bar(x = labels, y = values, name = school_name)
-        list_of_schools.remove(school_name)
+    for school in list_of_schools:
+        url, labels, values = function(school)
+        trace1 = go.Bar(x = labels, y = values, name = school)
         list_traces.append(trace1)
-    
-    if len(list_of_schools) > 0:
-        school_name = list_of_schools[0]
-        url, labels, values = function(school_name)
-        trace2 = go.Bar(x = labels, y = values, name = school_name)
-        list_of_schools.remove(school_name)
-        list_traces.append(trace2)
-
-    if len(list_of_schools) > 0:
-        school_name = list_of_schools[0]
-        url, labels, values = function(school_name)
-        trace3 = go.Bar(x = labels, y = values, name = school_name)
-        list_of_schools.remove(school_name)
-        list_traces.append(trace3)
-
-    if len(list_of_schools) > 0:
-        school_name = list_of_schools[0]
-        url, labels, values = function(school_name)
-        trace4 = go.Bar(x = labels, y = values, name = school_name)
-        list_of_schools.remove(school_name)
-        list_traces.append(trace4)
-
-    if len(list_of_schools) > 0:
-        school_name = list_of_schools[0]
-        url, labels, values = function(school_name)
-        trace5 = go.Bar(x = labels, y = values, name = school_name)
-        list_of_schools.remove(school_name)
-        list_traces.append(trace5)
 
     data = list_traces
-    layout = go.Layout(barmode='group')
+    layout = go.Layout(barmode='group', title = chart_title)
     
     fig = go.Figure(data=data, layout=layout)
     url = py.plot(fig, filename='grouped-bar')
+    #py.image.save_as(fig, filename = 'charts/compare2.png')
 
 
-def expenditure_compare(list_of_schools):
-    # max number of schools to compare is 5
-    list_traces = []
-    print(list_of_schools)
-    if len(list_of_schools) > 0:
-        school_name = list_of_schools[0]
-        url, labels, values = expenditure_pie(school_name)
-        trace1 = go.Bar(x = labels, y = values, name = school_name)
-        list_of_schools.remove(school_name)
-        list_traces.append(trace1)
-    
-    if len(list_of_schools) > 0:
-        school_name = list_of_schools[0]
-        url, labels, values = expenditure_pie(school_name)
-        trace2 = go.Bar(x = labels, y = values, name = school_name)
-        list_of_schools.remove(school_name)
-        list_traces.append(trace2)
-
-    if len(list_of_schools) > 0:
-        school_name = list_of_schools[0]
-        url, labels, values = expenditure_pie(school_name)
-        trace3 = go.Bar(x = labels, y = values, name = school_name)
-        list_of_schools.remove(school_name)
-        list_traces.append(trace3)
-
-    if len(list_of_schools) > 0:
-        school_name = list_of_schools[0]
-        url, labels, values = expenditure_pie(school_name)
-        trace4 = go.Bar(x = labels, y = values, name = school_name)
-        list_of_schools.remove(school_name)
-        list_traces.append(trace4)
-
-    if len(list_of_schools) > 0:
-        school_name = list_of_schools[0]
-        url, labels, values = expenditure_pie(school_name)
-        trace5 = go.Bar(x = labels, y = values, name = school_name)
-        list_of_schools.remove(school_name)
-        list_traces.append(trace5)
-
-    data = list_traces
-    layout = go.Layout(barmode='group')
-    
-    fig = go.Figure(data=data, layout=layout)
-    url = py.plot(fig, filename='grouped-bar')
-    

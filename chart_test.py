@@ -7,7 +7,8 @@ schools = list(data.keys())
 
 list_of_schools1 = schools[0:5]
 
-print(chart.expenditure_compare(list_of_schools1))
+#print(chart.expenditure_compare(list_of_schools1))
+print(chart.compare(list_of_schools1, chart.demographic_bar, 'Demographics'))
 #chart.frlunch_pie(school)
 #chart.demographic_bar(school)
 #chart.expenditure_pie(school)
