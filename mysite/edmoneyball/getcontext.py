@@ -12,5 +12,5 @@ def extract_location():
             locationreader = csv.reader(csvfile, delimiter=',')
             next(locationreader) #skipping first line
             for row in locationreader:
-                rv.append( [ float(row[4]), float(row[5]) ] )
+                rv.append( [row[2], float(row[4]), float(row[5]) ] )
     return rv    

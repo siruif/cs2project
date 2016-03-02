@@ -2,12 +2,12 @@ import urllib.parse
 from django.shortcuts import render
 from django.http import HttpResponse
 from django.http import HttpResponseRedirect
-from .forms import AddressForm
+from .forms import AddressForm, ReccomendationForm, ComparisonForm
 from . import getcontext, geocode, school_info
 
 
 
-def index(request):
+def homepage(request):
     form = AddressForm()  
 
     context={'location':[], 'form':form}
@@ -27,3 +27,30 @@ def index(request):
         context['location'] = getcontext.extract_location()
         return render( request, 'helloworld.html', context)
 
+def recommendationtool(request):
+    if request.method == 'POST':
+        form = ReccomendationForm(request.POST)
+        if form.is_valid():
+            data = form.cleaned_data
+            print (data)
+        form = ReccomendationForm()
+        context = {'form':form}
+        return render( request, 'recommendation.html', context)
+    else:
+        form = ReccomendationForm()
+        context = {'form':form}
+        return render( request, 'recommendation.html', context)
+
+def comparisontool(request):
+    if request.method == 'POST':
+        form = ComparisonForm(request.POST)
+        if form.is_valid():
+            data = form.cleaned_data
+            print (data)
+        form = ComparisonForm()
+        context = {'form':form}
+        return render( request, 'comparison.html', context)
+    else:
+        form = ComparisonForm()
+        context = {'form':form}
+        return render( request, 'comparison.html', context)    

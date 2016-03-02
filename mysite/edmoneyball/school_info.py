@@ -142,4 +142,13 @@ def find_neighbor_schools(location, radius):
 			schools_in_range.append(school)
 	return schools_in_range
 
+#inserted by Turab
+def school_names():
+	'''
+	Given the school dictionary, just returns the school names
+	'''
+	school_dictionary = create_school_dictionary()
+
+	return sorted(school_dictionary.keys())
+
 find_neighbor_schools((41.9449905,-87.6843248),1)
