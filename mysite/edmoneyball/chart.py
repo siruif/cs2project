@@ -5,9 +5,9 @@ import plotly.plotly as py
 import plotly.tools as tls 
 from plotly.graph_objs import *
 import plotly.graph_objs as go
-#py.sign_in('vi-tnguyen', '2j59j4yh6y')
+py.sign_in('vi-tnguyen', '2j59j4yh6y')
 #py.sign_in('siruif', '1xbbym8vxv')
-py.sign_in('nvi613', 'dceant1x53')
+#py.sign_in('nvi613', 'dceant1x53')
 
 # Key sets and dictionaries for dealing with expenditure data
 Expenditure_Cat = set(['Admin Salary & Benefits', \
@@ -146,7 +146,7 @@ def expenditure_data(school_name, data_dictionary):
     values = np.array(values)
     #print(values)
     students = school_data['total_students']
-    print(type(students))
+    #print(type(students))
     if students is str:
         students.strip(',', '')
     values = values / float(students)
@@ -164,7 +164,7 @@ def expenditure_data(school_name, data_dictionary):
     return labels, values
 
 
-def bar(school_name, data_dictionary, data_distr_avg, cat_dict,cat_dict_rename, chart_title):
+def bar(school_name, data_dictionary, data_distr_avg, cat_dict, cat_dict_rename, chart_title):
     labels_school, values_school, school_data = create_labels_values(school_name, data_dictionary, cat_dict,\
                                     renamed_labels = cat_dict_rename)
 
@@ -208,8 +208,7 @@ def frlunch_bar(school_name, data_dictionary, data_distr_avg):
     url = py.plot(fig, filename = 'Bar Chart: Income Indicator', auto_open = False)
     #py.image.save_as(fig, filename = 'charts/frlunch_pie.png')
 
-    return url, labels, values
-
+    return url
 
 def bar_compare(school, cat_dict, cat_dict_rename, chart_title, data_dictionary, data_distr_avg):
     data_dictionary['district_avg'] = data_distr_avg['district_avg']
@@ -238,6 +237,7 @@ def compare(list_of_schools, cat_dict, cat_dict_rename, chart_title, data_dictio
     
     fig = go.Figure(data = data, layout = layout)
     url = py.plot(fig, filename = 'grouped-bar {}'.format(chart_title), auto_open = False)
+    
     return url
     #py.image.save_as(fig, filename = 'charts/compare2.png')
 
