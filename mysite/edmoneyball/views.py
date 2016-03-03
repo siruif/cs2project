@@ -54,3 +54,6 @@ def comparisontool(request):
         form = ComparisonForm()
         context = {'form':form}
         return render( request, 'comparison.html', context)    
+
+def heatmaps(request):
+    return render( request, 'heatmap.html')

@@ -33,7 +33,7 @@
     
     <div id="map"></div>
     <script>
-
+  
 function initMap() {
   var myLatLng = {lat: {{location.0.1}}, lng: {{location.0.2}} };
 
@@ -41,6 +41,7 @@ function initMap() {
     zoom: 12,
     center: myLatLng
   });
+
   {% for latlon in location %}
   point = { lat: {{ latlon.1 }}, lng: {{ latlon.2 }} }
   var marker = new google.maps.Marker({
@@ -48,6 +49,7 @@ function initMap() {
     map: map,
     title: '{{ latlon.0 }}'
   });
+
   {% endfor %}
 }
 
