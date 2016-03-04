@@ -42,19 +42,28 @@ def school_rank(clean_pref):
     {School ID: {'Diversity': A, 'Free_Reduced_Lunch': B, 'English_Learners': C}...}
 
 
-    {'special_educ': 55.0, 'performance': 88.0, 'distance': 66.0, 'free_red_lunch': 56.0, 'type': 'charter',
-    'ethnicity': 'asian', 'ethnicity_threshold': 20.0}
+    pref_crit_from_ui = {'special_educ': 55.0, 'performance': 88.0, 'distance_threshold': 66.0, \
+    'location': (41.9449905,-87.6843248), 'free_red_lunch': 56.0, 'type': 'charter','ethnicity': 'asian', \
+    'ethnicity_threshold': 20.0}
 
     Notes:
     -Converting all criteria thresholds to numbers to ensure that the assignment of school_score makes sense
     '''
+
     # index that holds certain info
     threshold = 0 # for the clean_pref.keys()
     # holds a max of 5 schools
     top_matches = []
-
+    schools_in_distance = []
 
     district_data = school_info.create_school_dictionary()
+
+    # gets list of schools that fit radius parameters
+    user_location = clean_pref['location']
+    user_radius = clean_pref['distance_threshold']
+    neighbor_schools = school_info.find_neighbor_schools(user_location, user_radius)
+    for val in neighbor_schools:
+        schools_in_distance.append(val[0])
 
     # go through all schools to find 2 scores, one to note whether the school met the minimum criteria, and 
     # the second to note how well they met each criteria
@@ -62,6 +71,10 @@ def school_rank(clean_pref):
         school_crit_met = 1 # assume they meet it until we come across a criteria where they don't
         school_rank = 0
         school_data = district_data[school]
+
+        if schools_in_distance != []:
+            if school not in schools_in_distance:
+                school_crit_met = 0
 
         for key in clean_pref.keys():
             if key in school_data.keys():

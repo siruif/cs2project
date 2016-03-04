@@ -76,8 +76,10 @@ def create_charts(school):
     return urls
 '''
 
-pref_crit_from_ui = {'special_educ': 55.0, 'performance': 88.0, 'distance': 66.0, 'free_red_lunch': 56.0, 'type': 'charter',
-'ethnicity': 'asian', 'ethnicity_threshold': 20.0}
+pref_crit_from_ui = {'special_educ': 55.0, 'performance': 88.0, 'distance_threshold': 66.0, \
+    'location': (41.9449905,-87.6843248), 'free_red_lunch': 56.0, 'type': 'charter','ethnicity': 'asian', \
+    'ethnicity_threshold': 20.0}
+
 
 def recommend(pref_crit_from_ui):
 

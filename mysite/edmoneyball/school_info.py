@@ -7,8 +7,8 @@ def create_school_dictionary():
 	'''
 	Constructs a dictionary that stores information of the school. The key is the school name.
 	'''
-	db_path = 'edmoneyball/EducationData.db'
-	csv_path = 'edmoneyball/UpdatedLocations.csv'
+	db_path = 'EducationData.db'
+	csv_path = 'UpdatedLocations.csv'
 	connection = sqlite3.connect(db_path)
 	cursor = connection.cursor()
 
@@ -151,4 +151,5 @@ def school_names():
 
 	return sorted(school_dictionary.keys())
 
-find_neighbor_schools((41.9449905,-87.6843248),1)
+#list_of_schools = find_neighbor_schools((41.9449905,-87.6843248),1)
+#print(list_of_schools)
