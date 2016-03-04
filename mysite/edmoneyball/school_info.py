@@ -130,6 +130,9 @@ def find_radius_helper(lon1, lat1, lon2, lat2):
 	return mile
 
 def find_neighbor_schools(location, radius):
+	'''
+	Returns a list of schools that is within the radius(in miles) of the location.
+	'''
 	(ulat, ulon) = location
 	distance_dict = get_radius(ulat, ulon)
 	schools_in_range = []
@@ -151,5 +154,3 @@ def school_names():
 
 	return sorted(school_dictionary.keys())
 
-#list_of_schools = find_neighbor_schools((41.9449905,-87.6843248),1)
-#print(list_of_schools)
