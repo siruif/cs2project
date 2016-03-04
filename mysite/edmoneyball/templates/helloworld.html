@@ -17,7 +17,7 @@
   </head>
   <body>
     
-    <form action="http://127.0.0.1:8000/edmoneyball/homepage/" method = "post" >
+    <form id='userinput' action="http://127.0.0.1:8000/edmoneyball/homepage/" method = "post" >
     {% csrf_token %}
     {{ form }}
     <input type="submit" value="Submit" />
@@ -31,9 +31,18 @@
     <input type="submit" value="Go to Recommendation Tool">
     </form>
     
+    <form id="userclickedschool" action="http://127.0.0.1:8000/edmoneyball/homepage/" method = "post" >
+    {% csrf_token %}
+    {{ form }}  
+    </form>
+
     <div id="map"></div>
     <script>
   
+function getschoolname (schoolname) {
+  document.getElementById("id_address_form").value = schoolname;
+  document.getElementById("userinput").submit();
+}
 function initMap() {
   var myLatLng = {lat: {{location.0.1}}, lng: {{location.0.2}} };
 
@@ -48,6 +57,10 @@ function initMap() {
     position: point,
     map: map,
     title: '{{ latlon.0 }}'
+  });
+  marker.addListener('click', function() {
+    var title = marker.getTitle()
+    getschoolname (title)
   });
 
   {% endfor %}
