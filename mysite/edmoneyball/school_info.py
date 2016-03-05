@@ -94,6 +94,11 @@ def create_school_dictionary():
 
 	return school_dictionary
 
+#Inserted by Turab, creating the school dictionary as a global so that we dont have
+#to create it again and again indifferent functions
+SCHOOLS_DATA = create_school_dictionary()
+
+
 def get_radius(lat1, lon1):
 	'''
 	Constructs a dictionary of dictionaries, key is the school name and value is a dictionary
@@ -157,6 +162,9 @@ def school_names():
 	'''
 	Given the school dictionary, just returns the school names
 	'''
-	school_dictionary = create_school_dictionary()
+	return sorted(SCHOOLS_DATA.keys())
 
-	return sorted(school_dictionary.keys())
+
+
+
+

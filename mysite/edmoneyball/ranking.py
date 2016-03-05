@@ -20,9 +20,12 @@ def clean_data(pref_criteria_from_ui):
     school_type = pref_criteria_from_ui['school_type']
     clean_pref = {'type': school_type}
 
+    exceptions = ['ethnicity', 'school_type', 'location']
+
     for key in pref_criteria_from_ui.keys():
-        if pref_criteria_from_ui[key] != ' ': # only pull in criteria that weren't left blank
-            if (key != 'ethnicity') and (key != 'school_type') and (key != 'location'):
+        criteria = pref_criteria_from_ui[key]
+        if (criteria != '') and (criteria != None): # only pull in criteria that weren't left blank
+            if key not in exceptions:
                 #print(key)
                 threshold = float(pref_criteria_from_ui[key])
                 clean_pref[key] = threshold
@@ -65,11 +68,12 @@ def school_rank(clean_pref):
     district_data = school_info.create_school_dictionary()
 
     # gets list of schools that fit radius parameters
-    user_location = clean_pref['location']
-    user_radius = clean_pref['distance_threshold']
-    neighbor_schools = school_info.find_neighbor_schools(user_location, user_radius)
-    for val in neighbor_schools:
-        schools_in_distance.append(val[0])
+    if 'location' in clean_pref.keys():
+        user_location = clean_pref['location']
+        user_radius = clean_pref['distance_threshold']
+        neighbor_schools = school_info.find_neighbor_schools(user_location, user_radius)
+        for val in neighbor_schools:
+            schools_in_distance.append(val[0])  
 
     # go through all schools to find 2 scores, one to note whether the school met the minimum criteria, and 
     # the second to note how well they met each criteria
