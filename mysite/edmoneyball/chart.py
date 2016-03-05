@@ -5,8 +5,8 @@ import plotly.plotly as py
 import plotly.tools as tls 
 from plotly.graph_objs import *
 import plotly.graph_objs as go
-py.sign_in('vi-tnguyen', '2j59j4yh6y')
-#py.sign_in('siruif', '1xbbym8vxv')
+#py.sign_in('vi-tnguyen', '2j59j4yh6y')
+py.sign_in('siruif', '1xbbym8vxv')
 #py.sign_in('nvi613', 'dceant1x53')
 
 # Key sets and dictionaries for dealing with expenditure data

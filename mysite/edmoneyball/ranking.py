@@ -24,7 +24,7 @@ def clean_data(pref_criteria_from_ui):
 
     for key in pref_criteria_from_ui.keys():
         criteria = pref_criteria_from_ui[key]
-        if (criteria != ' ') and (criteria != None): # only pull in criteria that weren't left blank
+        if (criteria != '') and (criteria != None): # only pull in criteria that weren't left blank
             if key not in exceptions:
                 #print(key)
                 threshold = float(pref_criteria_from_ui[key])
