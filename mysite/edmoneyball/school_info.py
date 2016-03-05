@@ -7,8 +7,8 @@ def create_school_dictionary():
 	'''
 	Constructs a dictionary that stores information of the school. The key is the school name.
 	'''
-	db_path = 'edmoneyball/EducationData.db'
-	csv_path = 'edmoneyball/UpdatedLocations.csv'
+	db_path = 'EducationData.db'
+	csv_path = 'UpdatedLocations.csv'
 	connection = sqlite3.connect(db_path)
 	cursor = connection.cursor()
 
@@ -52,7 +52,6 @@ def create_school_dictionary():
 	for each in school_information:
 		
 		key = each[NAME]
-		
 		
 		if key not in school_dictionary:
 			school_dictionary[key] = {}
