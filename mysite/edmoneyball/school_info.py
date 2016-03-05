@@ -7,8 +7,8 @@ def create_school_dictionary():
 	'''
 	Constructs a dictionary that stores information of the school. The key is the school name.
 	'''
-	db_path = 'EducationData.db'
-	csv_path = 'UpdatedLocations.csv'
+	db_path = 'edmoneyball/EducationData.db'
+	csv_path = 'edmoneyball/UpdatedLocations.csv'
 	connection = sqlite3.connect(db_path)
 	cursor = connection.cursor()
 
@@ -106,30 +106,30 @@ def get_radius(lat1, lon1):
 		distance_dict[school] = {}
 		lon2 = float(school_dictionary[school]['lon'])
 		lat2 = float(school_dictionary[school]['lat'])
-		distance = find_radius_helper(lon1, lat1, lon2, lat2)
+		distance = find_radius_helper(lat1, lon1, lat2, lon2)
 		distance_dict[school]['distance'] = distance
 		distance_dict[school]['lat'] = lat2
 		distance_dict[school]['lon'] = lon2
 	
 	return distance_dict
 
-
-def find_radius_helper(lon1, lat1, lon2, lat2):
+def find_radius_helper(lat1, lon1, lat2, lon2):
 	'''
-	calculates the miles distance between two points, assuming the radius of earth is 3959 miles.
+	Calculates the miles distance between two points, assuming the radius of earth is 3959 miles.
 	http://stackoverflow.com/questions/15736995/how-can-i-quickly-estimate-the-distance-between-two-latitude-longitude-points
 	'''
-	lon1, lat1, lon2, lat2 = map(radians, [lon1, lat1, lon2, lat2])
-	 
+	lat1, lon1, lat2, lon2 = map(radians, [lat1, lon1, lat2, lon2]) 
 	dlon = lon2 - lon1 
 	dlat = lat2 - lat1 
 	a = sin(dlat/2)**2 + cos(lat1) * cos(lat2) * sin(dlon/2)**2
 	c = 2 * asin(sqrt(a)) 
 	mile = 3959 * c
-
 	return mile
 
 def find_neighbor_schools(location, radius):
+	'''
+	for a given (lat, lon) and a radius in miles, returns a list of school that is in the radius
+	'''
 	(ulat, ulon) = location
 	distance_dict = get_radius(ulat, ulon)
 	schools_in_range = []
@@ -142,6 +142,17 @@ def find_neighbor_schools(location, radius):
 			schools_in_range.append(school)
 	return schools_in_range
 
+def in_range(ulocation, slocation, radius):
+	'''
+	For a given user's location (ulat, ulon), the schools's location (slat, slon),
+	returns True of the distance between the school and the user's location is less
+	than or equal to the radius.
+	'''
+	(ulat, ulon) = ulocation
+	(slat, slon) = slocation
+	distance = find_radius_helper(ulat, ulon, slat, slon)
+	return distance <= radius
+
 #inserted by Turab
 def school_names():
 	'''
@@ -150,6 +161,3 @@ def school_names():
 	school_dictionary = create_school_dictionary()
 
 	return sorted(school_dictionary.keys())
-
-#list_of_schools = find_neighbor_schools((41.9449905,-87.6843248),1)
-#print(list_of_schools)

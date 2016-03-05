@@ -13,8 +13,11 @@ def homepage(request):
     context={'location':[], 'form':form}
     if request.method == 'POST':
         form = AddressForm(request.POST)
+        print (form)
         if form.is_valid():
             data=form.cleaned_data
+            print ('coming here')
+            print (data)
             address = urllib.parse.quote_plus(data['address_form'])
             latlon = geocode.get_latlon(address)
             school_list = school_info.find_neighbor_schools(latlon,1)
@@ -56,4 +59,4 @@ def comparisontool(request):
         return render( request, 'comparison.html', context)    
 
 def heatmaps(request):
-    return render( request, 'heatmap.html')
+    return render( request, 'html.heatmap')
