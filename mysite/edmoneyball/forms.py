@@ -5,7 +5,7 @@ CHOICES = school_info.school_names()
 #CHOICES = [1,2,3,4,5,6]
 
 class AddressForm(forms.Form):
-    address_form = forms.CharField(label='Enter Address', max_length=500)
+    address_form = forms.CharField(label='Enter Address', max_length=500, )
 
 class ReccomendationForm(forms.Form):
     diversity = forms.FloatField(label='Diversity', max_value=100, min_value=0)
