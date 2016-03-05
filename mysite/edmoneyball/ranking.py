@@ -16,11 +16,17 @@ def clean_data(pref_criteria_from_ui):
     ethnicity_threshold = float(pref_criteria_from_ui['ethnicity_threshold'])
     clean_pref = {ethnicity: ethnicity_threshold}
 
+    # Processing school type
+    school_type = pref_criteria_from_ui['school_type']
+    clean_pref = {'type': school_type}
+
     for key in pref_criteria_from_ui.keys():
-        if key != 'ethnicity':
+        if (key != 'ethnicity') and (key != 'school_type') and (key != 'location'):
             print(key)
             threshold = float(pref_criteria_from_ui[key])
             clean_pref[key] = threshold
+        if key == 'location':
+            clean_pref[key] = pref_criteria_from_ui[key]
     clean_pref['rdg_growth'] = clean_pref['performance']
     clean_pref['math_growth'] = clean_pref['performance']
 
