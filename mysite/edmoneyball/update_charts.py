@@ -1,8 +1,8 @@
 
 
-import school_info
-import chart
-import ranking
+from . import school_info, chart, ranking
+#import chart
+#import ranking
 
 data = school_info.create_school_dictionary()
 data_distr_avg = chart.district_avg()
@@ -48,10 +48,6 @@ print(chart.bar(school, data, data_distr_avg, chart.ethnicity_cat, chart.ethnici
 '''
 
 ## Text for Sirui in Django
-
-import school_info
-import chart
-import ranking
 
 #school =  'Woodlawn Community Elementary School'
 

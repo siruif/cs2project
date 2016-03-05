@@ -1,4 +1,4 @@
-import school_info
+from . import school_info
 import matplotlib.pylab as plt
 import numpy as np
 import plotly.plotly as py

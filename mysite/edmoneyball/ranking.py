@@ -4,8 +4,7 @@
 ##Team Members: Sirui Feng, Turab Hassan, & Vi Nguyen
 ##CS122 Project, University of Chicago
 
-import school_info
-import chart
+from . import school_info, chart 
 
 
 def clean_data(pref_criteria_from_ui):
