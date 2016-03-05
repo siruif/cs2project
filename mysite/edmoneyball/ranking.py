@@ -4,8 +4,7 @@
 ##Team Members: Sirui Feng, Turab Hassan, & Vi Nguyen
 ##CS122 Project, University of Chicago
 
-import school_info
-import chart
+from . import school_info, chart 
 
 
 def clean_data(pref_criteria_from_ui):
@@ -20,7 +19,7 @@ def clean_data(pref_criteria_from_ui):
     for key in pref_criteria_from_ui.keys():
         if key != 'ethnicity':
             print(key)
-            threshold = pref_criteria_from_ui[key]
+            threshold = float(pref_criteria_from_ui[key])
             clean_pref[key] = threshold
     clean_pref['rdg_growth'] = clean_pref['performance']
     clean_pref['math_growth'] = clean_pref['performance']
@@ -43,7 +42,7 @@ def school_rank(clean_pref):
 
 
     pref_crit_from_ui = {'special_educ': 55.0, 'performance': 88.0, 'distance_threshold': 66.0, \
-    'location': (41.9449905,-87.6843248), 'free_red_lunch': 56.0, 'type': 'charter','ethnicity': 'asian', \
+    'location': [41.9449905,-87.6843248], 'free_red_lunch': 56.0, 'type': 'charter','ethnicity': 'asian', \
     'ethnicity_threshold': 20.0}
 
     Notes:

@@ -1,7 +1,8 @@
 
-import school_info
-import chart
-import ranking
+
+from . import school_info, chart, ranking
+#import chart
+#import ranking
 
 data = school_info.create_school_dictionary()
 data_distr_avg = chart.district_avg()
@@ -44,13 +45,9 @@ print(chart.bar(school, data, data_distr_avg, chart.ethnicity_cat, chart.ethnici
 #print('school: label, values:', labels_distr, values_distr)
 #print(chart.expenditure_pie(data, school, labels_school, values_school, labels_distr, values_distr))
 #print(chart.district_avg())
-
+'''
 
 ## Text for Sirui in Django
-
-import school_info
-import chart
-import ranking
 
 #school =  'Woodlawn Community Elementary School'
 
@@ -74,12 +71,11 @@ def create_charts(school):
 
     print(urls)
     return urls
-'''
 
-pref_crit_from_ui = {'special_educ': 55.0, 'performance': 88.0, 'distance_threshold': 66.0, \
-    'location': (41.9449905,-87.6843248), 'free_red_lunch': 56.0, 'type': 'charter','ethnicity': 'asian', \
-    'ethnicity_threshold': 20.0}
 
+#pref_crit_from_ui = {'special_educ': 55.0, 'performance': 88.0, 'distance_threshold': 66.0, \
+#    'location': (41.9449905,-87.6843248), 'free_red_lunch': 56.0, 'type': 'charter','ethnicity': 'asian', \
+#    'ethnicity_threshold': 20.0}
 
 def recommend(pref_crit_from_ui):
 
