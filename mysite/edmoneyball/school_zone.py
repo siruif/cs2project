@@ -31,15 +31,14 @@ def build_school_zone_dict():
     school_dict = school_info.create_school_dictionary()
     school_zone_dict = {}
     for school in school_dict:
-        s_lon = school_dict['lon']
-        s_lat = school_dict['lat']
-        school_zone_dict[school] = get_zone(lon, lat)
+        s_lon = school_dict[school]['lon']
+        s_lat = school_dict[school]['lat']
+        school_zone_dict[school] = get_zone(s_lon, s_lat)
     return school_zone_dict
 
 def school_in_zone(ulat, ulon):
     poly_dict = create_zone_dict("network_info.geojson")
-    u_zone = point_inside_polygon(ulon, ulat)
-    school_zone_dict = build_school_zone_dict()
+    u_zone = get_zone(ulon, ulat)
     school_in_zone=[]
     for school in school_zone_dict:
         if u_zone == school_zone_dict[school]:
@@ -49,6 +48,8 @@ def school_in_zone(ulat, ulon):
 def get_zone(lon, lat):
     #source: http://stackoverflow.com/questions/21328854/shapely-and-matplotlib-point-in-polygon-not-accurate-with-geolocation
     poly_dict = create_zone_dict("network_info.geojson")
+    lon = float(lon)
+    lat = float(lat)
     for zone in poly_dict:
         zone_poly = poly_dict[zone]["poly"]
         project = partial(
@@ -56,6 +57,13 @@ def get_zone(lon, lat):
         pyproj.Proj(init='epsg:4326'),
         pyproj.Proj('+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0 +k=1.0 +units=m +nadgrids=@null +no_defs'))
         poly = Polygon(zone_poly)
+        #print(lon, lat)
         p = Point(lon, lat)
         if poly.contains(p):
             return zone
+
+school_zone_dict = build_school_zone_dict()
+
+school_list = school_in_zone(41.796221, -87.581463)
+print(school_list)
+
