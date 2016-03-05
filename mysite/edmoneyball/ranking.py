@@ -20,9 +20,12 @@ def clean_data(pref_criteria_from_ui):
     school_type = pref_criteria_from_ui['school_type']
     clean_pref = {'type': school_type}
 
+    exceptions = ['ethnicity', 'school_type', 'location']
+
     for key in pref_criteria_from_ui.keys():
-        if pref_criteria_from_ui[key] != ' ': # only pull in criteria that weren't left blank
-            if (key != 'ethnicity') and (key != 'school_type') and (key != 'location'):
+        criteria = pref_criteria_from_ui[key]
+        if (criteria != ' ') and (criteria != None): # only pull in criteria that weren't left blank
+            if key not in exceptions:
                 #print(key)
                 threshold = float(pref_criteria_from_ui[key])
                 clean_pref[key] = threshold
