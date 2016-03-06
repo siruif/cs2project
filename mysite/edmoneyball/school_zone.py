@@ -85,4 +85,3 @@ def get_zone(lon, lat, poly_dict):
 #poly_dict = create_zone_dict("network_info.geojson")
 school_list = school_in_zone(41.796221, -87.581463, zone_jsonfile)
 print(school_list)
-
