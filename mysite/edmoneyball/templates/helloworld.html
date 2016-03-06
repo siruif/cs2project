@@ -31,11 +31,6 @@
     <input type="submit" value="Go to Recommendation Tool">
     </form>
     
-    <form id="userclickedschool" action="http://127.0.0.1:8000/edmoneyball/homepage/" method = "post" >
-    {% csrf_token %}
-    {{ form }}  
-    </form>
-
     <div id="map"></div>
     <script>
   
@@ -51,19 +46,48 @@ function initMap() {
     center: myLatLng
   });
 
+  var ctaLayer = new google.maps.KmlLayer({
+  url: 'https://www.dropbox.com/s/fsmbt0sntrxffpx/network%20boundaries.kml?dl=1',
+  map: map
+  });
+
   {% for latlon in location %}
+  
+  var infoWindowContent = [
+    "<b>Get Directions From...</b><br />",
+    "<form id='map-form'>",
+    "Address/Postcode: <input id='map-from-address' type='text' />",
+    "<input type='submit' id='map-go' value='Go' />",
+    "</form>"
+].join("");
+  
+
   point = { lat: {{ latlon.1 }}, lng: {{ latlon.2 }} }
-  var marker = new google.maps.Marker({
+  
+  var schoolname = '{{ latlon.0 }}'
+
+    marker = new google.maps.Marker({
     position: point,
     map: map,
-    title: '{{ latlon.0 }}'
+    title: '{{ latlon.0 }}',
+    clickable: true
   });
-  marker.addListener('click', function() {
-    var title = marker.getTitle()
-    getschoolname (title)
+  
+    
+    marker['infowindow'] = new google.maps.InfoWindow({
+    content: infoWindowContent
+  });
+
+    google.maps.event.addListener(marker, 'click', function() {
+    this['infowindow'].open(map, this);
   });
 
   {% endfor %}
+
+  //var infowindow = new google.maps.InfoWindow({
+  //content: 'schoolname_blah',
+  //maxWidth: 200
+  //});
 }
 
     </script>

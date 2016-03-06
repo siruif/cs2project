@@ -18,10 +18,9 @@ def homepage(request):
             #print (data)
             #address = urllib.parse.quote_plus(data['address_form'])
             school_name = data['address_form']
-            urls = update_charts.create_charts (school_name)
+            context = update_charts.create_charts (school_name)
             #print(context)
-            context = {}
-            context['url1'] = urls['url1']
+
             print(context)
             #latlon = geocode.get_latlon(address)
             #school_list = school_info.find_neighbor_schools(latlon,1)
@@ -32,6 +31,7 @@ def homepage(request):
         return render( request, 'plot_individual_school.html', context)
     else:
         context['location'] = getcontext.extract_location()
+        print(context)
         return render( request, 'helloworld.html', context)
 
 def recommendationtool(request):
@@ -47,17 +47,14 @@ def recommendationtool(request):
                 latlon = geocode.get_latlon(address)
                 data['location'] = latlon
             data ['ethnicity'] = data['ethnicity'].lower()
-            urls = update_charts.recommend(data)
+            context = update_charts.compare_recommend(True, pref_crit_from_ui = data)
 
             print (data)
-            print (urls)
-        form = ReccomendationForm()
-        context = {'form':form}
-        return render( request, 'recommendation.html', context)
+            print (context)
+
+        return render( request, 'plot_school_comparisons.html', context)
     else:
-        form = ReccomendationForm()
-        form.fields['ethnicity'].initial = 3213213
-        form.fields['location'].initial = 3213213
+        form = ReccomendationForm() 
         context = {'form':form}
         return render( request, 'recommendation.html', context)
 
@@ -66,10 +63,12 @@ def comparisontool(request):
         form = ComparisonForm(request.POST)
         if form.is_valid():
             data = form.cleaned_data
-            print (data)
-        form = ComparisonForm()
-        context = {'form':form}
-        return render( request, 'comparison.html', context)
+            school_list = []
+            for key in data.keys():
+                if data[key] != '':
+                    school_list.append(data[key]) 
+            context = update_charts.compare_recommend(False, list_of_schools = school_list )            
+        return render( request, 'plot_school_comparisons.html', context)
     else:
         form = ComparisonForm ( )
         context = {'form':form}
