@@ -4,7 +4,7 @@
 ##Team Members: Sirui Feng, Turab Hassan, & Vi Nguyen
 ##CS122 Project, University of Chicago
 
-from . import school_info, chart 
+from . import school_info, chart, school_zone
 #import school_info
 #import chart
 
@@ -66,16 +66,20 @@ def school_rank(clean_pref):
     # holds a max of 5 schools
     top_matches = []
     schools_in_distance = []
+    schools_in_network = []
 
     district_data = school_info.create_school_dictionary()
 
     # gets list of schools that fit radius parameters
     if 'location' in clean_pref.keys():
-        user_location = clean_pref['location']
+        lat, lon = clean_pref['location']
         user_radius = clean_pref['distance_threshold']
-        neighbor_schools = school_info.find_neighbor_schools(user_location, user_radius)
+        neighbor_schools = school_info.find_neighbor_schools((lat, lon), user_radius)
         for val in neighbor_schools:
             schools_in_distance.append(val[0])  
+
+        #generates schoos in zone of location
+        schools_in_network =school_zone.school_in_zone(lat, lon)
 
     # go through all schools to find 2 scores, one to note whether the school met the minimum criteria, and 
     # the second to note how well they met each criteria
@@ -85,7 +89,11 @@ def school_rank(clean_pref):
         school_data = district_data[school]
 
         if schools_in_distance != []:
-            if (school not in schools_in_distance) and (district_data[school]['type'] is not 'charter'):
+            if school not in schools_in_distance:
+                school_crit_met = 0
+
+        if schools_in_network != []:
+            if (school not in schools_in_network) and (district_data[school]['type'] is not 'charter'):
                 school_crit_met = 0
 
         for key in clean_pref.keys():

@@ -1,11 +1,12 @@
+from . import school_info, chart
 import json
 import pyproj
 from shapely.geometry import Polygon, Point
 from shapely.ops import transform
 from functools import partial
-import school_info
+#import school_info
 
-zone_jsonfile = "network_info.geojson"
+zone_jsonfile = "edmoneyball/network_info.geojson"
 
 def create_poly_dict(zone_jsonfile):
     '''

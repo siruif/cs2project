@@ -10,9 +10,9 @@ import plotly.graph_objs as go
 
 #py.sign_in('vi-tnguyen', '2j59j4yh6y')
 #py.sign_in('siruif', '1xbbym8vxv')
-#py.sign_in('nvi613', 'dceant1x53')
+py.sign_in('nvi613', 'dceant1x53')
 #py.sign_in('turabhassan', 'qu73c973p4')
-py.sign_in('sarahfsr', 'g263mhd6au')
+#py.sign_in('sarahfsr', 'g263mhd6au')
 # Key sets and dictionaries for dealing with expenditure data
 Expenditure_Cat = set(['Admin Salary & Benefits', \
                   'Operational Expenses', 'Teacher Salary & Benefits',\
@@ -151,7 +151,7 @@ def expenditure_data(school_name, data_dictionary):
     #print(values)
     students = school_data['total_students']
     #print(type(students))
-    if students is str:
+    if type(students) is str:
         students = students.replace(',', '')
     values = values / float(students)
     values = values.tolist()

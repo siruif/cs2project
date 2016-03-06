@@ -19,11 +19,11 @@ class ReccomendationForm(forms.Form):
     
     free_red_lunch = forms.ChoiceField( label = 'Free and Reduced Lunch',choices = [ ( x, x ) for x in range ( 0, 105, 5 ) ] )
     
-    ethnicity = forms.ChoiceField ( label = 'Ethnicity', choices = [ ( x, x ) for x in DEFAULT_CHOICE + RACE_CHOICES ], required = False )
+    ethnicity = forms.ChoiceField ( label = 'Ethnicity', choices = [ ( x, x ) for x in DEFAULT_CHOICE + RACE_CHOICES ]  )
 
     ethnicity_threshold = forms.ChoiceField ( label = 'Ethnicity Threshold',choices = [ ( x, x ) for x in range ( 0, 105, 5 ) ] )
     
-    school_type = forms.ChoiceField ( label = 'Type of School',choices = [ ( x, x ) for x in DEFAULT_CHOICE + SCHOOL_TYPES ] )
+    school_type = forms.ChoiceField ( label = 'Type of School',choices = [ ( x, x ) for x in DEFAULT_CHOICE + SCHOOL_TYPES ], required = False )
 
     location = forms.CharField( label = 'Please Enter Your Address', required = False )
 
