@@ -1,4 +1,4 @@
-from . import school_info, chart
+from . import school_info
 import json
 import pyproj
 from shapely.geometry import Polygon, Point
@@ -84,5 +84,5 @@ def get_zone(lon, lat, poly_dict):
 
 #school_zone_dict = build_school_zone_dict()
 #poly_dict = create_zone_dict("network_info.geojson")
-school_list = school_in_zone(41.796221, -87.581463, zone_jsonfile)
-print(school_list)
+#school_list = school_in_zone(41.796221, -87.581463, zone_jsonfile)
+#print(school_list)

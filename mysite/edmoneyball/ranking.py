@@ -103,7 +103,7 @@ def school_rank(clean_pref):
                         school_crit_met = 0
                 else:
                     school_data[key] = school_data[key].strip('%')
-                    print(school_data[key])
+                    #print(school_data[key])
                     if float(school_data[key]) < clean_pref[key]:
                         school_crit_met = 0
                     school_rank = school_rank + float(school_data[key])

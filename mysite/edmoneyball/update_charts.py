@@ -1,6 +1,6 @@
 
 
-from . import school_info, chart, ranking
+from . import school_info, chart, ranking, school_zone
 #import chart
 #import ranking
 #import school_info
@@ -60,7 +60,7 @@ def create_charts(school):
     url_exp = chart.expenditure_pie(data, school, labels_school, values_school, labels_distr, values_distr)
     urls['url4'] = url_exp
 
-    print(urls)
+    #print(urls)
     return urls
 
 

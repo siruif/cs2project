@@ -28,11 +28,11 @@ def homepage(request):
             #school_list.insert( 0,latlon )
             #context['location'] = school_list
             #print(context['location']) 
-        return render( request, 'plot_individual_school.html', context)
+        return render( request, 'edmoneyball/plot_individual_school.html', context)
     else:
         context['location'] = getcontext.extract_location()
         print(context)
-        return render( request, 'helloworld.html', context)
+        return render( request, 'edmoneyball/helloworld.html', context)
 
 def recommendationtool(request):
     if request.method == 'POST':
@@ -51,11 +51,11 @@ def recommendationtool(request):
             print (data)
             print (context)
 
-        return render( request, 'plot_school_comparisons.html', context)
+        return render( request, 'edmoneyball/plot_school_comparisons.html', context)
     else:
         form = ReccomendationForm() 
         context = {'form':form}
-        return render( request, 'recommendation.html', context)
+        return render( request, 'edmoneyball/recommendation.html', context)
 
 def comparisontool(request):
     if request.method == 'POST':
@@ -67,11 +67,14 @@ def comparisontool(request):
                 if data[key] != '':
                     school_list.append(data[key]) 
             context = update_charts.compare_recommend(False, list_of_schools = school_list )            
-        return render( request, 'plot_school_comparisons.html', context)
+        return render( request, 'edmoneyball/plot_school_comparisons.html', context)
     else:
         form = ComparisonForm ( )
         context = {'form':form}
-        return render( request, 'comparison.html', context)    
+        return render( request, 'edmoneyball/comparison.html', context)    
 
 def heatmaps(request):
     return render( request, 'html.heatmap')
+
+def index(request):
+    return render ( request, 'edmoneyball/index.html')

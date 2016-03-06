@@ -53,10 +53,11 @@ function initMap() {
 
   {% for latlon in location %}
   
+  var schoolname = '{{ latlon.0 }}'
+
   var infoWindowContent = [
-    "<b>Get Directions From...</b><br />",
+    schoolname,
     "<form id='map-form'>",
-    "Address/Postcode: <input id='map-from-address' type='text' />",
     "<input type='submit' id='map-go' value='Go' />",
     "</form>"
 ].join("");
