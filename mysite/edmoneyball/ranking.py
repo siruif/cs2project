@@ -83,7 +83,7 @@ def school_rank(clean_pref):
         school_data = district_data[school]
 
         if schools_in_distance != []:
-            if school not in schools_in_distance:
+            if (school not in schools_in_distance) and (school['type'] is not 'charter'):
                 school_crit_met = 0
 
         for key in clean_pref.keys():
