@@ -74,7 +74,7 @@ def comparisontool(request):
         return render( request, 'edmoneyball/comparison.html', context)    
 
 def heatmaps(request):
-    return render( request, 'html.heatmap')
+    return render( request, 'edmoneyball/heatmap.html')
 
 def index(request):
     return render ( request, 'edmoneyball/index.html')
