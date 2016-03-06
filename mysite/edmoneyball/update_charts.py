@@ -9,6 +9,7 @@ data_distr_avg = chart.district_avg()
 
 '''
 school =  'Jane A Neil Elementary School'
+school =  'Woodlawn Community Elementary School'
 
 data = school_info.create_school_dictionary()
 
@@ -18,18 +19,6 @@ data_distr_avg = chart.district_avg()
 #print(data_distr_avg['district_avg']['total_expend'])
 schools = list(data.keys())
 list_of_schools1 = schools[0:5]
-
-#print(chart.expenditure_compare(list_of_schools1))
-
-#print(chart.compare(list_of_schools1, chart.Expenditure_Cat, chart.Expenditure_Cat_Rename,\
-#                     'Expenditures Per Student', data, data_distr_avg))
-#print(chart.compare(list_of_schools1, chart.ethnicity_cat, chart.ethnicity_cat_rename,\
-#                     'Ethnicity', data, data_distr_avg))
-#print(chart.compare(list_of_schools1, chart.frlunch_cat, chart.frlunch_cat_rename,\
-#                     'Income Indicator: Free and Reduced Lunch', data, data_distr_avg))
-print(chart.compare(list_of_schools1, chart.acad_perf_cat, chart.acad_perf_cat_rename,\
-                     'Academic Performance', data, data_distr_avg))
-
 
 #print(chart.frlunch_bar(school, data, data_distr_avg))
 
@@ -47,9 +36,7 @@ print(chart.bar(school, data, data_distr_avg, chart.ethnicity_cat, chart.ethnici
 #print(chart.district_avg())
 '''
 
-## Text for Sirui in Django
-
-#school =  'Woodlawn Community Elementary School'
+## Functions for Django
 
 def create_charts(school):
 
@@ -74,30 +61,28 @@ def create_charts(school):
 
 
 #pref_crit_from_ui = {'special_educ': 55.0, 'performance': 88.0, 'distance_threshold': 66.0, \
-#    'location': (41.9449905,-87.6843248), 'free_red_lunch': 56.0, 'type': 'charter','ethnicity': 'asian', \
+#    'location': [41.9449905,-87.6843248], 'free_red_lunch': 56.0, 'type': 'charter','ethnicity': 'asian', \
 #    'ethnicity_threshold': 20.0}
 
-def recommend(pref_crit_from_ui):
+def compare_recommend(pref_crit_from_ui = None, recommend_indicator, list_of_schools = None):
 
-    clean_data = ranking.clean_data(pref_crit_from_ui)
-    print(clean_data)
-    top_schools = ranking.school_rank(clean_data)
-    print(top_schools)
+    if recommend_indicator:
+        clean_data = ranking.clean_data(pref_crit_from_ui)
+        list_of_schools = ranking.school_rank(clean_data)        
 
-    urls = {'school': top_schools}
+    urls = {'school': list_of_schools}
 
-    url1 = chart.compare(top_schools, chart.Expenditure_Cat, chart.Expenditure_Cat_Rename,\
+    url1 = chart.compare(list_of_schools, chart.Expenditure_Cat, chart.Expenditure_Cat_Rename,\
                      'Expenditures Per Student', data, data_distr_avg)
     urls['url1'] = url1
-    url2 = chart.compare(top_schools, chart.ethnicity_cat, chart.ethnicity_cat_rename,\
+    url2 = chart.compare(list_of_schools, chart.ethnicity_cat, chart.ethnicity_cat_rename,\
                      'Ethnicity', data, data_distr_avg)
     urls['url2'] = url2
-    url3 = chart.compare(top_schools, chart.frlunch_cat, chart.frlunch_cat_rename,\
+    url3 = chart.compare(list_of_schools, chart.frlunch_cat, chart.frlunch_cat_rename,\
                      'Income Indicator: Free and Reduced Lunch', data, data_distr_avg)
     urls['url3'] = url3
-    url4 = chart.compare(top_schools, chart.acad_perf_cat, chart.acad_perf_cat_rename,\
+    url4 = chart.compare(list_of_schools, chart.acad_perf_cat, chart.acad_perf_cat_rename,\
                      'Academic Performance', data, data_distr_avg)
     urls['url4'] = url4
 
-    print(urls)
     return urls
