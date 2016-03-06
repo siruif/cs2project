@@ -1,9 +1,10 @@
 from . import school_info
+import school_info
 import matplotlib.pylab as plt
 import numpy as np
 import plotly.plotly as py
 import plotly.tools as tls 
-from plotly.graph_objs import *
+#from plotly.graph_objs import *
 import plotly.graph_objs as go
 #py.sign_in('vi-tnguyen', '2j59j4yh6y')
 #py.sign_in('siruif', '1xbbym8vxv')
@@ -213,8 +214,9 @@ def frlunch_bar(school_name, data_dictionary, data_distr_avg):
 
 def bar_compare(school, cat_dict, cat_dict_rename, chart_title, data_dictionary, data_distr_avg):
     data_dictionary['District Average*'] = data_distr_avg['district_avg']
-    if chart_title == 'Expenditures':
+    if chart_title == 'Expenditures Per Student':
         labels, values = expenditure_data(school, data_dictionary)
+        print(labels, values)
     else:
         labels, values, school_data = create_labels_values(school, data_dictionary, \
                                       cat_dict, cat_dict_rename)
