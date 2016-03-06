@@ -5,7 +5,7 @@ DEFAULT_CHOICE  = [""]
 
 SCHOOL_CHOICES = school_info.school_names()
 
-RACE_CHOICES = ['As','Black', 'White', 'Hispanic', 'Multi Racial']
+RACE_CHOICES = ['Asian','Black', 'White', 'Hispanic', 'Multi Racial']
 
 SCHOOL_TYPES = ['Charter', 'Neighbourhood']
 
