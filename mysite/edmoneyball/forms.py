@@ -5,7 +5,7 @@ DEFAULT_CHOICE  = [""]
 
 SCHOOL_CHOICES = school_info.school_names()
 
-RACE_CHOICES = ['Black', 'White', 'Hispanic', 'Multi Racial']
+RACE_CHOICES = ['Asian','Black', 'White', 'Hispanic', 'Multi Racial']
 
 SCHOOL_TYPES = ['Charter', 'Neighbourhood']
 
@@ -19,7 +19,7 @@ class ReccomendationForm(forms.Form):
     
     free_red_lunch = forms.ChoiceField( label = 'Free and Reduced Lunch',choices = [ ( x, x ) for x in range ( 0, 105, 5 ) ] )
     
-    ethnicity = forms.ChoiceField ( label = 'Ethnicity', choices = [ ( x, x ) for x in DEFAULT_CHOICE + RACE_CHOICES ] )
+    ethnicity = forms.ChoiceField ( label = 'Ethnicity', choices = [ ( x, x ) for x in DEFAULT_CHOICE + RACE_CHOICES ], required = False )
 
     ethnicity_threshold = forms.ChoiceField ( label = 'Ethnicity Threshold',choices = [ ( x, x ) for x in range ( 0, 105, 5 ) ] )
     
