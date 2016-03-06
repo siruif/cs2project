@@ -1,8 +1,9 @@
 
 
 from . import school_info, chart, ranking
-#import chart
-#import ranking
+import chart
+import ranking
+import school_info
 
 data = school_info.create_school_dictionary()
 data_distr_avg = chart.district_avg()
@@ -44,12 +45,15 @@ def create_charts(school):
     urls = {'school': school}
     url_frl = chart.frlunch_bar(school, data, data_distr_avg)
     urls['url1'] = url_frl
+
     url_eth = chart.bar(school, data, data_distr_avg, chart.ethnicity_cat, chart.ethnicity_cat_rename,\
                                 'Ethnicity')
     urls['url2'] = url_eth
+
     url_perf = chart.bar(school, data, data_distr_avg, chart.acad_perf_cat, chart.acad_perf_cat_rename,\
                                 'Academic Performance')
     urls['url3'] = url_perf
+
     # Expenditure chart
     labels_school, values_school = chart.expenditure_data(school, data)
     labels_distr, values_distr = chart.expenditure_data('district_avg', data_distr_avg)
@@ -64,7 +68,7 @@ def create_charts(school):
 #    'location': [41.9449905,-87.6843248], 'free_red_lunch': 56.0, 'type': 'charter','ethnicity': 'asian', \
 #    'ethnicity_threshold': 20.0}
 
-def compare_recommend(pref_crit_from_ui = None, recommend_indicator, list_of_schools = None):
+def compare_recommend( recommend_indicator, pref_crit_from_ui = None, list_of_schools = None):
 
     if recommend_indicator:
         clean_data = ranking.clean_data(pref_crit_from_ui)
