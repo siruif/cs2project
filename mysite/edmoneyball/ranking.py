@@ -4,9 +4,9 @@
 ##Team Members: Sirui Feng, Turab Hassan, & Vi Nguyen
 ##CS122 Project, University of Chicago
 
-#from . import school_info, chart 
-import school_info
-import chart
+from . import school_info, chart 
+#import school_info
+#import chart
 
 
 def clean_data(pref_criteria_from_ui):
@@ -85,7 +85,7 @@ def school_rank(clean_pref):
         school_data = district_data[school]
 
         if schools_in_distance != []:
-            if (school not in schools_in_distance) and (school['type'] is not 'charter'):
+            if (school not in schools_in_distance) and (district_data[school]['type'] is not 'charter'):
                 school_crit_met = 0
 
         for key in clean_pref.keys():

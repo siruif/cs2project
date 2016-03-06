@@ -1,9 +1,9 @@
 
 
 from . import school_info, chart, ranking
-import chart
-import ranking
-import school_info
+#import chart
+#import ranking
+#import school_info
 
 data = school_info.create_school_dictionary()
 data_distr_avg = chart.district_avg()
@@ -68,11 +68,8 @@ def create_charts(school):
 #    'location': [41.9449905,-87.6843248], 'free_red_lunch': 56.0, 'type': 'charter','ethnicity': 'asian', \
 #    'ethnicity_threshold': 20.0}
 
-<<<<<<< HEAD
-def compare_recommend( recommend_indicator, pref_crit_from_ui = None, list_of_schools = None):
-=======
+
 def compare_recommend(recommend_indicator,pref_crit_from_ui = None, list_of_schools = None):
->>>>>>> 91f0a68f50b7fb0e5d92ae7b68fd50c1d0efa6d3
 
     if recommend_indicator:
         clean_data = ranking.clean_data(pref_crit_from_ui)

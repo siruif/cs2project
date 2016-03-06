@@ -43,7 +43,6 @@ def recommendationtool(request):
             data = form.cleaned_data
             if data['location'] != '':
                 address = urllib.parse.quote_plus ( data['location'] )
-                print('this should not show')
                 latlon = geocode.get_latlon(address)
                 data['location'] = latlon
             data ['ethnicity'] = data['ethnicity'].lower()
