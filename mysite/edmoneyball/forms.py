@@ -31,13 +31,13 @@ class ReccomendationForm(forms.Form):
 
 class ComparisonForm(forms.Form):
     
-    school_1 = forms.ChoiceField ( label = 'School 1', choices = [ (x,x) for x in DEFAULT_CHOICE + SCHOOL_CHOICES ] )
+    school_1 = forms.ChoiceField ( label = 'School 1', choices = [ (x,x) for x in DEFAULT_CHOICE + SCHOOL_CHOICES ], required = False )
     
-    school_2 = forms.ChoiceField ( label = 'School 2', choices = [ (x,x) for x in DEFAULT_CHOICE + SCHOOL_CHOICES ] )
+    school_2 = forms.ChoiceField ( label = 'School 2', choices = [ (x,x) for x in DEFAULT_CHOICE + SCHOOL_CHOICES ], required = False )
     
-    school_3 = forms.ChoiceField ( label = 'School 3', choices = [ (x,x) for x in DEFAULT_CHOICE + SCHOOL_CHOICES ] )
+    school_3 = forms.ChoiceField ( label = 'School 3', choices = [ (x,x) for x in DEFAULT_CHOICE + SCHOOL_CHOICES ], required = False )
     
-    school_4 = forms.ChoiceField ( label = 'School 4', choices = [ (x,x) for x in DEFAULT_CHOICE + SCHOOL_CHOICES ] )
+    school_4 = forms.ChoiceField ( label = 'School 4', choices = [ (x,x) for x in DEFAULT_CHOICE + SCHOOL_CHOICES ], required = False )
     
-    school_5 = forms.ChoiceField ( label = 'School 5', choices = [ (x,x) for x in DEFAULT_CHOICE + SCHOOL_CHOICES ] )
+    school_5 = forms.ChoiceField ( label = 'School 5', choices = [ (x,x) for x in DEFAULT_CHOICE + SCHOOL_CHOICES ], required = False )
 

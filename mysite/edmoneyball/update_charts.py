@@ -64,7 +64,7 @@ def create_charts(school):
 #    'location': [41.9449905,-87.6843248], 'free_red_lunch': 56.0, 'type': 'charter','ethnicity': 'asian', \
 #    'ethnicity_threshold': 20.0}
 
-def compare_recommend(pref_crit_from_ui = None, recommend_indicator, list_of_schools = None):
+def compare_recommend(recommend_indicator,pref_crit_from_ui = None, list_of_schools = None):
 
     if recommend_indicator:
         clean_data = ranking.clean_data(pref_crit_from_ui)
