@@ -1,5 +1,8 @@
+{% load staticfiles %}
+
 <!DOCTYPE html>
 <html>
+  {% include "edmoneyball/head.html" %}
   <head>
     <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
     <meta charset="utf-8">
@@ -15,20 +18,15 @@
       }
     </style>
   </head>
+
   <body>
-    
+
+    {% include 'edmoneyball/navbar.html' %}
+
     <form id='userinput' action="http://127.0.0.1:8000/edmoneyball/homepage/" method = "post" >
     {% csrf_token %}
     {{ form }}
     <input type="submit" value="Submit" />
-    </form>
-    
-    <form action="http://127.0.0.1:8000/edmoneyball/comparisontool" >  
-    <input type="submit" value="Go to Comparison Tool">
-    </form>
-    
-    <form action="http://127.0.0.1:8000/edmoneyball/recommendationtool" >  
-    <input type="submit" value="Go to Recommendation Tool">
     </form>
     
     <div id="map"></div>
@@ -92,7 +90,9 @@ function initMap() {
 }
 
     </script>
+    {% include "edmoneyball/javascript.html" %}
     <script async defer
-        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD3MgwYmLVdZ6FUuftS3d-Yf85HbniwypY&signed_in=true&callback=initMap"></script>
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD3MgwYmLVdZ6FUuftS3d-Yf85HbniwypY&signed_in=true&callback=initMap">
+    </script>
   </body>
 </html>

@@ -3,11 +3,12 @@
 <head>
     <!-- This is a comment:link rel="stylesheet" href="style.css" / -->
     <title>Individual School Info</title>
-    
+    {% include "edmoneyball/head.html" %}
 
 </head>
 
 <body>
+  {% include "edmoneyball/navbar.html" %}
     <script type="text/javascript">
       var school = {{schoolName}}
       var url1={{url1}}
@@ -34,3 +35,4 @@
 
 </body>
 </html>
+{% include "edmoneyball/javascript.html" %}

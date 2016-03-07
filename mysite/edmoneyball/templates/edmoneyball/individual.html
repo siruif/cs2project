@@ -3,11 +3,14 @@
 <head>
     <!-- This is a comment:link rel="stylesheet" href="style.css" / -->
     <title>Individual School Info</title>
+    {% include "edmoneyball/head.html" %}
     
     <h1 style="font-family:verdana; color:black; text-align:center;">{{school}}</h1>
 </head>
 
 <body>
+{% include "edmoneyball/navbar.html" %}
+
 
 <iframe id="plot1" width="540" height="480" frameborder="0" scrolling="no" src= {{url1}}></iframe>
 <iframe id="plot2" width="540" height="480" frameborder="0" scrolling="no" src={{url2}}></iframe>
@@ -18,3 +21,4 @@
     </form>
 </body>
 </html>
+{% include "edmoneyball/javascript.html" %}
