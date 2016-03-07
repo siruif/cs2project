@@ -45,7 +45,7 @@ function initMap() {
     zoom: 12,
     center: myLatLng
   });
-
+  var image = 'http://camino-portugues-a-santiago.destino.gal/img/blue_dot.png';
   var ctaLayer = new google.maps.KmlLayer({
   url: 'https://www.dropbox.com/s/fsmbt0sntrxffpx/network%20boundaries.kml?dl=1',
   map: map
@@ -70,6 +70,7 @@ function initMap() {
     marker = new google.maps.Marker({
     position: point,
     map: map,
+    icon: image,
     title: '{{ latlon.0 }}',
     clickable: true
   });
