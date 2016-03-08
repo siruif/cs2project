@@ -9,4 +9,4 @@ sudo apt-get install python-shapely
 y
 sudo pip3 install shapely
 
-sudo pip3 install django-bootstrap3-form
+sudo pip3 install django-bootstrap-form
