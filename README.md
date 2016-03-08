@@ -10,10 +10,20 @@ Name:
  Installation command: sudo pip3 install pyproj
 Name:
  Use:
- Installation command: sudo apt-get install python-shapely
+ Installation command:
 Name: Shapely
  Use:
- Installation command: sudo pip3 install shapely
+ Installation command: sudo apt-get install python-shapely; sudo pip3 install shapely
+Name: Plotly
+ Use: create online charts
+ Installation command: sudo pip3 install plotly
+Name: Bootstrap Forms
+ Use: format django forms
+ Installation command: sudo pip3 install django-bootstrap3-form django-bootstrap-form
+Name: Bootstrap
+ Use: styling of site
+ Installation command sudo pipe3 install django-bootstrap
+
 
 ##Data##
 Datasets folder 
@@ -28,21 +38,27 @@ Datasets folder
 ##Django implmentation##
 mysite - folder that contains our Django implementation
     Edmoneyball - folder that ...
-        static - folder that contains static css, js, images, and other files for styling
-            all files in this folder, unless specified, were sourced from 
-            http://startbootstrap.com/template-overviews/stylish-portfolio/; only small modifications were made
+        static - folder that contains static css, js, images, and other files 
+        for styling
+            -all files in this folder, unless specified, were sourced from 
+            http://startbootstrap.com/template-overviews/stylish-portfolio/; 
+            only small modifications were made
             *img/heatmap_sample.png was created by us ...
 
         templates - folder that contains our html pages
             edmoneyball
                 address.html - 
-                comparison.html - page to let user choose schools they want to compare; and displays the results
-                explore.html - page where user can choose 1 school at a time to look at data for
+                comparison.html - page to let user choose schools they want to 
+                compare; and displays the results
+                explore.html - page where user can choose 1 school at a time to 
+                look at data for
                 heatmap.html - 
                 individual.html - 
                 recommendation.html
 
-                # The 4 files below were sourced from http://startbootstrap.com/template-overviews/stylish-portfolio/; only small modifications were made
+                # The 4 files below were sourced from 
+                http://startbootstrap.com/template-overviews/stylish-portfolio/; 
+                only small modifications were made
                 index.html  - homepage
                 javascript.html - brings in js components
                 head.html - brings in 
@@ -62,7 +78,8 @@ mysite - folder that contains our Django implementation
         getcontext.py
         chart.py - contains algorithms that clean the data and plot charts
         ranking.py - algorithm that processes user inputs and generates recommendation
-        update_charts.py - calls on various functions to update charts with selected/relevant schools
+        update_charts.py - calls on various functions to update charts with 
+        selected/relevant schools
         rating.py - 
         school_info.py - 
         school_zone.py -
@@ -100,8 +117,9 @@ Trash - backup of files that we had referred to and/or could use in the future
 Install Packages:
 sudo pip3 install pyproj
 sudo apt-get install python-shapely
-y
 sudo pip3 install shapely
 
 sudo pip3 install django-bootstrap-form
->>>>>>> dee368da55d39067f3956988536f648d33d46fe4
+sudo pip3 install django-bootstrap3-form
+sudo pip3 install plotly
+sudo pip3 install django-bootstrap
