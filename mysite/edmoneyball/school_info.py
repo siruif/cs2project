@@ -7,12 +7,12 @@ def create_school_dictionary():
 	'''
 	Constructs a dictionary that stores information of the school. The key is the school name.
 	'''
-	db_path = 'edmoneyball/EducationData.db'
-	csv_path = 'edmoneyball/UpdatedLocations.csv'
+	db_path = 'EducationData.db'
+	csv_path = 'UpdatedLocations.csv'
 	connection = sqlite3.connect(db_path)
 	cursor = connection.cursor()
 
-	s1 = "SELECT g.CPSUnit, g.FullName, g.SchoolType, g.Latitude, g.longitude, \
+	s1 = "SELECT g.CPSUnit, g.FullName, g.SchoolType, g.Latitude, g.longitude, g.Governance, g.AttendingGrades, g.StreetNumber, g.StreetDirection, g.StreetName, \
 	SUM(e.Expenditures) AS expend, e.CategoriesName, \
 	p.SQRPRating, p.SQRPTotalPointsEarned, p.`NationalSchoolGrowthPercentile-Maths-Score`, p.`NationalSchoolGrowthPercentile-Reading-Score`, \
 	l.Total, l.FreeReducedPercent, l.SpEdPercent, \
@@ -26,26 +26,32 @@ def create_school_dictionary():
 
 
 	school_information = cursor.execute(s1)
+	print(school_information.fetchone())
 
 	UNIT = 0
 	NAME = 1
 	TYPE = 2
 	LAT = 3
 	LON = 4
-	EXPEND = 5
-	CATEG = 6
-	RATING = 7
-	POINTS = 8
-	MATH_GROWTH = 9
-	RDG_GROWTH = 10
-	TOTALNO = 11
-	LUNCH = 12
-	SPED = 13
-	WHITE = 14
-	AFRICAN = 15
-	HISPANIC = 16
-	MULTI = 17
-	ASIAN = 18
+	GOV = 5
+	ATTENDGRADES = 6
+	STNUM = 7
+	STDIR = 8
+	STNAME = 9
+	EXPEND = 10
+	CATEG = 11
+	RATING = 12
+	POINTS = 13
+	MATH_GROWTH = 14
+	RDG_GROWTH = 15
+	TOTALNO = 16
+	LUNCH = 17
+	SPED = 18
+	WHITE = 19
+	AFRICAN = 20
+	HISPANIC = 21
+	MULTI = 22
+	ASIAN = 23
 
 	school_dictionary = {}
 
@@ -59,6 +65,12 @@ def create_school_dictionary():
 			school_dictionary[key]['type'] = each[TYPE]
 			school_dictionary[key]['lat'] = each[LAT]
 			school_dictionary[key]['lon'] = each[LON]
+			school_dictionary[key]['governance'] = each[GOV]
+			school_dictionary[key]['attending_grades'] = each[ATTENDGRADES]
+			if each[STNUM] == "" and each[STDIR] == "" and each[STNAME] == "":
+				school_dictionary[key]['address'] = "Not Available"
+			else:
+				school_dictionary[key]['address'] = str(each[STNUM]) + " " + each[STDIR] + " " + each[STNAME]
 			category = each[CATEG]
 			school_dictionary[key][category] = each[EXPEND]
 			school_dictionary[key]['total_expend'] = each[EXPEND]
@@ -80,6 +92,7 @@ def create_school_dictionary():
 			school_dictionary[key]['total_expend'] += each[EXPEND]
 
 
+
 	connection.close()
 	with open(csv_path) as csvfile:
 		locationreader = csv.reader(csvfile, delimiter = ',')
@@ -97,6 +110,7 @@ def create_school_dictionary():
 #Inserted by Turab, creating the school dictionary as a global so that we dont have
 #to create it again and again indifferent functions
 SCHOOLS_DATA = create_school_dictionary()
+
 
 
 def get_radius(lat1, lon1):
