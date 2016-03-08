@@ -3,6 +3,7 @@ A group project for UChicago CS 122
 Team Name: EdMoneyBall
 Sirui Feng, Turab Hassan, & Vi Nguyen
 
+<<<<<<< HEAD
 ##Install Packages##
 Name: 
  Use: 
@@ -95,3 +96,12 @@ Trash - backup of files that we had referred to and/or could use in the future
 
 
 
+=======
+Install Packages:
+sudo pip3 install pyproj
+sudo apt-get install python-shapely
+y
+sudo pip3 install shapely
+
+sudo pip3 install django-bootstrap-form
+>>>>>>> dee368da55d39067f3956988536f648d33d46fe4
