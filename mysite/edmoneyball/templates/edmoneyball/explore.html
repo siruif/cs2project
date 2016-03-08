@@ -23,7 +23,7 @@
 
     {% include 'edmoneyball/navbar.html' %}
 
-    <form id='userinput' action="http://127.0.0.1:8000/edmoneyball/homepage/" method = "post" >
+    <form id='userinput' action="http://127.0.0.1:8000/edmoneyball/explore" method = "post" >
     {% csrf_token %}
     {{ form }}
     <input type="submit" value="Submit" />
@@ -37,7 +37,7 @@ function getschoolname (schoolname) {
   document.getElementById("userinput").submit();
 }
 function initMap() {
-  var myLatLng = {lat: {{location.0.1}}, lng: {{location.0.2}} };
+  var myLatLng = {lat: {{ info.0.5 }}, lng: {{ info.0.6 }} };
 
   var map = new google.maps.Map(document.getElementById('map'), {
     zoom: 12,
@@ -49,19 +49,9 @@ function initMap() {
   map: map
   });
 
-  {% for latlon in location %}
+  {% for data in info %}
   
-  var schoolname = '{{ latlon.0 }}'
-
-  var infoWindowContent = [
-    schoolname,
-    "<form id='map-form'>",
-    "<input type='submit' id='map-go' value='Go' />",
-    "</form>"
-].join("");
-  
-
-  point = { lat: {{ latlon.1 }}, lng: {{ latlon.2 }} }
+  point = { lat: {{ data.5 }}, lng: {{ data.6 }} }
   
   var schoolname = '{{ latlon.0 }}'
 
@@ -71,23 +61,21 @@ function initMap() {
     icon: image,
     title: '{{ latlon.0 }}',
     clickable: true
+    address: {{ data.1 }}
   });
-  
-    
-    marker['infowindow'] = new google.maps.InfoWindow({
-    content: infoWindowContent
+      var infowindow = new google.maps.InfoWindow({
+    content: " "
   });
 
     google.maps.event.addListener(marker, 'click', function() {
-    this['infowindow'].open(map, this);
+    infowindow.setContent('<p>School Name: ' + this.title + '</p>' +
+                          '<p> Address: ' + this.address + '</p>' + 
+                '<button onclick="getschoolname(\'' +this.title+ '\')">Click Here for more info </button>');
+    infowindow.open(map, this);
   });
-
+    
   {% endfor %}
 
-  //var infowindow = new google.maps.InfoWindow({
-  //content: 'schoolname_blah',
-  //maxWidth: 200
-  //});
 }
 
     </script>

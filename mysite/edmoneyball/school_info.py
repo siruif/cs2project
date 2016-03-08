@@ -12,7 +12,7 @@ def create_school_dictionary():
 	connection = sqlite3.connect(db_path)
 	cursor = connection.cursor()
 
-	s1 = "SELECT g.CPSUnit, g.FullName, g.SchoolType, g.Latitude, g.longitude, g.Governance, g.AttendingGrades, g.StreetNumber, g.StreetDirection, g.StreetName, \
+	s1 = "SELECT g.CPSUnit, g.FullName, g.SchoolType, g.Latitude, g.longitude, g.AttendingGrades, g.StreetNumber, g.StreetDirection, g.StreetName, \
 	SUM(e.Expenditures) AS expend, e.CategoriesName, \
 	p.SQRPRating, p.SQRPTotalPointsEarned, p.`NationalSchoolGrowthPercentile-Maths-Score`, p.`NationalSchoolGrowthPercentile-Reading-Score`, \
 	l.Total, l.FreeReducedPercent, l.SpEdPercent, \
@@ -33,25 +33,24 @@ def create_school_dictionary():
 	TYPE = 2
 	LAT = 3
 	LON = 4
-	GOV = 5
-	ATTENDGRADES = 6
-	STNUM = 7
-	STDIR = 8
-	STNAME = 9
-	EXPEND = 10
-	CATEG = 11
-	RATING = 12
-	POINTS = 13
-	MATH_GROWTH = 14
-	RDG_GROWTH = 15
-	TOTALNO = 16
-	LUNCH = 17
-	SPED = 18
-	WHITE = 19
-	AFRICAN = 20
-	HISPANIC = 21
-	MULTI = 22
-	ASIAN = 23
+	ATTENDGRADES = 5
+	STNUM = 6
+	STDIR = 7
+	STNAME = 8
+	EXPEND = 9
+	CATEG = 10
+	RATING = 11
+	POINTS = 12
+	MATH_GROWTH = 13
+	RDG_GROWTH = 14
+	TOTALNO = 15
+	LUNCH = 16
+	SPED = 17
+	WHITE = 18
+	AFRICAN = 19
+	HISPANIC = 20
+	MULTI = 21
+	ASIAN = 22
 
 	school_dictionary = {}
 
@@ -65,7 +64,6 @@ def create_school_dictionary():
 			school_dictionary[key]['type'] = each[TYPE]
 			school_dictionary[key]['lat'] = each[LAT]
 			school_dictionary[key]['lon'] = each[LON]
-			school_dictionary[key]['governance'] = each[GOV]
 			school_dictionary[key]['attending_grades'] = each[ATTENDGRADES]
 			if each[STNUM] == "" and each[STDIR] == "" and each[STNAME] == "":
 				school_dictionary[key]['address'] = "Not Available"
@@ -172,10 +170,27 @@ def in_range(ulocation, slocation, radius):
 	return distance <= radius
 
 #inserted by Turab
+def build_context_explore():
+	'''
+	Given the school dictionary, returns information about the school to be displayed
+	in the explore page. This function is called in the view.py file when the explore
+	page is being redered
+	'''
+	rv = []
+
+	for key in SCHOOLS_DATA.keys():
+		rv.append ( [key, SCHOOLS_DATA[key]['address'], SCHOOLS_DATA[key]['attending_grades'],\
+		SCHOOLS_DATA[key]['type'], SCHOOLS_DATA[key]['total_students'],SCHOOLS_DATA[key]['lat'],\
+		SCHOOLS_DATA[key]['lon'] ] )
+	
+	return rv
+
 def school_names():
 	'''
-	Given the school dictionary, just returns the school names
+	Return all the schoold names in the data. This function is called from the forms.py file
+	to populate the choice fields
 	'''
+
 	return sorted(SCHOOLS_DATA.keys())
 
 

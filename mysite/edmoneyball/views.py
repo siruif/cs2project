@@ -8,7 +8,7 @@ from . import getcontext, geocode, school_info, update_charts
 def explore(request):
     form = AddressForm()  
 
-    context={'location':[], 'form':form}
+    context={'info':[], 'form':form}
     if request.method == 'POST':
         form = AddressForm(request.POST)
         
@@ -28,9 +28,9 @@ def explore(request):
             #school_list.insert( 0,latlon )
             #context['location'] = school_list
             #print(context['location']) 
-        return render( request, 'edmoneyball/plot_individual_school.html', context)
+        return render( request, 'edmoneyball/individual.html', context)
     else:
-        context['location'] = getcontext.extract_location()
+        context['info'] = school_info.build_context_explore()
         print(context)
         return render( request, 'edmoneyball/explore.html', context)
 
