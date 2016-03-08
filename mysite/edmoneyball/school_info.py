@@ -74,8 +74,8 @@ def create_school_dictionary():
 			school_dictionary[key]['total_expend'] = each[EXPEND]
 			school_dictionary[key]['perf_rating'] = each[RATING]
 			school_dictionary[key]['perf_points'] = each[POINTS]
-			each[TOTALNO] = each[TOTALNO].replace(",","")
-			school_dictionary[key]['total_students'] = each[TOTALNO]
+			totalno_mod = each[TOTALNO].replace(",","")
+			school_dictionary[key]['total_students'] = totalno_mod
 			school_dictionary[key]['free_red_lunch'] = each[LUNCH]
 			school_dictionary[key]['special_educ'] = each[SPED]
 			school_dictionary[key]['white'] = each[WHITE]
