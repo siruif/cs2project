@@ -47,11 +47,18 @@ def recommendationtool(request):
                 data['location'] = latlon
             data ['ethnicity'] = data['ethnicity'].lower()
             context = update_charts.compare_recommend(True, pref_crit_from_ui = data)
+            school_list = context['school']
+            i = 0
+            for each_scool in school_list:
+                if each_scool != 'District Average*':
+                    key = "school" + str(i)
+                    context[key] = each_scool
+                    i += 1
 
             print (data)
             print (context)
 
-        return render( request, 'edmoneyball/plot_school_comparisons.html', context)
+        return render( request, 'edmoneyball/plot_school_recommendations.html', context)
     else:
         form = ReccomendationForm() 
         context = {'form':form}
