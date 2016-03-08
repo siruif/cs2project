@@ -103,8 +103,6 @@ USE_TZ = True
 
 STATIC_URL = '/static/edmoneyball/'
 
-STATIC_ROOT = os.path.join(os.path.dirname(BASE_DIR), "static_in_env", "static_root")
-
 #Turab: Adding the path where template files are 
 
 #TEMPLATE_DIRS = (os.path.join(BASE_DIR, "templates"),)

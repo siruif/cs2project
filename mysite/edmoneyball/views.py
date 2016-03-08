@@ -49,14 +49,14 @@ def recommendationtool(request):
             context = update_charts.compare_recommend(True, pref_crit_from_ui = data)
             school_list = context['school']
             i = 0
-            for each_scool in school_list:
-                if each_scool != 'District Average*':
+            for each_school in school_list:
+                if each_school != 'District Average*':
                     key = "school" + str(i)
-                    context[key] = each_scool
+                    context[key] = each_school
                     i += 1
 
-            print (data)
-            print (context)
+            #print(data)
+            print(type(context))
 
         return render( request, 'edmoneyball/plot_school_recommendations.html', context)
     else:
@@ -85,3 +85,6 @@ def heatmaps(request):
 
 def index(request):
     return render ( request, 'edmoneyball/index.html')
+
+def methodology(request):
+    return render ( request, 'edmoneyball/methodology.html')

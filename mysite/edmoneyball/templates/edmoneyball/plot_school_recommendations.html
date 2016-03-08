@@ -1,28 +1,23 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <!-- This is a comment:link rel="stylesheet" href="style.css" / -->
-    {% include "edmoneyball/head.html" %}
-    <title>Schools Recommendation</title>
-</head>
+    <head>
+        {% include "edmoneyball/head.html" %}
+        <title>Schools Recommendation</title>
+    </head>
 
-<body>
-
-{% include 'edmoneyball/navbar.html' %}
-
-<h1>Recommendations</h1>
-<h2>{{school0}}</h2>
-<h2>{{school1}}</h2>
-<h2>{{school2}}</h2>
-<h2>{{school3}}</h2>
-<h2>{{school4}}</h2>
-
-<iframe width="800" height="480" frameborder="0" scrolling="no" src={{url1}}></iframe>
-<iframe width="800" height="480" frameborder="0" scrolling="no" src={{url2}}></iframe>
-<iframe width="800" height="480" frameborder="0" scrolling="no" src={{url3}}></iframe>
-<iframe width="800" height="480" frameborder="0" scrolling="no" src={{url4}}></iframe>
-
-</body>
+        <body>
+        {% include 'edmoneyball/navbar.html' %}
+        <h1>Recommendations</h1>
+        <h2>{{school0}}</h2>
+        <h2>{{school1}}</h2>
+        <h2>{{school2}}</h2>
+        <h2>{{school3}}</h2>
+        <h2>{{school4}}</h2>
+        <iframe width="800" height="480" frameborder="0" scrolling="no" src={{url1}}></iframe>
+        <iframe width="800" height="480" frameborder="0" scrolling="no" src={{url2}}></iframe>
+        <iframe width="800" height="480" frameborder="0" scrolling="no" src={{url3}}></iframe>
+        <iframe width="800" height="480" frameborder="0" scrolling="no" src={{url4}}></iframe>
+        </body>
 </html>
 
 {% include "edmoneyball/javascript.html" %}

@@ -11,21 +11,21 @@ SCHOOL_TYPES = ['Charter', 'Neighborhood']
 
 class AddressForm(forms.Form):
     
-    address_form = forms.CharField(label='Enter Address', max_length=500, )
+    address_form = forms.CharField(label='Enter Address', max_length = 500, required = False )
 
 class RecommendationForm(forms.Form):
     
-    performance = forms.ChoiceField ( label = 'Performance \n',choices = [(x, x) for x in range ( 0, 105, 5 ) ] )
+    performance = forms.ChoiceField ( label = 'Performance',choices = [(x, x) for x in range ( 0, 105, 5 ) ], required = False )
     
-    free_red_lunch = forms.ChoiceField( label = 'Free and Reduced Lunch \n',choices = [ ( x, x ) for x in range ( 0, 105, 5 ) ] )
+    free_red_lunch = forms.ChoiceField( label = 'Free and Reduced Lunch',choices = [ ( x, x ) for x in range ( 0, 105, 5 ) ], required = False )
     
-    ethnicity = forms.ChoiceField ( label = 'Ethnicity \n', choices = [ ( x, x ) for x in DEFAULT_CHOICE + RACE_CHOICES ]  )
+    ethnicity = forms.ChoiceField ( label = 'Ethnicity', choices = [ ( x, x ) for x in DEFAULT_CHOICE + RACE_CHOICES ], required = False )
 
-    ethnicity_threshold = forms.ChoiceField ( label = 'Ethnicity Threshold \n',choices = [ ( x, x ) for x in range ( 0, 105, 5 ) ] )
+    ethnicity_threshold = forms.ChoiceField ( label = 'Ethnicity Threshold',choices = [ ( x, x ) for x in range ( 0, 105, 5 ) ], required = False )
     
-    school_type = forms.ChoiceField ( label = 'Type of School \n',choices = [ ( x, x ) for x in DEFAULT_CHOICE + SCHOOL_TYPES ], required = False )
+    school_type = forms.ChoiceField ( label = 'Type of School',choices = [ ( x, x ) for x in DEFAULT_CHOICE + SCHOOL_TYPES ], required = False )
 
-    location = forms.CharField( label = 'Please Enter Your Address\n', required = False )
+    location = forms.CharField( label = 'Please Enter Your Address', required = False )
 
     distance_threshold = forms.FloatField ( label = 'Maximum Distance From Address (Miles)', required = False  )
 
