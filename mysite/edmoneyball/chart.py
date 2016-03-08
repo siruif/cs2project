@@ -57,7 +57,8 @@ variables_charts = frlunch_cat | Expenditure_Cat | ethnicity_cat | \
                    Expenditure_Cat_Unknown | students | total_expend | acad_perf_cat
 
 # List of variables that will not be a number, to be used to deal with type incongruencies
-non_num_var = set(['type', 'unit', 'perf_rating', 'address', 'attending_grades', 'governance'])
+non_num_var = set(['type', 'unit', 'perf_rating', 'address', 'attending_grades' ])
+
 #print(district_data)
 
 
