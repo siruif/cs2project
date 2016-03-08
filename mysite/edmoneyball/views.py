@@ -2,7 +2,7 @@ import urllib.parse
 from django.shortcuts import render
 from django.http import HttpResponse
 from django.http import HttpResponseRedirect
-from .forms import AddressForm, ReccomendationForm, ComparisonForm
+from .forms import AddressForm, RecommendationForm, ComparisonForm
 from . import getcontext, geocode, school_info, update_charts
 
 def explore(request):
@@ -36,7 +36,7 @@ def explore(request):
 
 def recommendationtool(request):
     if request.method == 'POST':
-        form = ReccomendationForm(request.POST)
+        form = RecommendationForm(request.POST)
         print('post request')
         #print(form)
         if form.is_valid():
@@ -60,7 +60,7 @@ def recommendationtool(request):
 
         return render( request, 'edmoneyball/plot_school_recommendations.html', context)
     else:
-        form = ReccomendationForm() 
+        form = RecommendationForm() 
         context = {'form':form}
         return render( request, 'edmoneyball/recommendation.html', context)
 
