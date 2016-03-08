@@ -5,7 +5,7 @@ from django.http import HttpResponseRedirect
 from .forms import AddressForm, ReccomendationForm, ComparisonForm
 from . import getcontext, geocode, school_info, update_charts
 
-def homepage(request):
+def explore(request):
     form = AddressForm()  
 
     context={'location':[], 'form':form}
@@ -32,7 +32,7 @@ def homepage(request):
     else:
         context['location'] = getcontext.extract_location()
         print(context)
-        return render( request, 'edmoneyball/helloworld.html', context)
+        return render( request, 'edmoneyball/explore.html', context)
 
 def recommendationtool(request):
     if request.method == 'POST':
