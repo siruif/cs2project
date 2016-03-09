@@ -1,10 +1,10 @@
-from . import school_info
+#from . import school_info
 import json
 import pyproj
 from shapely.geometry import Polygon, Point
 from shapely.ops import transform
 from functools import partial
-#import school_info
+
 
 zone_jsonfile = "edmoneyball/network_info.geojson"
 
@@ -47,12 +47,12 @@ def build_school_zone_dict(poly_dict, school_dict):
         school_zone_dict[school] = get_zone(s_lon, s_lat, poly_dict)
     return school_zone_dict
 
-def school_in_zone(ulat, ulon, zone_jsonfile):
+def school_in_zone(ulat, ulon):
     '''
     Constructs a list of schools that is in the user's school zone.
     The input is the user's (lat, lon)
     '''
-    school_dict = school_info.create_school_dictionary()
+    school_dict = 'school_info.create_school_dictionary()'
     poly_dict = create_poly_dict(zone_jsonfile)
     u_zone = get_zone(ulon, ulat, poly_dict)
     school_zone_dict = build_school_zone_dict(poly_dict, school_dict)

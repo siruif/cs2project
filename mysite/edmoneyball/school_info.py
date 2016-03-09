@@ -2,6 +2,7 @@ import sqlite3
 from math import *
 import operator
 import csv
+from . import school_zone
 
 def create_school_dictionary():
 	'''
@@ -193,6 +194,28 @@ def school_names():
 	'''
 
 	return sorted(SCHOOLS_DATA.keys())
+
+def build_context_from_address(ulat, ulon, radius):
+  '''
+  Given the lat lon of the address user entered and the radius the user entered, return the 
+  schools in the zone. This function is called from the views file to render the page when
+  the user gives his/her address
+  '''
+
+  rv = [['My Home', ulat, ulon]]
+
+  user_location = (ulat, ulon)
+
+  schools_in_zone = school_zone.school_in_zone(ulat, ulon)
+
+  for school in schools_in_zone:
+    school_location = (SCHOOLS_DATA[school]['lat'],SCHOOLS_DATA[school]['lon'] )
+    if in_range ( user_location, school_location, radius):
+      rv.append ( [school, SCHOOLS_DATA[school]['address'], SCHOOLS_DATA[school]['attending_grades'],\
+    SCHOOLS_DATA[school]['type'], SCHOOLS_DATA[key]['total_students'],SCHOOLS_DATA[school]['lat'],\
+    SCHOOLS_DATA[school]['lon'] ] )
+
+  return rv
 
 
 

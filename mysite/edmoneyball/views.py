@@ -7,28 +7,29 @@ from . import getcontext, geocode, school_info, update_charts
 
 def explore(request):
     form = AddressForm()  
-
     context={'info':[], 'form':form}
+
+
     if request.method == 'POST':
         form = AddressForm(request.POST)
         
         if form.is_valid():
             data=form.cleaned_data
-            #print ('coming here')
-            #print (data)
-            #address = urllib.parse.quote_plus(data['address_form'])
-            school_name = data['address_form']
-            context = update_charts.create_charts (school_name)
-            #print(context)
+            address = urllib.parse.quote_plus(data['address_form'])
+            school_name = data['school_name']
 
-            print(context)
-            #latlon = geocode.get_latlon(address)
-            #school_list = school_info.find_neighbor_schools(latlon,1)
-            #latlon.insert ( 0,'Home' ) 
-            #school_list.insert( 0,latlon )
-            #context['location'] = school_list
-            #print(context['location']) 
-        return render( request, 'edmoneyball/individual.html', context)
+            # When user clicks on a school and we want to display individual School Information
+            if school_name != '':
+                context = update_charts.create_charts (school_name)
+                print(context)
+                return render( request, 'edmoneyball/individual.html', context)
+
+            # When user enters his address and we want to show schools in his zone
+            else:
+                ulat,ulon = geocode.get_latlon(address)                
+                context = school_info.build_context_from_address(ulat, ulon, 2)
+                print(context)
+                return render( request, 'edmoneyball/individual.html', context)
     else:
         context['info'] = school_info.build_context_explore()
         print(context)

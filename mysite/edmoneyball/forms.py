@@ -13,6 +13,8 @@ class AddressForm(forms.Form):
     
     address_form = forms.CharField(label='Enter Address', max_length = 500, required = False )
 
+    school_name = forms.CharField(widget=forms.HiddenInput(), required = False)
+
 class RecommendationForm(forms.Form):
     
     performance = forms.ChoiceField ( label = 'Performance',choices = [(x, x) for x in range ( 0, 105, 5 ) ], required = False )
