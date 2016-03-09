@@ -7,6 +7,8 @@ from functools import partial
 
 
 zone_jsonfile = "edmoneyball/network_info.geojson"
+school_dict = school_info.create_school_dictionary()
+print(school_dict)
 
 def create_poly_dict(zone_jsonfile):
     '''
@@ -35,6 +37,7 @@ def create_poly_dict(zone_jsonfile):
             poly_dict[zone_num]["zone_name"] = zone_name
             poly_dict[zone_num]["poly"] = zone_poly_list
     return poly_dict
+poly_dict=create_poly_dict(zone_jsonfile)
 
 def build_school_zone_dict(poly_dict, school_dict):
     '''
@@ -47,20 +50,22 @@ def build_school_zone_dict(poly_dict, school_dict):
         school_zone_dict[school] = get_zone(s_lon, s_lat, poly_dict)
     return school_zone_dict
 
-def school_in_zone(ulat, ulon):
+def school_in_zone(ulat, ulon, show_u_zone = False):
     '''
-    Constructs a list of schools that is in the user's school zone.
+    Constructs a list of schools that is in the user's school zone, only the names.
     The input is the user's (lat, lon)
     '''
-    school_dict = school_info.create_school_dictionary()
-    poly_dict = create_poly_dict(zone_jsonfile)
+    
     u_zone = get_zone(ulon, ulat, poly_dict)
-    school_zone_dict = build_school_zone_dict(poly_dict, school_dict)
+    
     school_in_zone=[]
     for school in school_zone_dict:
-        if u_zone == school_zone_dict[school]:
+        if school_dict[school]['type'] == 'Charter' or u_zone == school_zone_dict[school]:
             school_in_zone.append(school)
-    return school_in_zone
+    
+    if not show_u_zone:
+        return school_in_zone
+    return [school_in_zone, u_zone, poly_dict[u_zone]]
 
 def get_zone(lon, lat, poly_dict):
     '''
@@ -81,7 +86,9 @@ def get_zone(lon, lat, poly_dict):
         p = Point(lon, lat)
         if poly.contains(p):
             return zone
-
+school_zone_dict=build_school_zone_dict(poly_dict, school_dict)
+#print(school_zone_dict)
+#print("_______________________________")
 #school_zone_dict = build_school_zone_dict()
 #poly_dict = create_zone_dict("network_info.geojson")
 #school_list = school_in_zone(41.796221, -87.581463, zone_jsonfile)
