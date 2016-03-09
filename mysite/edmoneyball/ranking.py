@@ -5,13 +5,16 @@
 ##CS122 Project, University of Chicago
 
 from . import school_info, chart, school_zone
+
+## commented out to align with Django
 #import school_info
 #import chart
 
 
 def clean_data(pref_criteria_from_ui):
     '''
-    Cleans data from ui and returns a new version in the form of a simpler dictionary
+    Cleans data from user interface and returns a new version in the form of a 
+    simpler dictionary
     '''
     # Processing diversity component
     ethnicity = pref_criteria_from_ui['ethnicity']
@@ -27,39 +30,37 @@ def clean_data(pref_criteria_from_ui):
 
     for key in pref_criteria_from_ui.keys():
         criteria = pref_criteria_from_ui[key]
-        if (criteria != '') and (criteria != None): # only pull in criteria that weren't left blank
+        # only pull in criteria that weren't left blank
+        if (criteria != '') and (criteria != None): 
+            # process items that are supposed to be floats
             if key not in exceptions:
-                #print(key)
                 threshold = float(pref_criteria_from_ui[key])
                 clean_pref[key] = threshold
             if key == 'location':
                 clean_pref[key] = pref_criteria_from_ui[key]
+
+    # sets the threshold for growth scores to be what the user set as the 
+    # performance threshold
     clean_pref['rdg_growth'] = clean_pref['performance']
     clean_pref['math_growth'] = clean_pref['performance']
-    #print(clean_pref)
+
     return clean_pref
 
 
 def school_rank(clean_pref):
     '''
-    Takes in the criteria and value score from users, and a dictionary of 
-    school information to calculate a ranking of recommended school based 
-    on user's preferences
+    Takes in the cleaned preferences of the users from the user interface 
+    and returns: 
+        top_school_names - list of school names that meet the user's thresholds
+            and/or is the best performing
+        crit_met_indicator - boolean (True or False) to indicate whether the 
+            schools we are recommending meet all the user's thresholds
+        crit_not_met - list of the user's thresholds that were not met; will
+            be blank if we are able to find matches
 
-    Assumes pref_criteria_from_ui is in format of:
-    {'Diversity': [A, B], 'Free_Reduced_Lunch': [C, D], 'English_Learners': [E, F], 'Special Ed': [G, H], 'Performance': [I, J]}
-
-
-    Assumes dictionary_school_info is in format of:
-    {School ID: {'Diversity': A, 'Free_Reduced_Lunch': B, 'English_Learners': C}...}
-
-
-    pref_crit_from_ui = {'special_educ': 55.0, 'performance': 88.0, 'distance_threshold': 66.0, \
-    'location': [41.9449905,-87.6843248], 'free_red_lunch': 56.0, 'type': 'charter','ethnicity': 'asian', \
-    'ethnicity_threshold': 20.0}
-
-    Notes:
-    -Converting all criteria thresholds to numbers to ensure that the assignment of school_score makes sense
+    Schools are recommended first by whether checking if they meet all the 
+    user's specified thresholds; and then by how well the school is performing
+    based on an average of reading and math scores
     '''
 
     # index that holds certain info
@@ -90,7 +91,7 @@ def school_rank(clean_pref):
         school_crit_met = 1 # assume they meet it until we come across a criteria where they don't
         school_rank = 0
         school_data = district_data[school]
-        crit_not_met = []
+        crit_not_met_list = []
 
         if schools_in_distance != []:
             if school not in schools_in_distance:
@@ -110,20 +111,23 @@ def school_rank(clean_pref):
                         crit_not_met.append(key)
                 else:
                     school_data[key] = school_data[key].strip('%')
-                    #print(school_data[key])
                     if float(school_data[key]) < clean_pref[key]:
                         school_crit_met = 0
                         crit_not_met.append(key)
-                school_rank = (float(school_data['rdg_growth']) + float(school_data['math_growth']))/2
+                school_rank = (float(school_data['rdg_growth']) + \
+                    float(school_data['math_growth']))/2
         if len(top_matches) < 5:
-            top_matches.append((school, school_crit_met, school_rank))
+            top_matches.append((school, school_crit_met, crit_not_met, \
+                school_rank))
         else:
             for i in range(len(top_matches)):
                 if (school_crit_met > top_matches[i][1]) or \
-                ((school_crit_met == top_matches[i][1]) and (school_rank > top_matches[i][2])) :
+                    ((school_crit_met == top_matches[i][1]) and \
+                    (school_rank > top_matches[i][2])) :
                     deranked_school = top_matches[i]
                     top_matches.remove(deranked_school)
-                    top_matches.append((school, school_crit_met, school_rank))
+                    top_matches.append((school, school_crit_met, crit_not_met, \
+                        school_rank))
                     break
     
     # indicator that the returned schools met all the criteria
@@ -131,14 +135,18 @@ def school_rank(clean_pref):
                 crit_met_indicator = False
 
     # rank the schools by best matches
-    ranked_top_matches = sorted(top_matches, key = lambda x: (x[1], x[2]), reverse = True)
-    print(ranked_top_matches)
+    ranked_top_matches = sorted(top_matches, key = lambda x: (x[1], x[2]), \
+        reverse = True)
 
     top_school_names = []
     for val in ranked_top_matches:
         top_school_names.append(val[0])
+        # collects full list of criteria that were not met per school
+        if val[2] != []:
+            crit_not_met_full_list.append(val[2])
 
-    return top_school_names, crit_met_indicator, crit_not_met
+    print(top_school_names, crit_met_indicator, crit_not_met_full_list)
+    return top_school_names, crit_met_indicator, crit_not_met_full_list
 
 
 

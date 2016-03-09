@@ -1,9 +1,12 @@
+{% load staticfiles %}
+
+
 <!DOCTYPE html>
 <html>
+  {% include "edmoneyball/head.html" %}
   <head>
     <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
     <meta charset="utf-8">
-    <title>Simple markers</title>
     <style>
       html, body {
         height: 100%;
@@ -16,7 +19,9 @@
     </style>
   </head>
   <body>
-      <div id="map"></div>
+    {% include 'edmoneyball/navbar.html' %}
+
+    <div id="map"></div>
     <script>
 
     function initMap() {
@@ -75,6 +80,7 @@
     }
     
     </script>
+    {% include "edmoneyball/javascript.html" %}
     <script async defer
     src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD3MgwYmLVdZ6FUuftS3d-Yf85HbniwypY&signed_in=true&callback=initMap">
     </script>
