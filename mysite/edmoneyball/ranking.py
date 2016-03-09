@@ -17,6 +17,7 @@ def clean_data(pref_criteria_from_ui):
     ethnicity = pref_criteria_from_ui['ethnicity']
     ethnicity_threshold = float(pref_criteria_from_ui['ethnicity_threshold'])
     clean_pref = {ethnicity: ethnicity_threshold}
+    print(ethnicity, ethnicity_threshold)
 
     # Processing school type
     school_type = pref_criteria_from_ui['school_type']
@@ -63,8 +64,10 @@ def school_rank(clean_pref):
 
     # index that holds certain info
     threshold = 0 # for the clean_pref.keys()
+    
     # holds a max of 5 schools
     top_matches = []
+    
     schools_in_distance = []
     schools_in_network = []
 
@@ -79,34 +82,39 @@ def school_rank(clean_pref):
             schools_in_distance.append(val[0])  
 
         #generates schoos in zone of location
-        schools_in_network =school_zone.school_in_zone(lat, lon)
+        schools_in_network = school_zone.school_in_zone(lat, lon)
 
     # go through all schools to find 2 scores, one to note whether the school met the minimum criteria, and 
-    # the second to note how well they met each criteria
+    # the second to note how well they perform academically
     for school in district_data.keys():
         school_crit_met = 1 # assume they meet it until we come across a criteria where they don't
         school_rank = 0
         school_data = district_data[school]
+        crit_not_met = []
 
         if schools_in_distance != []:
             if school not in schools_in_distance:
                 school_crit_met = 0
+                crit_not_met.append('distance')
 
         if schools_in_network != []:
             if (school not in schools_in_network) and (district_data[school]['type'] is not 'charter'):
                 school_crit_met = 0
+                crit_not_met.append('school network')
 
         for key in clean_pref.keys():
             if key in school_data.keys():
                 if (type(clean_pref[key])) is str:
                     if school_data[key] != clean_pref[key]:
                         school_crit_met = 0
+                        crit_not_met.append(key)
                 else:
                     school_data[key] = school_data[key].strip('%')
                     #print(school_data[key])
                     if float(school_data[key]) < clean_pref[key]:
                         school_crit_met = 0
-                    school_rank = school_rank + float(school_data[key])
+                        crit_not_met.append(key)
+                school_rank = (float(school_data['rdg_growth']) + float(school_data['math_growth']))/2
         if len(top_matches) < 5:
             top_matches.append((school, school_crit_met, school_rank))
         else:
@@ -117,14 +125,20 @@ def school_rank(clean_pref):
                     top_matches.remove(deranked_school)
                     top_matches.append((school, school_crit_met, school_rank))
                     break
+    
+    # indicator that the returned schools met all the criteria
+    if len(range(crit_not_met)) < 1:
+                crit_met_indicator = False
 
+    # rank the schools by best matches
     ranked_top_matches = sorted(top_matches, key = lambda x: (x[1], x[2]), reverse = True)
+    print(ranked_top_matches)
 
     top_school_names = []
     for val in ranked_top_matches:
         top_school_names.append(val[0])
 
-    return top_school_names
+    return top_school_names, crit_met_indicator, crit_not_met
 
 
 
