@@ -8,7 +8,7 @@ from functools import partial
 
 zone_jsonfile = "edmoneyball/network_info.geojson"
 school_dict = school_info.create_school_dictionary()
-print(school_dict)
+#print(school_dict)
 
 def create_poly_dict(zone_jsonfile):
     '''
@@ -57,7 +57,7 @@ def school_in_zone(ulat, ulon, show_u_zone = False):
     '''
     
     u_zone = get_zone(ulon, ulat, poly_dict)
-    
+    #print(poly_dict[u_zone])
     school_in_zone=[]
     for school in school_zone_dict:
         if school_dict[school]['type'] == 'Charter' or u_zone == school_zone_dict[school]:
@@ -65,7 +65,7 @@ def school_in_zone(ulat, ulon, show_u_zone = False):
     
     if not show_u_zone:
         return school_in_zone
-    return [school_in_zone, u_zone, poly_dict[u_zone]]
+    return school_in_zone, u_zone, poly_dict[u_zone]['poly']
 
 def get_zone(lon, lat, poly_dict):
     '''

@@ -10,13 +10,13 @@ def build_context_from_address(ulat, ulon, radius):
   '''
   user_location = (ulat, ulon)
 
-  schools_in_zone = school_zone.school_in_zone(ulat, ulon)
+  schools_in_zone, zone, zone_cordinates = school_zone.school_in_zone(ulat, ulon, True)
 
-  school_in_radius = school_info.schools_in_radius(user_location, schools_in_zone, radius)
+  school_in_radius = school_info.schools_in_radius(schools_in_zone)
 
-  rv = school_in_radius
+  #rv = school_in_radius
   
-  return rv
+  return school_in_radius, zone, zone_cordinates
 
 def extract_location():
     '''

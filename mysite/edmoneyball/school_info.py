@@ -194,18 +194,19 @@ def school_names():
 	'''
 	return sorted(SCHOOLS_DATA.keys())
 
-def schools_in_radius(user_location, listofschoolnames, radius):
+def schools_in_radius(listofschoolnames):
 	'''
 	Given a list of of schools and the radius the user entered, return school info 
 	from the list of schools that are within the specified radius
 	'''
 	rv =[]
 	for school in listofschoolnames:
-		school_location = (SCHOOLS_DATA[school]['lat'],SCHOOLS_DATA[school]['lon'] )
-		if in_range ( user_location, school_location, radius):
-			rv.append ( [school, SCHOOLS_DATA[school]['address'], SCHOOLS_DATA[school]['attending_grades'],\
-			SCHOOLS_DATA[school]['type'], SCHOOLS_DATA[school]['total_students'],SCHOOLS_DATA[school]['lat'],\
-			SCHOOLS_DATA[school]['lon'] ] )
+		school_location = (SCHOOLS_DATA[school]['lat'],SCHOOLS_DATA[school]['lon'] )		
+		rv.append ( [school, SCHOOLS_DATA[school]['address'], SCHOOLS_DATA[school]['attending_grades'],\
+		SCHOOLS_DATA[school]['type'], SCHOOLS_DATA[school]['total_students'],SCHOOLS_DATA[school]['lat'],\
+		SCHOOLS_DATA[school]['lon'] ] )
 	return rv
+
+	#if in_range ( user_location, school_location, radius):
 
 
