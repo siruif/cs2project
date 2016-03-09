@@ -8,7 +8,7 @@ def create_school_dictionary():
 	'''
 	Constructs a dictionary that stores information of the school. The key is the school name.
 	'''
-	db_path = 'edmoneyball/EducationData.db'
+	db_path = 'edmoneyball/EducationData1.db'
 	csv_path = 'edmoneyball/UpdatedLocations.csv'
 	connection = sqlite3.connect(db_path)
 	cursor = connection.cursor()
@@ -16,6 +16,7 @@ def create_school_dictionary():
 	s1 = "SELECT g.CPSUnit, g.FullName, g.SchoolType, g.Latitude, g.longitude, g.AttendingGrades, g.StreetNumber, g.StreetDirection, g.StreetName, \
 	SUM(e.Expenditures) AS expend, e.CategoriesName, \
 	p.SQRPRating, p.SQRPTotalPointsEarned, p.`NationalSchoolGrowthPercentile-Maths-Score`, p.`NationalSchoolGrowthPercentile-Reading-Score`, \
+	p.reading_attainment_score, p.math_attainment_score, \
 	l.Total, l.FreeReducedPercent, l.SpEdPercent, \
 	r.WhitePercentage, r.AfricanAmericanPercentage, r.HispanicPercentage, r.MultiRacialPercentage, r.AsianPercentage \
 	FROM 'general' AS g JOIN 'expenditure' AS e ON g.CPSUnit = e.CPSUnit \
@@ -44,14 +45,16 @@ def create_school_dictionary():
 	POINTS = 12
 	MATH_GROWTH = 13
 	RDG_GROWTH = 14
-	TOTALNO = 15
-	LUNCH = 16
-	SPED = 17
-	WHITE = 18
-	AFRICAN = 19
-	HISPANIC = 20
-	MULTI = 21
-	ASIAN = 22
+	RDG_ATTAINMENT = 15
+	MATH_ATTAINMENT = 16
+	TOTALNO = 17
+	LUNCH = 18
+	SPED = 19
+	WHITE = 20
+	AFRICAN = 21
+	HISPANIC = 22
+	MULTI = 23
+	ASIAN = 24
 
 	school_dictionary = {}
 
@@ -76,6 +79,8 @@ def create_school_dictionary():
 			school_dictionary[key]['perf_rating'] = each[RATING]
 			school_dictionary[key]['perf_points'] = each[POINTS]
 			totalno_mod = each[TOTALNO].replace(",","")
+			school_dictionary[key]['rdg_attainment'] = float(each[RDG_ATTAINMENT])
+			school_dictionary[key]['math_attainment'] = float(each[MATH_ATTAINMENT])
 			school_dictionary[key]['total_students'] = totalno_mod
 			school_dictionary[key]['free_red_lunch'] = each[LUNCH]
 			school_dictionary[key]['special_educ'] = each[SPED]
@@ -91,8 +96,6 @@ def create_school_dictionary():
 			school_dictionary[key][category] = each[EXPEND]
 			school_dictionary[key]['total_expend'] += each[EXPEND]
 
-
-
 	connection.close()
 	with open(csv_path) as csvfile:
 		locationreader = csv.reader(csvfile, delimiter = ',')
@@ -104,7 +107,6 @@ def create_school_dictionary():
 				updated_lon = row[3]
 				school_dictionary[school_name]['lat'] = updated_lat
 				school_dictionary[school_name]['lon'] = updated_lon
-
 	return school_dictionary
 
 #Inserted by Turab, creating the school dictionary as a global so that we dont have
