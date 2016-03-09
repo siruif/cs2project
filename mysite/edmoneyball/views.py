@@ -27,13 +27,17 @@ def explore(request):
             # When user enters his address and we want to show schools in his zone
             else:
                 ulat,ulon = geocode.get_latlon(address)                
+                schools, zone, zone_cordinates = getcontext.build_context_from_address(ulat, ulon, 2)
                 context['user'] = ['My Home', ulat, ulon]
-                context['info'] = getcontext.build_context_from_address(ulat, ulon, 2)
-                print(context)
+                context['info'] = schools
+                context['zone'] = zone_cordinates
+                print('zone', zone, zone_cordinates)
+                print('schools', schools)
+                #print(context)
                 return render( request, 'edmoneyball/address.html', context)
     else:
         context['info'] = school_info.build_context_explore()
-        print(context)
+        #   print(context)
         return render( request, 'edmoneyball/explore.html', context)
 
 def recommendationtool(request):
