@@ -2,7 +2,7 @@ import sqlite3
 from math import *
 import operator
 import csv
-from . import school_zone
+#from . import school_zone
 
 def create_school_dictionary():
 	'''
@@ -63,8 +63,8 @@ def create_school_dictionary():
 			school_dictionary[key] = {}
 			school_dictionary[key]['unit'] = each[UNIT]
 			school_dictionary[key]['type'] = each[TYPE]
-			school_dictionary[key]['lat'] = each[LAT]
-			school_dictionary[key]['lon'] = each[LON]
+			school_dictionary[key]['lat'] = float( each[LAT] )
+			school_dictionary[key]['lon'] = float( each[LON] )
 			school_dictionary[key]['attending_grades'] = each[ATTENDGRADES]
 			if each[STNUM] == "" and each[STDIR] == "" and each[STNAME] == "":
 				school_dictionary[key]['address'] = "Not Available"
@@ -168,7 +168,7 @@ def in_range(ulocation, slocation, radius):
 	'''
 	(ulat, ulon) = ulocation
 	(slat, slon) = slocation
-	distance = find_radius_helper(ulat, ulon, slat, slon)
+	distance = find_radius_helper(float(ulat), float(ulon), float(slat), float(slon))
 	return distance <= radius
 
 #inserted by Turab
@@ -192,32 +192,20 @@ def school_names():
 	Return all the schoold names in the data. This function is called from the forms.py file
 	to populate the choice fields
 	'''
-
 	return sorted(SCHOOLS_DATA.keys())
 
-def build_context_from_address(ulat, ulon, radius):
-  '''
-  Given the lat lon of the address user entered and the radius the user entered, return the 
-  schools in the zone. This function is called from the views file to render the page when
-  the user gives his/her address
-  '''
-
-  rv = [['My Home', ulat, ulon]]
-
-  user_location = (ulat, ulon)
-
-  schools_in_zone = school_zone.school_in_zone(ulat, ulon)
-
-  for school in schools_in_zone:
-    school_location = (SCHOOLS_DATA[school]['lat'],SCHOOLS_DATA[school]['lon'] )
-    if in_range ( user_location, school_location, radius):
-      rv.append ( [school, SCHOOLS_DATA[school]['address'], SCHOOLS_DATA[school]['attending_grades'],\
-    SCHOOLS_DATA[school]['type'], SCHOOLS_DATA[key]['total_students'],SCHOOLS_DATA[school]['lat'],\
-    SCHOOLS_DATA[school]['lon'] ] )
-
-  return rv
-
-
-
+def schools_in_radius(user_location, listofschoolnames, radius):
+	'''
+	Given a list of of schools and the radius the user entered, return school info 
+	from the list of schools that are within the specified radius
+	'''
+	rv =[]
+	for school in listofschoolnames:
+		school_location = (SCHOOLS_DATA[school]['lat'],SCHOOLS_DATA[school]['lon'] )
+		if in_range ( user_location, school_location, radius):
+			rv.append ( [school, SCHOOLS_DATA[school]['address'], SCHOOLS_DATA[school]['attending_grades'],\
+			SCHOOLS_DATA[school]['type'], SCHOOLS_DATA[school]['total_students'],SCHOOLS_DATA[school]['lat'],\
+			SCHOOLS_DATA[school]['lon'] ] )
+	return rv
 
 

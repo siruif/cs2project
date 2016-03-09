@@ -1,5 +1,22 @@
 import csv
+from . import school_info, school_zone
 
+
+def build_context_from_address(ulat, ulon, radius):
+  '''
+  Given the lat lon of the address user entered and the radius the user entered, return the 
+  schools in the zone. This function is called from the views file to render the page when
+  the user gives his/her address
+  '''
+  user_location = (ulat, ulon)
+
+  schools_in_zone = school_zone.school_in_zone(ulat, ulon)
+
+  school_in_radius = school_info.schools_in_radius(user_location, schools_in_zone, radius)
+
+  rv = school_in_radius
+  
+  return rv
 
 def extract_location():
     '''

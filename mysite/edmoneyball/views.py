@@ -27,9 +27,10 @@ def explore(request):
             # When user enters his address and we want to show schools in his zone
             else:
                 ulat,ulon = geocode.get_latlon(address)                
-                context = school_info.build_context_from_address(ulat, ulon, 2)
+                context['user'] = ['My Home', ulat, ulon]
+                context['info'] = getcontext.build_context_from_address(ulat, ulon, 2)
                 print(context)
-                return render( request, 'edmoneyball/individual.html', context)
+                return render( request, 'edmoneyball/address.html', context)
     else:
         context['info'] = school_info.build_context_explore()
         print(context)
