@@ -14,8 +14,8 @@ import plotly.graph_objs as go
 
 # Sign-in accounts in case hit the 50/chart daily limit on plotly
 # i.e. when request is "throtteled"
-py.sign_in('vi-tnguyen', '2j59j4yh6y')
-#py.sign_in('siruif', '1xbbym8vxv')
+#py.sign_in('vi-tnguyen', '2j59j4yh6y')
+py.sign_in('siruif', '1xbbym8vxv')
 #py.sign_in('nvi613', 'dceant1x53')
 #py.sign_in('turabhassan', 'qu73c973p4')
 #py.sign_in('turabhassan', 'qu73c973p4')
@@ -45,9 +45,10 @@ frlunch_cat = set(['free_red_lunch'])
 frlunch_cat_rename = {'free_red_lunch': 'Free/Reduced Lunch'}
 
 # Key sets and dictionaries for processing and cleaning academic performance data
-acad_perf_cat = set(['rdg_growth', 'math_growth'])
+acad_perf_cat = set(['rdg_growth', 'math_growth', 'rdg_attainment', 'math_attainment'])
 acad_perf_cat_rename = {'rdg_growth': 'Growth in Reading', 'math_growth': \
-                        'Growth in Math'}
+                        'Growth in Math', 'rdg_attainment': "Reading Attainment",\
+                        'math_attainment': "Math Attainment"}
 
 # Pulls in data dictionary of school data and creates a list of 
 # variables for which we are bringing in data
@@ -100,8 +101,6 @@ def district_avg():
         if var in variables_charts:
             for school in district_data.keys():
                 if var in district_data[school].keys():
-                    #if var == 'total_students':
-                        #print('school:', school, 'var:', var)
                     school_value = district_data[school][var]
                     total = total + school_value
                     avg = total / len(district_data)
@@ -143,7 +142,6 @@ def create_labels_values(school_name, data_dictionary, data_labels, \
 
             value_string = school_data[key]
             if type(value_string) is str:
-                #print(value_string,  type(value_string))
                 value_string = value_string.strip("%")
             values.append(float(value_string))
 
@@ -151,7 +149,7 @@ def create_labels_values(school_name, data_dictionary, data_labels, \
 
 
 def expenditure_pie(school_data, school_name, labels_school, values_school, \
-                    labels_distr, values_distr):
+    labels_distr, values_distr):
     '''
     Charts the expenditure donut charts 
     Inputs:
@@ -167,8 +165,10 @@ def expenditure_pie(school_data, school_name, labels_school, values_school, \
         a url where plotly is charting the donot charts of expenditure for the
             school, and district average (for comparison purposes)
     '''
-    title = 'Total Expenditures Per Student: \n ${0}' .format("{:,.0f}".\
-        format(school_data[school]['total_expend']))
+    total_expend_per_stud = (school_data[school]['total_expend'] / \
+        float(school_data[school]['total_students']))
+    title = 'Total Expenditures Per Student: \n ${0}'.format("{:,.0f}".\
+        format(total_expend_per_stud))
     fig = {"data": [{"values": values_school, "labels": labels_school, "domain":\
         {"x": [0, .48]},"name": school_name, "hoverinfo":"label+percent", "hole":\
         .4, "type": "pie"}, {"values": values_distr, "labels": labels_distr,\
@@ -178,7 +178,7 @@ def expenditure_pie(school_data, school_name, labels_school, values_school, \
          "y": 0.5}, {"font": {"size": 10}, "showarrow": False, "text": 'District',\
          "x": 0.8, "y": 0.5}]}}
 
-    url = py.plot(fig, filename='Pie Chart: Expenditure', auto_open = False)
+    url = py.plot(fig, filename = 'Pie Chart: Expenditure', auto_open = False)
 
     return url
 
