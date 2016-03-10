@@ -52,19 +52,28 @@ def recommendationtool(request):
                 latlon = geocode.get_latlon(address)
                 data['location'] = latlon
             data ['ethnicity'] = data['ethnicity'].lower()
-            context = update_charts.compare_recommend(True, pref_crit_from_ui = data)
-            school_list = context['school']
-            i = 0
-            for each_school in school_list:
-                if each_school != 'District Average*':
-                    key = "school" + str(i)
-                    context[key] = each_school
-                    i += 1
-
-            #print(data)
-            print(type(context))
-
-        return render( request, 'edmoneyball/plot_school_recommendations.html', context)
+            urls, indicator, not_met = update_charts.compare_recommend(True, pref_crit_from_ui = data)
+            if indicator:
+                context =  urls
+                school_list = context['school']
+                i = 0
+                for each_school in school_list:
+                    if each_school != 'District Average*':
+                        key = "school" + str(i)
+                        context[key] = each_school
+                        i += 1
+                return render( request, 'edmoneyball/plot_school_recommendations.html', context)
+            else:
+                context = urls
+                school_list = context['school']
+                i = 0
+                for each_school in school_list:
+                    if each_school != 'District Average*':
+                        key = "school" + str(i)
+                        context[key] = each_school
+                        i += 1
+                context['not_met'] = not_met
+                return render( request, 'edmoneyball/plot_school_recommendations_notmet.html', context)
     else:
         form = RecommendationForm() 
         context = {'form':form}

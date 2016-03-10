@@ -78,7 +78,6 @@ for school in district_data.keys():
             data_point = district_data[school][var]
             if type(data_point) is str:
                 data_point = data_point.replace(',', '')
-                data_point = data_point.strip('%')
                 data_point = float(data_point)
                 district_data[school][var] = data_point
 
@@ -141,8 +140,6 @@ def create_labels_values(school_name, data_dictionary, data_labels, \
                 labels.append(key)
 
             value_string = school_data[key]
-            if type(value_string) is str:
-                value_string = value_string.strip("%")
             values.append(float(value_string))
 
     return labels, values, school_data

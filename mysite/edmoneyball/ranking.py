@@ -91,7 +91,7 @@ def school_rank(clean_pref):
         school_crit_met = 1 # assume they meet it until we come across a criteria where they don't
         school_rank = 0
         school_data = district_data[school]
-        crit_not_met_list = []
+        crit_not_met = []
 
         if schools_in_distance != []:
             if school not in schools_in_distance:
@@ -110,7 +110,6 @@ def school_rank(clean_pref):
                         school_crit_met = 0
                         crit_not_met.append(key)
                 else:
-                    school_data[key] = school_data[key].strip('%')
                     if float(school_data[key]) < clean_pref[key]:
                         school_crit_met = 0
                         crit_not_met.append(key)
@@ -123,7 +122,7 @@ def school_rank(clean_pref):
             for i in range(len(top_matches)):
                 if (school_crit_met > top_matches[i][1]) or \
                     ((school_crit_met == top_matches[i][1]) and \
-                    (school_rank > top_matches[i][2])) :
+                    (school_rank > top_matches[i][3])) :
                     deranked_school = top_matches[i]
                     top_matches.remove(deranked_school)
                     top_matches.append((school, school_crit_met, crit_not_met, \
@@ -131,14 +130,17 @@ def school_rank(clean_pref):
                     break
     
     # indicator that the returned schools met all the criteria
-    if len(range(crit_not_met)) < 1:
-                crit_met_indicator = False
+    if len(crit_not_met) > 1:
+        crit_met_indicator = False
+    else:
+        crit_met_indicator = True
 
     # rank the schools by best matches
     ranked_top_matches = sorted(top_matches, key = lambda x: (x[1], x[2]), \
         reverse = True)
 
     top_school_names = []
+    crit_not_met_full_list = []
     for val in ranked_top_matches:
         top_school_names.append(val[0])
         # collects full list of criteria that were not met per school
