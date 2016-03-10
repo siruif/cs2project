@@ -31,9 +31,9 @@ def explore(request):
                 context['user'] = ['My Home', ulat, ulon]
                 context['info'] = schools
                 context['zone'] = zone_cordinates
-                print('zone', zone, zone_cordinates)
-                print('schools', schools)
-                #print(context)
+                #print('zone', zone, zone_cordinates)
+                #print('schools', schools)
+                print(context)
                 return render( request, 'edmoneyball/address.html', context)
     else:
         context['info'] = school_info.build_context_explore()

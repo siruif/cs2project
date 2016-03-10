@@ -20,17 +20,34 @@
   </head>
   <body>
     {% include 'edmoneyball/navbar.html' %}
+    <form id='userinput' action="http://127.0.0.1:8000/edmoneyball/explore" method = "post" >
+    {% csrf_token %}
+    {{ form }}
+    <input type="submit" value="Submit" />
+    </form>
+    
 
     <div id="map"></div>
     <script>
-
+    
+    function getschoolname (schoolname) {
+    document.getElementById("id_school_name").value = schoolname;
+    document.getElementById("userinput").submit();
+    }
+    
     function initMap() {
     var myLatLng = {lat: {{user.1}}, lng: {{user.2}} };
     var map = new google.maps.Map(document.getElementById('map'), {
-    zoom: 14,
+    zoom: 12,
     center: myLatLng
     });
     var image = 'http://camino-portugues-a-santiago.destino.gal/img/blue_dot.png';
+
+    var marker = new google.maps.Marker({
+    position: myLatLng,
+    map: map,
+    title: ' My Home '
+    });
 
     {% for data in info %}
     point = { lat: {{ data.5 }}, lng: {{ data.6 }} }
@@ -69,11 +86,11 @@
 
     var polygon = new google.maps.Polygon({
     paths: polygoncoords,
-    strokeColor: '#FF0000',
+    strokeColor: '#fa9fb5',
     strokeOpacity: 0.8,
     strokeWeight: 3,
-    fillColor: '#FF0000',
-    fillOpacity: 0.35
+    fillColor: '#fa9fb5',
+    fillOpacity: 0.45
     });
     polygon.setMap(map);
     
