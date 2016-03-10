@@ -247,7 +247,7 @@ def bar(school_name, data_dictionary, data_distr_avg, cat_dict, cat_dict_rename,
     trace2 = go.Bar(x = labels_distr, y = values_distr, name = 'District Average')
 
     students = school_data['total_students']
-    title = '{0} \n Total Students: {2}' .format(chart_title, 
+    title = '{0} \n Total Students: {1}'.format(chart_title, 
         "{:,.0f}".format(float(students)))
     layout = go.Layout(yaxis = dict(title = 'Percentage (%)'), \
              title = title, barmode = 'group')
