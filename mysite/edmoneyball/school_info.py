@@ -2,7 +2,6 @@ import sqlite3
 from math import *
 import operator
 import csv
-#from . import school_zone
 
 def create_school_dictionary():
 	'''
@@ -74,23 +73,25 @@ def create_school_dictionary():
 			else:
 				school_dictionary[key]['address'] = str(each[STNUM]) + " " + each[STDIR] + " " + each[STNAME]
 			category = each[CATEG]
-			school_dictionary[key][category] = each[EXPEND]
-			school_dictionary[key]['total_expend'] = each[EXPEND]
+			school_dictionary[key][category] = float(each[EXPEND])
+			school_dictionary[key]['total_expend'] = float(each[EXPEND])
 			school_dictionary[key]['perf_rating'] = each[RATING]
-			school_dictionary[key]['perf_points'] = each[POINTS]
+			school_dictionary[key]['perf_points'] = float(each[POINTS])
 			totalno_mod = each[TOTALNO].replace(",","")
 			school_dictionary[key]['rdg_attainment'] = float(each[RDG_ATTAINMENT])
 			school_dictionary[key]['math_attainment'] = float(each[MATH_ATTAINMENT])
-			school_dictionary[key]['total_students'] = totalno_mod
-			school_dictionary[key]['free_red_lunch'] = each[LUNCH]
-			school_dictionary[key]['special_educ'] = each[SPED]
-			school_dictionary[key]['white'] = each[WHITE]
-			school_dictionary[key]['african'] = each[AFRICAN]
-			school_dictionary[key]['hispanic'] = each[HISPANIC]
-			school_dictionary[key]['multi'] = each[MULTI]
-			school_dictionary[key]['asian'] = each[ASIAN]
-			school_dictionary[key]['math_growth'] = each[MATH_GROWTH]
-			school_dictionary[key]['rdg_growth'] = each[RDG_GROWTH]
+			school_dictionary[key]['total_students'] = int(totalno_mod)
+			free_red_lunch_mod = each[LUNCH].replace("%","")
+			school_dictionary[key]['free_red_lunch'] = float(free_red_lunch_mod)
+			special_ed_mod = each[SPED].replace("%","")
+			school_dictionary[key]['special_educ'] = float(special_ed_mod)
+			school_dictionary[key]['white'] = float(each[WHITE])
+			school_dictionary[key]['african'] = float(each[AFRICAN])
+			school_dictionary[key]['hispanic'] = float(each[HISPANIC])
+			school_dictionary[key]['multi'] = float(each[MULTI])
+			school_dictionary[key]['asian'] = float(each[ASIAN])
+			school_dictionary[key]['math_growth'] = float(each[MATH_GROWTH])
+			school_dictionary[key]['rdg_growth'] = float(each[RDG_GROWTH])
 		else:
 			category = each[CATEG]
 			school_dictionary[key][category] = each[EXPEND]
