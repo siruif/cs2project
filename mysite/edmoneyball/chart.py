@@ -15,9 +15,9 @@ import plotly.graph_objs as go
 # Sign-in accounts in case hit the 50/chart daily limit on plotly
 # i.e. when request is "throtteled"
 #py.sign_in('vi-tnguyen', '2j59j4yh6y')
-py.sign_in('siruif', '1xbbym8vxv')
+#py.sign_in('siruif', '1xbbym8vxv')
 #py.sign_in('nvi613', 'dceant1x53')
-#py.sign_in('turabhassan', 'qu73c973p4')
+py.sign_in('turabhassan', 'qu73c973p4')
 #py.sign_in('turabhassan', 'qu73c973p4')
 #py.sign_in('sarahfsr', 'g263mhd6au')
 
@@ -307,8 +307,8 @@ def bar_compare(school_name, cat_dict, cat_dict_rename, chart_title, data_dictio
     '''
     data_dictionary['District Average*'] = data_distr_avg['district_avg']
     if chart_title == 'Expenditures Per Student':
-        labels, values = expenditure_data(school, data_dictionary)
-        print(labels, values)
+        labels, values = expenditure_data(school_name, data_dictionary)
+        print("labels: {}, values: {}".format(labels, values))
     else:
         labels, values, school_data = create_labels_values(school_name, data_dictionary,\
                                       cat_dict, cat_dict_rename)
@@ -338,7 +338,7 @@ def compare(list_of_schools, cat_dict, cat_dict_rename, chart_title, data_dictio
     if 'District Average*' not in list_of_schools:
         list_of_schools.append('District Average*')
     for school in list_of_schools:
-        trace1 = bar_compare(school, cat_dict, cat_dict_rename,chart_title, \
+        trace1 = bar_compare(school, cat_dict, cat_dict_rename, chart_title, \
             data_dictionary, data_distr_avg)
         list_traces.append(trace1)
 

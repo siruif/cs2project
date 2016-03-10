@@ -24,7 +24,8 @@ def clean_data(pref_criteria_from_ui):
 
     # Processing school type
     school_type = pref_criteria_from_ui['school_type']
-    clean_pref = {'type': school_type}
+    if school_type != '':
+        clean_pref['type'] = school_type
 
     exceptions = ['ethnicity', 'school_type', 'location']
 
@@ -44,6 +45,7 @@ def clean_data(pref_criteria_from_ui):
     clean_pref['rdg_growth'] = clean_pref['performance']
     clean_pref['math_growth'] = clean_pref['performance']
 
+    print(clean_pref)
     return clean_pref
 
 
@@ -92,16 +94,21 @@ def school_rank(clean_pref):
         school_rank = 0
         school_data = district_data[school]
         crit_not_met = []
+        open_school = False
 
         if schools_in_distance != []:
             if school not in schools_in_distance:
                 school_crit_met = 0
                 crit_not_met.append('distance')
+            else:
+                open_school = True
 
         if schools_in_network != []:
             if (school not in schools_in_network) and (district_data[school]['type'] is not 'charter'):
                 school_crit_met = 0
                 crit_not_met.append('school network')
+            else:
+                open_school = True
 
         for key in clean_pref.keys():
             if key in school_data.keys():
@@ -114,7 +121,9 @@ def school_rank(clean_pref):
                         school_crit_met = 0
                         crit_not_met.append(key)
                 school_rank = (float(school_data['rdg_growth']) + \
-                    float(school_data['math_growth']))/2
+                    float(school_data['math_growth']) + \
+                    float(school_data['rdg_attainment']) + \
+                    float(school_data['math_attainment'])) / 2
         if len(top_matches) < 5:
             top_matches.append((school, school_crit_met, crit_not_met, \
                 school_rank))
@@ -130,7 +139,7 @@ def school_rank(clean_pref):
                     break
     
     # indicator that the returned schools met all the criteria
-    if len(crit_not_met) > 1:
+    if len(crit_not_met) > 0:
         crit_met_indicator = False
     else:
         crit_met_indicator = True
@@ -140,15 +149,21 @@ def school_rank(clean_pref):
         reverse = True)
 
     top_school_names = []
-    crit_not_met_full_list = []
+    crit_not_met_full_string = ''
     for val in ranked_top_matches:
         top_school_names.append(val[0])
         # collects full list of criteria that were not met per school
         if val[2] != []:
-            crit_not_met_full_list.append(val[2])
+            for criteria_not_met in val[2]:
+                if criteria_not_met not in crit_not_met_full_string:
+                    if crit_not_met_full_string != '':
+                        crit_not_met_full_string = crit_not_met_full_string + ', ' + \
+                            criteria_not_met
+                    else: 
+                        crit_not_met_full_string = criteria_not_met
 
-    print(top_school_names, crit_met_indicator, crit_not_met_full_list)
-    return top_school_names, crit_met_indicator, crit_not_met_full_list
+    print(top_school_names, crit_met_indicator, crit_not_met_full_string)
+    return top_school_names, crit_met_indicator, crit_not_met_full_string
 
 
 

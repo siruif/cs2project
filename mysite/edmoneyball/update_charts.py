@@ -59,8 +59,9 @@ def compare_recommend(recommend_indicator, pref_crit_from_ui = None, \
 
     if recommend_indicator:
         clean_data = ranking.clean_data(pref_crit_from_ui)
-        list_of_schools, crit_met_indicator, crit_not_met_full_list = ranking.school_rank(clean_data)        
+        list_of_schools, crit_met_indicator, crit_not_met_full_list = ranking.school_rank(clean_data)
 
+    print('list_of_schools:', list_of_schools)
     urls = {'school': list_of_schools}
 
     url1 = chart.compare(list_of_schools, chart.Expenditure_Cat, \
@@ -81,4 +82,7 @@ def compare_recommend(recommend_indicator, pref_crit_from_ui = None, \
         chart.acad_perf_cat_rename, 'Academic Performance', data, data_distr_avg)
     urls['url4'] = url4
 
-    return urls, crit_met_indicator, crit_not_met_full_list
+    if recommend_indicator:
+        return urls, crit_met_indicator, crit_not_met_full_list
+    else:
+        return urls
