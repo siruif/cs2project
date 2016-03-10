@@ -11,9 +11,6 @@
 
 {% include "edmoneyball/navbar.html" %}
 
-<h3> We were not able to find any school that match the following criteria that you set: </h3>
-<h3> {{not_met}}</h3>
-<h3> We are recommending the top schools by academic performance below </h3>
 
     <header id="top" class="row">
         <div class="col-lg-12 text-left">
@@ -23,6 +20,11 @@
             <p class="lead">{{ school2 }}</p>
             <p class="lead">{{ school3 }}</p>
             <p class="lead">{{ school4 }}</p>
+            <p class="lead>"> ***Please note that all or some of the recommended 
+                schools do not match your {{ not_met }} threshold. This is because 
+                none or less than 5 schools meet your criteria. In such cases, 
+                we are recommending the schools that meet your criteria first (if any), then 
+                the schools with the top academic performance. </p>
 
                 <iframe width="800" height="480" frameborder="0" scrolling="no" src={{url1}}></iframe>
                 <iframe width="800" height="480" frameborder="0" scrolling="no" src={{url2}}></iframe>

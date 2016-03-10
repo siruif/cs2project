@@ -17,9 +17,9 @@ import plotly.graph_objs as go
 #py.sign_in('vi-tnguyen', '2j59j4yh6y')
 #py.sign_in('siruif', '1xbbym8vxv')
 #py.sign_in('nvi613', 'dceant1x53')
-py.sign_in('turabhassan', 'qu73c973p4')
 #py.sign_in('turabhassan', 'qu73c973p4')
-#py.sign_in('sarahfsr', 'g263mhd6au')
+#py.sign_in('turabhassan', 'qu73c973p4')
+py.sign_in('sarahfsr', 'g263mhd6au')
 
 
 # Key sets and dictionaries for processing and cleaning expenditure data
@@ -243,7 +243,7 @@ def bar(school_name, data_dictionary, data_distr_avg, cat_dict, cat_dict_rename,
     trace2 = go.Bar(x = labels_distr, y = values_distr, name = 'District Average')
 
     students = school_data['total_students']
-    title = '{0}: {1} \n Total Students: {2}' .format(chart_title, school_name, 
+    title = '{0} \n Total Students: {2}' .format(chart_title, 
         "{:,.0f}".format(float(students)))
     layout = go.Layout(yaxis = dict(title = 'Percentage (%)'), \
              title = title, barmode = 'group')
@@ -308,7 +308,6 @@ def bar_compare(school_name, cat_dict, cat_dict_rename, chart_title, data_dictio
     data_dictionary['District Average*'] = data_distr_avg['district_avg']
     if chart_title == 'Expenditures Per Student':
         labels, values = expenditure_data(school_name, data_dictionary)
-        print("labels: {}, values: {}".format(labels, values))
     else:
         labels, values, school_data = create_labels_values(school_name, data_dictionary,\
                                       cat_dict, cat_dict_rename)

@@ -20,7 +20,6 @@ def clean_data(pref_criteria_from_ui):
     ethnicity = pref_criteria_from_ui['ethnicity']
     ethnicity_threshold = float(pref_criteria_from_ui['ethnicity_threshold'])
     clean_pref = {ethnicity: ethnicity_threshold}
-    print(ethnicity, ethnicity_threshold)
 
     # Processing school type
     school_type = pref_criteria_from_ui['school_type']
@@ -45,7 +44,6 @@ def clean_data(pref_criteria_from_ui):
     clean_pref['rdg_growth'] = clean_pref['performance']
     clean_pref['math_growth'] = clean_pref['performance']
 
-    print(clean_pref)
     return clean_pref
 
 
@@ -162,7 +160,6 @@ def school_rank(clean_pref):
                     else: 
                         crit_not_met_full_string = criteria_not_met
 
-    print(top_school_names, crit_met_indicator, crit_not_met_full_string)
     return top_school_names, crit_met_indicator, crit_not_met_full_string
 
 
