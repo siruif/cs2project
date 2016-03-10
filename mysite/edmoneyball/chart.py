@@ -341,7 +341,7 @@ def compare(list_of_schools, cat_dict, cat_dict_rename, chart_title, data_dictio
     if 'District Average*' not in list_of_schools:
         list_of_schools.append('District Average*')
     for school in list_of_schools:
-        trace1 = bar_compare(school_name, cat_dict, cat_dict_rename,chart_title, \
+        trace1 = bar_compare(school, cat_dict, cat_dict_rename,chart_title, \
             data_dictionary, data_distr_avg)
         list_traces.append(trace1)
 
