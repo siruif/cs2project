@@ -21,6 +21,10 @@ import plotly.graph_objs as go
 #py.sign_in('turabhassan', 'qu73c973p4')
 py.sign_in('sarahfsr', 'g263mhd6au')
 
+## Reserve for demo
+py.sign_in('vnguyen31', '4x69erhlu4')
+py.sign_in('vi.nguyen61388', 'w8p15c6rq4')
+
 
 # Key sets and dictionaries for processing and cleaning expenditure data
 Expenditure_Cat = set(['Admin Salary & Benefits', \
