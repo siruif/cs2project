@@ -3,36 +3,35 @@ A group project for UChicago CS 122
 Team Name: EdMoneyBall
 Sirui Feng, Turab Hassan, & Vi Nguyen
 
-<<<<<<< HEAD
 ##Install Packages##
-Name: 
- Use: 
+Name: pyproj
+ Use: Performs cartographic transformations and geodetic computations.
  Installation command: sudo pip3 install pyproj
-Name:
- Use:
- Installation command:
+
 Name: Shapely
- Use:
+ Use:Manipulation and analysis of geometric objects in the Cartesian plane.
  Installation command: sudo apt-get install python-shapely; sudo pip3 install shapely
+
 Name: Plotly
  Use: create online charts
  Installation command: sudo pip3 install plotly
+
 Name: Bootstrap Forms
  Use: format django forms
  Installation command: sudo pip3 install django-bootstrap3-form django-bootstrap-form
+
 Name: Bootstrap
  Use: styling of site
  Installation command sudo pipe3 install django-bootstrap
 
 
 ##Data##
-Datasets folder 
-    FOIA Request #826 - (did we use this?)
+Datasets folder
     Chicago Public Schools Budget Fiscal Year 2015 Proposed - (did we use this?)
     CPS_School_Locations_SY1415.xlsx - 
-    CPS_Schools_IDs_locations_13-14.xlsx - 
+    CPS_Schools_IDs_locations_13-14.xlsx -(this file has wrong geolocation information) 
     FY2015 GL Expenditure Report as of 2015-06-30 - Schools 08-04-2015.xls - 
-    SchoolQualityRatingPolicyResults&AccountabilityStatus_2015-6_full.xlsx -
+    				    				SchoolQualityRatingPolicyResults&AccountabilityStatus_2015-6_full.xlsx
 
 
 ##Django implmentation##
