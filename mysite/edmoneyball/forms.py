@@ -11,23 +11,23 @@ SCHOOL_TYPES = ['Charter', 'Neighborhood']
 
 class AddressForm(forms.Form):
     
-    address_form = forms.CharField(label='Enter Address', max_length = 500, required = False )
+    address_form = forms.CharField(label = 'Enter Address to Find Schools Available to You', max_length = 500, required = False )
 
-    school_name = forms.CharField(widget=forms.HiddenInput(), required = False)
+    school_name = forms.CharField(widget = forms.HiddenInput(), required = False)
 
 class RecommendationForm(forms.Form):
     
-    performance = forms.ChoiceField ( label = 'Performance',choices = [(x, x) for x in range ( 0, 105, 5 ) ], required = False )
+    performance = forms.ChoiceField ( label = 'Minimum Threshold of Performance Percentile',choices = [(x, x) for x in range ( 0, 105, 5 ) ], required = False )
     
-    free_red_lunch = forms.ChoiceField( label = 'Free and Reduced Lunch',choices = [ ( x, x ) for x in range ( 0, 105, 5 ) ], required = False )
+    free_red_lunch = forms.ChoiceField( label = 'Minimum Percentage Free and Reduced Lunch',choices = [ ( x, x ) for x in range ( 0, 105, 5 ) ], required = False )
     
     ethnicity = forms.ChoiceField ( label = 'Ethnicity', choices = [ ( x, x ) for x in DEFAULT_CHOICE + RACE_CHOICES ], required = False )
 
-    ethnicity_threshold = forms.ChoiceField ( label = 'Ethnicity Threshold',choices = [ ( x, x ) for x in range ( 0, 105, 5 ) ], required = False )
+    ethnicity_threshold = forms.ChoiceField ( label = 'Minimum Threshold for Specified Ethnicity',choices = [ ( x, x ) for x in range ( 0, 105, 5 ) ], required = False )
     
     school_type = forms.ChoiceField ( label = 'Type of School',choices = [ ( x, x ) for x in DEFAULT_CHOICE + SCHOOL_TYPES ], required = False )
 
-    location = forms.CharField( label = 'Please Enter Your Address', required = False )
+    location = forms.CharField( label = 'Enter Address to Find Schools Within a Certain Distance', required = False )
 
     distance_threshold = forms.FloatField ( label = 'Maximum Distance From Address (Miles)', required = False  )
 

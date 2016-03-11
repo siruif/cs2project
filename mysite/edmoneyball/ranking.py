@@ -44,6 +44,7 @@ def clean_data(pref_criteria_from_ui):
     clean_pref['rdg_growth'] = clean_pref['performance']
     clean_pref['math_growth'] = clean_pref['performance']
 
+    print(clean_pref)
     return clean_pref
 
 
@@ -135,13 +136,8 @@ def school_rank(clean_pref):
                     top_matches.append((school, school_crit_met, crit_not_met, \
                         school_rank))
                     break
-    
-    # indicator that the returned schools met all the criteria
-    if len(crit_not_met) > 0:
-        crit_met_indicator = False
-    else:
-        crit_met_indicator = True
 
+    print(top_matches)
     # rank the schools by best matches
     ranked_top_matches = sorted(top_matches, key = lambda x: (x[1], x[2]), \
         reverse = True)
@@ -159,6 +155,14 @@ def school_rank(clean_pref):
                             criteria_not_met
                     else: 
                         crit_not_met_full_string = criteria_not_met
+
+    
+    # indicator that the returned schools met all the criteria
+    if len(crit_not_met_full_string) > 0:
+        print(crit_not_met_full_string)
+        crit_met_indicator = False
+    else:
+        crit_met_indicator = True
 
     return top_school_names, crit_met_indicator, crit_not_met_full_string
 
