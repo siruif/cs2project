@@ -26,6 +26,7 @@ body {
     margin: 0;
     padding: 0;
     font-size: 4.5em;
+    color: #fff;
     font-weight: 700;
 }
 
@@ -235,5 +236,5 @@ hr.small {
 /* Footer */
 
 footer {
-    padding: 100px 0;
+    padding: 20px 0;
 }

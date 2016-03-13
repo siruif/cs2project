@@ -13,7 +13,131 @@
     <header id="top" class="row">
         <div class="col-lg-12 text-left">
             <h2>Methodology</h3>
-            <p class="lead"></p>
+            <br>
+            <p class="lead">For more details, raw data, and code, please 
+                visit our github at this <a href = 
+                "https://github.com/siruif/cs2project" 
+                    target="_blank">
+                    Link.</a></p>
+
+            <p class="lead">Data Sources</p>
+            <UL>
+                <LI> Expenditure Data, 2015. Source: Chicago Public Schools, 
+                    through a Freedom of Information Act Request by 
+                    <a href = "https://www.linkedin.com/in/lingweicheng" 
+                    target="_blank">
+                    Lingwei Cheng</a> (Thank you, Lingwei!).
+                <LI> Academic Performance, Free and Reduced Lunch Indicators,
+                    Ethnicity Distributions, and School Type, 2015?. Source: 
+                    Chicago Public Schools. <a href = "" 
+                    target="_blank">
+                    Link </a>
+                <LI> School GPS Locations and Network Boundaries, 2015?. Source:
+                    Chicago Public Schools. <a href = "" 
+                    target="_blank">
+                    Link </a>
+                <LI> ?
+            </UL>
+            <p class="lead">Recommendation Algorithm</p>
+                <UL>
+                    <LI> Performance: If you entered a threshold, we will 
+                        search through our database to identify the schools 
+                        whose Growth and Attainment scores in Reading
+                        and Math for 3rd-8th graders are greater than or equal 
+                        to your threshold.
+                    <LI> Percentage on Free and Reduced Lunch: If you entered 
+                        a threshold, we will search through our database to 
+                        identify the schools whose percentage of students on 
+                        Free and Reduced Lunch are greater than or equal to 
+                        your threshold.
+                    <LI> Ethnicity and Ethnicity Threshold: If you entered 
+                        an ethnicity and an ethnicity threshold, we will search 
+                        through our database to identify the schools whose 
+                        percentage of students of your specified ethnicity are
+                        greater than or equal to your threshold.
+                    <LI> Type: If you entered a preference for the type of 
+                        school you'd prefer, we will search through our database
+                        to identify the schools that are of the type specified.
+                    <LI> Address and Maximum Distance: If you entered an address,
+                        and a maximum distance, we will search through our database
+                        to identify the schools that are avaialble to your specified
+                        address, and whose distance from your specified address
+                        is less than or equal to the maximum distance you've set.
+                    <LI> In cases where more than 5 shools meet the criterion/
+                        criteria you've set,  we will return the top 5 
+                        performing schools, based on an average of the Growth
+                        and Attainment scores in Reading and Math for 3rd-8th
+                        graders.
+                    <LI> In cases where fewer than 5 schools meet the preferences 
+                        you've set, we will note which criterion/criteria
+                        fewer than 5 schools were able to meet. We will also 
+                        return any schools that match your preferences. Any 
+                        remaining spots left in the Top 5 will be filled 
+                        with the best perfomring schools, based on an average of 
+                        the Growth and Attainment scores in Reading and Math for 
+                        3rd-8th graders.
+                </UL>
+            <p class="lead">Data Transformations</p>
+            <UL>
+                <LI> Transformations to Create Heatmap:
+                    <UL>
+                        <LI> SQRP Rating can be Level 1, Level 1+, Level 2, 
+                            Level 2+, Level 3, Inability to Rate.
+                        <LI> We transformed each rating according to the CPS 
+                            document found <a href = 
+                             "http://cps.edu/SiteCollectionDocuments/SQRP_one_pager.pdf"
+                             target = "_blank"> at this link.</a>
+                        <LI> We further assigned Level 3 with  score 20.
+                        <LI> For schools that are shown as inability to rate, 
+                            we do not appear on the heatmap.
+                        <LI> Adjusted the score by further taking natural log.
+                    </UL>
+                <LI> Expenditures were all divided by the number of students
+                    at each school. We categorized the expenditures as follows:
+                    <UL>
+                        <LI> Operational Expenses:
+                            <UL>
+                                <LI>
+                                <LI>
+                                <LI>
+                            </UL>
+                        <LI> Admin Salary and Benefits:
+                            <UL>
+                                <LI>
+                                <LI>
+                                <LI>
+                            </UL>
+                        <LI> Pensions:
+                            <UL>
+                                <LI>
+                                <LI>
+                                <LI>
+                            </UL>
+                        <LI> Teacher Salary and Benefits
+                            <UL>
+                                <LI>
+                                <LI>
+                                <LI>
+                            </UL>
+                        <LI> Instructional-Related Expenses
+                            <UL>
+                                <LI>
+                                <LI>
+                                <LI>
+                            </UL>
+                        <LI> Capital Expenses
+                            <UL>
+                                <LI>
+                                <LI>
+                                <LI>
+                            </UL>
+                        <LI> Unknown
+                            <UL>
+                                <LI>
+                                <LI>
+                                <LI>
+                            </UL>
+                    </UL>
         </div>
     </header>
 

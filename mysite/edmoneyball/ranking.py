@@ -86,10 +86,12 @@ def school_rank(clean_pref):
         #generates schoos in zone of location
         schools_in_network = school_zone.school_in_zone(lat, lon)
 
-    # go through all schools to find 2 scores, one to note whether the school met the minimum criteria, and 
-    # the second to note how well they perform academically
+    # go through all schools to find 2 scores, one to note whether the school 
+    # met the minimum criteria, and the second to note how well they perform 
+    # academically
     for school in district_data.keys():
-        school_crit_met = 1 # assume they meet it until we come across a criteria where they don't
+        # assume they meet it until we come across a criteria where they don't
+        school_crit_met = 1 
         school_rank = 0
         school_data = district_data[school]
         crit_not_met = []
@@ -103,7 +105,8 @@ def school_rank(clean_pref):
                 open_school = True
 
         if schools_in_network != []:
-            if (school not in schools_in_network) and (district_data[school]['type'] is not 'charter'):
+            if (school not in schools_in_network) and \
+                (district_data[school]['type'] is not 'charter'):
                 school_crit_met = 0
                 crit_not_met.append('school network')
             else:
@@ -137,7 +140,6 @@ def school_rank(clean_pref):
                         school_rank))
                     break
 
-    print(top_matches)
     # rank the schools by best matches
     ranked_top_matches = sorted(top_matches, key = lambda x: (x[1], x[2]), \
         reverse = True)
@@ -151,15 +153,14 @@ def school_rank(clean_pref):
             for criteria_not_met in val[2]:
                 if criteria_not_met not in crit_not_met_full_string:
                     if crit_not_met_full_string != '':
-                        crit_not_met_full_string = crit_not_met_full_string + ', ' + \
-                            criteria_not_met
+                        crit_not_met_full_string = crit_not_met_full_string + \
+                            ', ' + criteria_not_met
                     else: 
                         crit_not_met_full_string = criteria_not_met
 
     
     # indicator that the returned schools met all the criteria
     if len(crit_not_met_full_string) > 0:
-        print(crit_not_met_full_string)
         crit_met_indicator = False
     else:
         crit_met_indicator = True

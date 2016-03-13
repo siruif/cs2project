@@ -6,7 +6,6 @@
   <head>
     <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
     <meta charset="utf-8">
-    <title>Simple markers</title>
     <style>
       html, body {
         height: 100%;
@@ -72,7 +71,7 @@ function initMap() {
                        '<p> School Type: ' + this.schooltype + '</p>' +
                        '<p> Grades: ' + this.grades + '</p>' +
                        '<p> Total Students: ' + this.students + '</p>' + 
-                '<button onclick="getschoolname(\'' +this.title+ '\')">Click Here for more info </button>');
+                '<button onclick="getschoolname(\'' +this.title+ '\')">See expenditures, diversity, and performance visualizations </button>');
     infowindow.open(map, this);
   });
 {% endfor %}
