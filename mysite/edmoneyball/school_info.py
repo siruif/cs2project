@@ -94,8 +94,9 @@ def create_school_dictionary():
 			category = each[CATEG]
 			school_dictionary[key][category] = each[EXPEND]
 			school_dictionary[key]['total_expend'] += each[EXPEND]
-
 	connection.close()
+
+	#The geolocations from the database is wrong, here is the correct version.
 	with open(csv_path) as csvfile:
 		locationreader = csv.reader(csvfile, delimiter = ',')
 		next(locationreader)
