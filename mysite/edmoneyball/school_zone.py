@@ -1,3 +1,4 @@
+#This file imports the geolocation information regarding school zones, and do related computations.
 from . import school_info
 import json
 import pyproj
@@ -8,7 +9,6 @@ from functools import partial
 
 zone_jsonfile = "edmoneyball/network_info.geojson"
 school_dict = school_info.create_school_dictionary()
-#print(school_dict)
 
 def create_poly_dict(zone_jsonfile):
     '''
@@ -37,6 +37,7 @@ def create_poly_dict(zone_jsonfile):
             poly_dict[zone_num]["zone_name"] = zone_name
             poly_dict[zone_num]["poly"] = zone_poly_list
     return poly_dict
+
 poly_dict=create_poly_dict(zone_jsonfile)
 
 def build_school_zone_dict(poly_dict, school_dict):
@@ -54,10 +55,8 @@ def school_in_zone(ulat, ulon, show_u_zone = False):
     '''
     Constructs a list of schools that is in the user's school zone, only the names.
     The input is the user's (lat, lon)
-    '''
-    
+    ''' 
     u_zone = get_zone(ulon, ulat, poly_dict)
-    #print(poly_dict[u_zone])
     school_in_zone=[]
     for school in school_zone_dict:
         if school_dict[school]['type'] == 'Charter' or u_zone == school_zone_dict[school]:
@@ -70,7 +69,7 @@ def school_in_zone(ulat, ulon, show_u_zone = False):
 def get_zone(lon, lat, poly_dict):
     '''
     Returns a zone number which the location being passed along belongs to.
-
+    This function is direct copy of the following source:
     Source: http://stackoverflow.com/questions/21328854/shapely-and-matplotlib-point-in-polygon-not-accurate-with-geolocation
     '''
     lon = float(lon)
@@ -82,14 +81,8 @@ def get_zone(lon, lat, poly_dict):
         pyproj.Proj(init='epsg:4326'),
         pyproj.Proj('+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0 +k=1.0 +units=m +nadgrids=@null +no_defs'))
         poly = Polygon(zone_poly)
-        #print(lon, lat)
         p = Point(lon, lat)
         if poly.contains(p):
             return zone
+            
 school_zone_dict=build_school_zone_dict(poly_dict, school_dict)
-#print(school_zone_dict)
-#print("_______________________________")
-#school_zone_dict = build_school_zone_dict()
-#poly_dict = create_zone_dict("network_info.geojson")
-#school_list = school_in_zone(41.796221, -87.581463, zone_jsonfile)
-#print(school_list)

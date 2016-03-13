@@ -1,3 +1,6 @@
+# This file fetches useful information from the database to create a dictionary containing school information.
+# Also, this file updates teh geolocation of the school with the correct lat,lon.
+# This file also contains functions that do radius-related computations.
 import sqlite3
 from math import *
 import operator
@@ -5,7 +8,8 @@ import csv
 
 def create_school_dictionary():
 	'''
-	Constructs a dictionary that stores information of the school. The key is the school name.
+	Constructs a dictionary that stores information of the school. The key is the school name. The value
+	is a dictionary of specific attributes regarding the school.
 	'''
 	db_path = 'edmoneyball/EducationData1.db'
 	csv_path = 'edmoneyball/UpdatedLocations.csv'
@@ -23,12 +27,9 @@ def create_school_dictionary():
 	JOIN lunch AS l ON l.CPSUnit = p.CPSUnit \
 	JOIN race AS r ON r.CPSUnit = l.CPSUnit \
 	GROUP by g.FullName, e.CategoriesName;"
-	#s1 is for building a dictionary for the comparison
-
 
 	school_information = cursor.execute(s1)
 	
-
 	UNIT = 0
 	NAME = 1
 	TYPE = 2
@@ -56,11 +57,8 @@ def create_school_dictionary():
 	ASIAN = 24
 
 	school_dictionary = {}
-
-	for each in school_information:
-		
+	for each in school_information:	
 		key = each[NAME]
-		
 		if key not in school_dictionary:
 			school_dictionary[key] = {}
 			school_dictionary[key]['unit'] = each[UNIT]
@@ -114,8 +112,6 @@ def create_school_dictionary():
 #to create it again and again indifferent functions
 SCHOOLS_DATA = create_school_dictionary()
 
-
-
 def get_radius(lat1, lon1):
 	'''
 	Constructs a dictionary of dictionaries, key is the school name and value is a dictionary
@@ -137,6 +133,7 @@ def get_radius(lat1, lon1):
 def find_radius_helper(lat1, lon1, lat2, lon2):
 	'''
 	Calculates the miles distance between two points, assuming the radius of earth is 3959 miles.
+	This function is based on the following source with moderate modifications:
 	http://stackoverflow.com/questions/15736995/how-can-i-quickly-estimate-the-distance-between-two-latitude-longitude-points
 	'''
 	lat1, lon1, lat2, lon2 = map(radians, [lat1, lon1, lat2, lon2]) 
@@ -209,7 +206,3 @@ def schools_in_radius(listofschoolnames):
 		SCHOOLS_DATA[school]['type'], SCHOOLS_DATA[school]['total_students'],SCHOOLS_DATA[school]['lat'],\
 		SCHOOLS_DATA[school]['lon'] ] )
 	return rv
-
-	#if in_range ( user_location, school_location, radius):
-
-
