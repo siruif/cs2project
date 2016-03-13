@@ -1,3 +1,4 @@
+#This file is used to fetch information from the database and transform data to create a heatmap.
 import sqlite3
 import math
 import csv
@@ -12,7 +13,6 @@ JOIN lunch AS l ON l.CPSUnit = g.CPSUnit JOIN performance AS p ON p.CPSUnit = g.
 GROUP BY g.FullName;"
 
 rating_data = cursor.execute(s1)
-
 
 UNIT = 0
 RATING = 1
@@ -39,14 +39,14 @@ for each in rating_data:
 	total = total.replace(",","")
 	total = float(total)
 
-	school=[]
+	school = []
 	school.append(full_name)
 	school.append(each[LON])
 	school.append(each[LAT])
 
-	if raw_score!=None:
-		if expend >0:
-			adjusted_score = round(math.log(raw_score / (expend/total), 0.5),3)
+	if raw_score != None:
+		if expend > 0:
+			adjusted_score = round(math.log(raw_score / (expend/total)),3)
 	else:
 		adjusted_score = None
 	school.append(adjusted_score)
@@ -54,11 +54,9 @@ for each in rating_data:
 	rating_list.append(school)
 
 with open('scores.csv', 'w') as outcsv:   
-    #configure writer to write standard csv file
-    writer = csv.writer(outcsv, delimiter=',', quotechar='|', quoting=csv.QUOTE_MINIMAL, lineterminator='\n')
-    writer.writerow(['full_name', 'lon', 'lat', 'score'])
+    writer = csv.writer(outcsv, delimiter = ',', quotechar = '|', quoting = csv.QUOTE_MINIMAL, lineterminator='\n')
+    writer.writerow(['full_name', 'lon', 'lat', 'adjusted_score', 'raw_score'])
     for item in rating_list:
-        #Write item to outcsv
         writer.writerow([item[0], item[1], item[2], item[3], item[4]])
 
 connection.close()
