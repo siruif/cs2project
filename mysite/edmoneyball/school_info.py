@@ -16,12 +16,17 @@ def create_school_dictionary():
 	connection = sqlite3.connect(db_path)
 	cursor = connection.cursor()
 
-	s1 = "SELECT g.CPSUnit, g.FullName, g.SchoolType, g.Latitude, g.longitude, g.AttendingGrades, g.StreetNumber, g.StreetDirection, g.StreetName, \
+	s1 = "SELECT g.CPSUnit, g.FullName, g.SchoolType, g.Latitude, \
+	g.longitude, g.AttendingGrades, g.StreetNumber, \
+	g.StreetDirection, g.StreetName, \
 	SUM(e.Expenditures) AS expend, e.CategoriesName, \
-	p.SQRPRating, p.SQRPTotalPointsEarned, p.`NationalSchoolGrowthPercentile-Maths-Score`, p.`NationalSchoolGrowthPercentile-Reading-Score`, \
+	p.SQRPRating, p.SQRPTotalPointsEarned, \
+	p.`NationalSchoolGrowthPercentile-Maths-Score`, \
+	p.`NationalSchoolGrowthPercentile-Reading-Score`, \
 	p.reading_attainment_score, p.math_attainment_score, \
 	l.Total, l.FreeReducedPercent, l.SpEdPercent, \
-	r.WhitePercentage, r.AfricanAmericanPercentage, r.HispanicPercentage, r.MultiRacialPercentage, r.AsianPercentage \
+	r.WhitePercentage, r.AfricanAmericanPercentage, r.HispanicPercentage, \
+	r.MultiRacialPercentage, r.AsianPercentage \
 	FROM 'general' AS g JOIN 'expenditure' AS e ON g.CPSUnit = e.CPSUnit \
 	JOIN performance AS p ON p.CPSUnit = e.CPSUnit \
 	JOIN lunch AS l ON l.CPSUnit = p.CPSUnit \
@@ -69,18 +74,22 @@ def create_school_dictionary():
 			if each[STNUM] == "" and each[STDIR] == "" and each[STNAME] == "":
 				school_dictionary[key]['address'] = "Not Available"
 			else:
-				school_dictionary[key]['address'] = str(each[STNUM]) + " " + each[STDIR] + " " + each[STNAME]
+				school_dictionary[key]['address'] = str(each[STNUM]) + " " \
+				+ each[STDIR] + " " + each[STNAME]
 			category = each[CATEG]
 			school_dictionary[key][category] = float(each[EXPEND])
 			school_dictionary[key]['total_expend'] = float(each[EXPEND])
 			school_dictionary[key]['perf_rating'] = each[RATING]
 			school_dictionary[key]['perf_points'] = float(each[POINTS])
 			totalno_mod = each[TOTALNO].replace(",","")
-			school_dictionary[key]['rdg_attainment'] = float(each[RDG_ATTAINMENT])
-			school_dictionary[key]['math_attainment'] = float(each[MATH_ATTAINMENT])
+			school_dictionary[key]['rdg_attainment'] = \
+			float(each[RDG_ATTAINMENT])
+			school_dictionary[key]['math_attainment'] = \
+			float(each[MATH_ATTAINMENT])
 			school_dictionary[key]['total_students'] = int(totalno_mod)
 			free_red_lunch_mod = each[LUNCH].replace("%","")
-			school_dictionary[key]['free_red_lunch'] = float(free_red_lunch_mod)
+			school_dictionary[key]['free_red_lunch'] = \
+			float(free_red_lunch_mod)
 			special_ed_mod = each[SPED].replace("%","")
 			school_dictionary[key]['special_educ'] = float(special_ed_mod)
 			school_dictionary[key]['white'] = float(each[WHITE])
@@ -96,7 +105,8 @@ def create_school_dictionary():
 			school_dictionary[key]['total_expend'] += each[EXPEND]
 	connection.close()
 
-	#The geolocations from the database is wrong, here is the correct version.
+	#The geolocations from the database is wrong, 
+	#here is the correct version.
 	with open(csv_path) as csvfile:
 		locationreader = csv.reader(csvfile, delimiter = ',')
 		next(locationreader)
@@ -109,14 +119,17 @@ def create_school_dictionary():
 				school_dictionary[school_name]['lon'] = updated_lon
 	return school_dictionary
 
-#Inserted by Turab, creating the school dictionary as a global so that we dont have
+#Inserted by Turab, creating the school dictionary as a global 
+#so that we dont have
 #to create it again and again indifferent functions
 SCHOOLS_DATA = create_school_dictionary()
 
 def get_radius(lat1, lon1):
 	'''
-	Constructs a dictionary of dictionaries, key is the school name and value is a dictionary
-	 with distance lat1 lon1; the key names are distance, lat and lon respectively
+	Constructs a dictionary of dictionaries, key is the school name
+	and value is a dictionary
+	with distance lat1 lon1; the key names are distance, 
+	lat and lon respectively
 	'''
 	distance_dict = {}
 	school_dictionary = create_school_dictionary()
@@ -133,9 +146,12 @@ def get_radius(lat1, lon1):
 
 def find_radius_helper(lat1, lon1, lat2, lon2):
 	'''
-	Calculates the miles distance between two points, assuming the radius of earth is 3959 miles.
+	Calculates the miles distance between two points, 
+	assuming the radius of earth is 3959 miles.
 	This function is based on the following source with moderate modifications:
-	http://stackoverflow.com/questions/15736995/how-can-i-quickly-estimate-the-distance-between-two-latitude-longitude-points
+	'http://stackoverflow.com/questions/15736995/
+	how-can-i-quickly-estimate-the-distance-between-two-latitude
+	-longitude-points'
 	'''
 	lat1, lon1, lat2, lon2 = map(radians, [lat1, lon1, lat2, lon2]) 
 	dlon = lon2 - lon1 
@@ -147,7 +163,8 @@ def find_radius_helper(lat1, lon1, lat2, lon2):
 
 def find_neighbor_schools(location, radius):
 	'''
-	for a given (lat, lon) and a radius in miles, returns a list of school that is in the radius
+	for a given (lat, lon) and a radius in miles, returns a list of 
+	school that is in the radius
 	'''
 	(ulat, ulon) = location
 	distance_dict = get_radius(ulat, ulon)
@@ -163,42 +180,50 @@ def find_neighbor_schools(location, radius):
 
 def in_range(ulocation, slocation, radius):
 	'''
-	For a given user's location (ulat, ulon), the schools's location (slat, slon),
-	returns True of the distance between the school and the user's location is less
+	For a given user's location (ulat, ulon), the schools's 
+	location (slat, slon),
+	returns True of the distance between the school 
+	and the user's location is less
 	than or equal to the radius.
 	'''
 	(ulat, ulon) = ulocation
 	(slat, slon) = slocation
-	distance = find_radius_helper(float(ulat), float(ulon), float(slat), float(slon))
+	distance = find_radius_helper(float(ulat), float(ulon), float(slat), \
+		float(slon))
 	return distance <= radius
 
 #inserted by Turab
 def build_context_explore():
 	'''
-	Given the school dictionary, returns information about the school to be displayed
-	in the explore page. This function is called in the view.py file when the explore
-	page is being redered
+	Given the school dictionary, returns information about the 
+	school to be displayed in the explore page. 
+	This function is called in the view.py file when the explore 
+	page is being redered.
 	'''
 	rv = []
 
 	for key in SCHOOLS_DATA.keys():
-		rv.append ( [key, SCHOOLS_DATA[key]['address'], SCHOOLS_DATA[key]['attending_grades'],\
-		SCHOOLS_DATA[key]['type'], SCHOOLS_DATA[key]['total_students'],SCHOOLS_DATA[key]['lat'],\
+		rv.append ( [key, SCHOOLS_DATA[key]['address'], SCHOOLS_DATA[key]\
+			['attending_grades'],\
+		SCHOOLS_DATA[key]['type'], SCHOOLS_DATA[key]['total_students'],\
+		SCHOOLS_DATA[key]['lat'],\
 		SCHOOLS_DATA[key]['lon'] ] )
 	
 	return rv
 
 def school_names():
 	'''
-	Return all the schoold names in the data. This function is called from the forms.py file
-	to populate the choice fields
+	Return all the schoold names in the data. 
+	This function is called from the forms.py file to populate the choice 
+	fields
 	'''
 	return sorted(SCHOOLS_DATA.keys())
 
 def schools_in_radius(listofschoolnames):
 	'''
-	Given a list of of schools and the radius the user entered, return school info 
-	from the list of schools that are within the specified radius
+	Given a list of of schools and the radius the user entered, 
+	return school info from the list of schools that 
+	are within the specified radius
 	'''
 	rv =[]
 	for school in listofschoolnames:

@@ -7,9 +7,11 @@ connection = sqlite3.connect("EducationData.db")
 cursor = connection.cursor()
 
 
-s1 = "SELECT g.CPSUnit, p.SQRPRating, sum(e.Expenditures) as totalexpend, l.Total, g.FullName,  g.Latitude, g.longitude \
+s1 = "SELECT g.CPSUnit, p.SQRPRating, sum(e.Expenditures) as totalexpend, \
+l.Total, g.FullName,  g.Latitude, g.longitude \
 FROM general AS g JOIN expenditure AS e ON g.CPSUnit = e.CPSUnit \
-JOIN lunch AS l ON l.CPSUnit = g.CPSUnit JOIN performance AS p ON p.CPSUnit = g.CPSUnit \
+JOIN lunch AS l ON l.CPSUnit = g.CPSUnit \
+JOIN performance AS p ON p.CPSUnit = g.CPSUnit \
 GROUP BY g.FullName;"
 
 rating_data = cursor.execute(s1)
@@ -21,7 +23,8 @@ TOTAL = 3
 NAME = 4
 LAT = 5
 LON = 6
-rate_criteria = {"Level 1+": 90, "Level 1":70, "Level 2+": 50, "Level 2": 40, "Level 3": 20, "Inability to Rate": None}
+rate_criteria = {"Level 1+": 90, "Level 1":70, "Level 2+": 50, \
+"Level 2": 40, "Level 3": 20, "Inability to Rate": None}
 #reference: http://cps.edu/SiteCollectionDocuments/SQRP_one_pager.pdf
 #for Level 3: assign 20
 
@@ -54,7 +57,8 @@ for each in rating_data:
 	rating_list.append(school)
 
 with open('scores.csv', 'w') as outcsv:   
-    writer = csv.writer(outcsv, delimiter = ',', quotechar = '|', quoting = csv.QUOTE_MINIMAL, lineterminator='\n')
+    writer = csv.writer(outcsv, delimiter = ',', quotechar = '|', \
+    	quoting = csv.QUOTE_MINIMAL, lineterminator='\n')
     writer.writerow(['full_name', 'lon', 'lat', 'adjusted_score', 'raw_score'])
     for item in rating_list:
         writer.writerow([item[0], item[1], item[2], item[3], item[4]])
