@@ -32,7 +32,7 @@ def clean_data(pref_criteria_from_ui):
             if key == 'location':
                 clean_pref[key] = pref_criteria_from_ui[key]
 
-    # sets the threshold for growth scores to be what the user set as the 
+    # Sets the threshold for growth scores to be what the user set as the 
     # performance threshold
     clean_pref['rdg_growth'] = clean_pref['performance']
     clean_pref['math_growth'] = clean_pref['performance']
@@ -71,7 +71,8 @@ def school_rank(clean_pref):
     if 'location' in clean_pref.keys():
         lat, lon = clean_pref['location']
         user_radius = clean_pref['distance_threshold']
-        neighbor_schools = school_info.find_neighbor_schools((lat, lon), user_radius)
+        neighbor_schools = school_info.find_neighbor_schools((lat, lon), 
+        user_radius)
         for val in neighbor_schools:
             schools_in_distance.append(val[0])  
 
@@ -128,12 +129,12 @@ def school_rank(clean_pref):
                     (school_rank > top_matches[i][3])) :
                     deranked_school = top_matches[i]
                     top_matches.remove(deranked_school)
-                    top_matches.append((school, school_crit_met, crit_not_met, \
-                        school_rank))
+                    top_matches.append((school, school_crit_met, crit_not_met,
+                    school_rank))
                     break
 
     # Rank the schools by best matches
-    ranked_top_matches = sorted(top_matches, key = lambda x: (x[1], x[2]), \
+    ranked_top_matches = sorted(top_matches, key = lambda x: (x[1], x[2]),
         reverse = True)
 
     top_school_names = []
