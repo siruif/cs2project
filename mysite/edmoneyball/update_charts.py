@@ -1,10 +1,9 @@
-
+# CS 122 Project: EdMoneyBall
+# Passes key variables (titles, school data, etc) to the plotting functions to 
+# generate needed urls
+# Vi Nguyen, Sirui Feng, Turab Hassan
 
 from . import school_info, chart, ranking, school_zone
-## commented out to align with Django
-#import chart
-#import ranking
-#import school_info
 
 # calling dictionaries to increase speed
 data = school_info.create_school_dictionary()
@@ -26,26 +25,28 @@ def create_charts(school):
     urls['url1'] = url_frl
 
     # Ethnicity
-    url_eth = chart.bar(school, data, data_distr_avg, chart.ethnicity_cat, \
-        chart.ethnicity_cat_rename, 'Ethnicity')
+    url_eth = chart.bar(school, data, data_distr_avg, chart.ethnicity_cat,
+    chart.ethnicity_cat_rename, 'Ethnicity')
     urls['url2'] = url_eth
 
     # Performance
-    url_perf = chart.bar(school, data, data_distr_avg, chart.acad_perf_cat, \
-        chart.acad_perf_cat_rename, 'Academic Performance')
+    url_perf = chart.bar(school, data, data_distr_avg, chart.acad_perf_cat,
+    chart.acad_perf_cat_rename, 'Academic Performance')
     urls['url3'] = url_perf
 
     # Expenditure chart
     labels_school, values_school = chart.expenditure_data(school, data)
-    labels_distr, values_distr = chart.expenditure_data('district_avg', data_distr_avg)
-    url_exp = chart.expenditure_pie(data, school, labels_school, values_school, labels_distr, values_distr)
+    labels_distr, values_distr = chart.expenditure_data('district_avg', 
+    data_distr_avg)
+    url_exp = chart.expenditure_pie(data, school, labels_school, values_school,
+    labels_distr, values_distr)
     urls['url4'] = url_exp
 
     return urls
 
 
-def compare_recommend(recommend_indicator, pref_crit_from_ui = None, \
-    list_of_schools = None):
+def compare_recommend(recommend_indicator, pref_crit_from_ui = None,
+list_of_schools = None):
     '''
     Plots the graphs for either the schools that the user wants to compare, 
     or the top 5 schools that we recommend to the user
