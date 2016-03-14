@@ -1,3 +1,9 @@
+<!-- CS 122 Project: EdMoneyBall
+Displays map and dot for each school; when user clicks on a school, returns 
+relevant charts
+Created by: Vi Nguyen, Sirui Feng, Turab Hassan
+-->
+
 {% load staticfiles %}
 
 <!DOCTYPE html>
@@ -71,7 +77,7 @@ function initMap() {
                        '<p> School Type: ' + this.schooltype + '</p>' +
                        '<p> Grades: ' + this.grades + '</p>' +
                        '<p> Total Students: ' + this.students + '</p>' + 
-                '<button onclick="getschoolname(\'' +this.title+ '\')">See expenditures, diversity, and performance visualizations </button>');
+                '<button onclick="getschoolname(\'' +this.title+ '\')">See expenditures, diversity, and performance visualizations</button>');
     infowindow.open(map, this);
   });
 {% endfor %}

@@ -1,3 +1,8 @@
+<!-- CS 122 Project: EdMoneyBall
+Displays map and dot for each school; returns school zone based on user address
+Created by: Vi Nguyen, Sirui Feng, Turab Hassan
+-->
+
 {% load staticfiles %}
 
 
@@ -20,7 +25,8 @@
   </head>
   <body>
     {% include 'edmoneyball/navbar.html' %}
-    <form id='userinput' action="http://127.0.0.1:8000/edmoneyball/explore" method = "post" >
+    <form id='userinput' action="http://127.0.0.1:8000/edmoneyball/explore" 
+    method = "post" >
     {% csrf_token %}
     {{ form }}
     <input type="submit" value="Submit" />
@@ -41,7 +47,8 @@
     zoom: 12,
     center: myLatLng
     });
-    var image = 'http://camino-portugues-a-santiago.destino.gal/img/blue_dot.png';
+    var image = 
+    'http://camino-portugues-a-santiago.destino.gal/img/blue_dot.png';
 
     var marker = new google.maps.Marker({
     position: myLatLng,
@@ -72,7 +79,7 @@
                        '<p> School Type: ' + this.schooltype + '</p>' +
                        '<p> Grades: ' + this.grades + '</p>' +
                        '<p> Total Students: ' + this.students + '</p>' + 
-                '<button onclick="getschoolname(\'' +this.title+ '\')">Click Here for more info </button>');
+    '<button onclick="getschoolname(\'' +this.title+ '\')">See expenditures, diversity, and performance visualizations</button>');
     infowindow.open(map, this);
     });
     
