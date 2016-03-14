@@ -1,5 +1,10 @@
-{% load staticfiles %}
+<!-- CS 122 Project: EdMoneyBall
+Page to display the charts of a school that user selected from 
+recommendation.html, in case when all the returned schools met the criteria 
+Created by: Vi Nguyen, Sirui Feng, Turab Hassan
+-->
 
+{% load staticfiles %}
 
 
 <!DOCTYPE html>
@@ -25,7 +30,8 @@
                 schools do not match your <b> {{ not_met }} </b> threshold(s). 
                 This is because none or less than 5 schools meet your criteria. 
                 In such cases, we are recommending the schools that meet your 
-                criteria (if any), and the schools with the top academic performance. 
+                criteria (if any), and the schools with the top academic 
+                performance. 
             </p>
 
                 <iframe width="800" height="480" frameborder="0" 
