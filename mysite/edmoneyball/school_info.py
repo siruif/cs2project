@@ -11,8 +11,8 @@ def create_school_dictionary():
 	Constructs a dictionary that stores information of the school. The key is the school name. The value
 	is a dictionary of specific attributes regarding the school.
 	'''
-	db_path = 'edmoneyball/EducationData1.db'
-	csv_path = 'edmoneyball/UpdatedLocations.csv'
+	db_path = 'EducationData1.db'
+	csv_path = 'UpdatedLocations.csv'
 	connection = sqlite3.connect(db_path)
 	cursor = connection.cursor()
 
@@ -119,10 +119,12 @@ def create_school_dictionary():
 				school_dictionary[school_name]['lon'] = updated_lon
 	return school_dictionary
 
+
 #Inserted by Turab, creating the school dictionary as a global 
 #so that we dont have
 #to create it again and again indifferent functions
 SCHOOLS_DATA = create_school_dictionary()
+print(SCHOOLS_DATA)
 
 def get_radius(lat1, lon1):
 	'''
@@ -188,8 +190,7 @@ def in_range(ulocation, slocation, radius):
 	'''
 	(ulat, ulon) = ulocation
 	(slat, slon) = slocation
-	distance = find_radius_helper(float(ulat), float(ulon), float(slat), \
-		float(slon))
+	distance = find_radius_helper(float(ulat), float(ulon), float(slat), float(slon))
 	return distance <= radius
 
 #inserted by Turab
@@ -205,7 +206,7 @@ def build_context_explore():
 	for key in SCHOOLS_DATA.keys():
 		rv.append ( [key, SCHOOLS_DATA[key]['address'], SCHOOLS_DATA[key]\
 			['attending_grades'],\
-		SCHOOLS_DATA[key]['type'], SCHOOLS_DATA[key]['total_students'],\
+		SCHOOLS_DATA[key]['type'], SCHOOLS_DATA[key]['total_students'], \
 		SCHOOLS_DATA[key]['lat'],\
 		SCHOOLS_DATA[key]['lon'] ] )
 	
