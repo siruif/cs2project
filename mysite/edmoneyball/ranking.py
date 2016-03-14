@@ -1,5 +1,5 @@
 # CS 122 Project: EdMoneyBall
-# Creates the Plotly charts
+# Makes recommendations based on user criteria
 # Vi Nguyen, Sirui Feng, Turab Hassan
 
 from . import school_info, chart, school_zone
