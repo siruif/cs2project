@@ -59,7 +59,8 @@ for each in rating_data:
 with open('scores.csv', 'w') as outcsv:   
     writer = csv.writer(outcsv, delimiter = ',', quotechar = '|', \
     	quoting = csv.QUOTE_MINIMAL, lineterminator='\n')
-    writer.writerow(['full_name', 'lon', 'lat', 'adjusted_score', 'raw_score'])
+    writer.writerow(['full_name', 'lon', 'lat', 'adjusted_score', \
+    	'raw_score'])
     for item in rating_list:
         writer.writerow([item[0], item[1], item[2], item[3], item[4]])
 

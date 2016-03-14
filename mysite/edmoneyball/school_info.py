@@ -1,5 +1,7 @@
-# This file fetches useful information from the database to create a dictionary containing school information.
-# Also, this file updates teh geolocation of the school with the correct lat,lon.
+# This file fetches useful information from the database to create a 
+# dictionary containing school information.
+# Also, this file updates teh geolocation of the school with the correct
+# lat,lon.
 # This file also contains functions that do radius-related computations.
 import sqlite3
 from math import *
@@ -8,8 +10,9 @@ import csv
 
 def create_school_dictionary():
 	'''
-	Constructs a dictionary that stores information of the school. The key is the school name. The value
-	is a dictionary of specific attributes regarding the school.
+	Constructs a dictionary that stores information of the school. 
+	The key is the school name. 
+	The value is a dictionary of specific attributes regarding the school.
 	'''
 	db_path = 'edmoneyball/EducationData1.db'
 	csv_path = 'edmoneyball/UpdatedLocations.csv'
@@ -189,7 +192,8 @@ def in_range(ulocation, slocation, radius):
 	'''
 	(ulat, ulon) = ulocation
 	(slat, slon) = slocation
-	distance = find_radius_helper(float(ulat), float(ulon), float(slat), float(slon))
+	distance = find_radius_helper(float(ulat), float(ulon), float(slat), \
+		float(slon))
 	return distance <= radius
 
 #inserted by Turab
@@ -214,7 +218,7 @@ def build_context_explore():
 def school_names():
 	'''
 	Return all the schoold names in the data. 
-	This function is called from the forms.py file to populate the choice 
+	This function is called from the forms.py file to populate the choice
 	fields
 	'''
 	return sorted(SCHOOLS_DATA.keys())
@@ -227,8 +231,10 @@ def schools_in_radius(listofschoolnames):
 	'''
 	rv =[]
 	for school in listofschoolnames:
-		school_location = (SCHOOLS_DATA[school]['lat'],SCHOOLS_DATA[school]['lon'] )		
-		rv.append ( [school, SCHOOLS_DATA[school]['address'], SCHOOLS_DATA[school]['attending_grades'],\
-		SCHOOLS_DATA[school]['type'], SCHOOLS_DATA[school]['total_students'],SCHOOLS_DATA[school]['lat'],\
-		SCHOOLS_DATA[school]['lon'] ] )
+		school_location = (SCHOOLS_DATA[school]['lat'],\
+			SCHOOLS_DATA[school]['lon'] )		
+		rv.append ( [school, SCHOOLS_DATA[school]['address'],\
+		 SCHOOLS_DATA[school]['attending_grades'],\
+		SCHOOLS_DATA[school]['type'], SCHOOLS_DATA[school]['total_students'],\
+		SCHOOLS_DATA[school]['lat'],SCHOOLS_DATA[school]['lon'] ] )
 	return rv
