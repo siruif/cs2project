@@ -223,11 +223,12 @@ def school_names():
 	'''
 	return sorted(SCHOOLS_DATA.keys())
 
-def schools_in_radius(listofschoolnames):
+def schools_data(listofschoolnames):
 	'''
-	Given a list of of schools and the radius the user entered, 
-	return school info from the list of schools that 
-	are within the specified radius
+	Given a list of of schools, return school info from the list of schools.
+	Input: List of School names
+	Output: A list of list of school information
+	
 	'''
 	rv =[]
 	for school in listofschoolnames:
