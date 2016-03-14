@@ -18,7 +18,7 @@ def clean_data(pref_criteria_from_ui):
     '''
     # Processing diversity component
     ethnicity = pref_criteria_from_ui['ethnicity']
-    ethnicity_threshold = float(pref_criteria_from_ui['ethnicity_threshold'])
+    ethnicity_threshold = pref_criteria_from_ui['ethnicity_threshold']
     clean_pref = {ethnicity: ethnicity_threshold}
 
     # Processing school type
@@ -44,7 +44,6 @@ def clean_data(pref_criteria_from_ui):
     clean_pref['rdg_growth'] = clean_pref['performance']
     clean_pref['math_growth'] = clean_pref['performance']
 
-    print(clean_pref)
     return clean_pref
 
 
@@ -64,10 +63,10 @@ def school_rank(clean_pref):
     based on an average of reading and math scores
     '''
 
-    # index that holds certain info
+    # Index that holds certain info
     threshold = 0 # for the clean_pref.keys()
     
-    # holds a max of 5 schools
+    # Holds a max of 5 schools
     top_matches = []
     
     schools_in_distance = []
@@ -75,7 +74,7 @@ def school_rank(clean_pref):
 
     district_data = school_info.create_school_dictionary()
 
-    # gets list of schools that fit radius parameters
+    # Gets list of schools that fit radius parameters
     if 'location' in clean_pref.keys():
         lat, lon = clean_pref['location']
         user_radius = clean_pref['distance_threshold']
@@ -83,14 +82,14 @@ def school_rank(clean_pref):
         for val in neighbor_schools:
             schools_in_distance.append(val[0])  
 
-        #generates schoos in zone of location
+        # Generates schoos in zone of location
         schools_in_network = school_zone.school_in_zone(lat, lon)
 
-    # go through all schools to find 2 scores, one to note whether the school 
+    # Go through all schools to find 2 scores, one to note whether the school 
     # met the minimum criteria, and the second to note how well they perform 
     # academically
     for school in district_data.keys():
-        # assume they meet it until we come across a criteria where they don't
+        # Assume they meet it until we come across a criteria where they don't
         school_crit_met = 1 
         school_rank = 0
         school_data = district_data[school]
@@ -119,13 +118,13 @@ def school_rank(clean_pref):
                         school_crit_met = 0
                         crit_not_met.append(key)
                 else:
-                    if float(school_data[key]) < clean_pref[key]:
+                    if school_data[key] < clean_pref[key]:
                         school_crit_met = 0
                         crit_not_met.append(key)
-                school_rank = (float(school_data['rdg_growth']) + \
-                    float(school_data['math_growth']) + \
-                    float(school_data['rdg_attainment']) + \
-                    float(school_data['math_attainment'])) / 2
+                school_rank = (school_data['rdg_growth'] + \
+                    school_data['math_growth'] + \
+                    school_data['rdg_attainment'] + \
+                    school_data['math_attainment']) / 2
         if len(top_matches) < 5:
             top_matches.append((school, school_crit_met, crit_not_met, \
                 school_rank))
@@ -140,7 +139,7 @@ def school_rank(clean_pref):
                         school_rank))
                     break
 
-    # rank the schools by best matches
+    # Rank the schools by best matches
     ranked_top_matches = sorted(top_matches, key = lambda x: (x[1], x[2]), \
         reverse = True)
 
@@ -148,7 +147,7 @@ def school_rank(clean_pref):
     crit_not_met_full_string = ''
     for val in ranked_top_matches:
         top_school_names.append(val[0])
-        # collects full list of criteria that were not met per school
+        # Collects full list of criteria that were not met per school
         if val[2] != []:
             for criteria_not_met in val[2]:
                 if criteria_not_met not in crit_not_met_full_string:
@@ -159,7 +158,7 @@ def school_rank(clean_pref):
                         crit_not_met_full_string = criteria_not_met
 
     
-    # indicator that the returned schools met all the criteria
+    # Indicator that the returned schools met all the criteria
     if len(crit_not_met_full_string) > 0:
         crit_met_indicator = False
     else:

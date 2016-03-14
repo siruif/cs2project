@@ -1,4 +1,5 @@
 # CS 122 Project: EdMoneyBall
+# Creates the Plotly charts
 # Vi Nguyen, Sirui Feng, Turab Hassan
 
 from . import school_info
@@ -7,45 +8,25 @@ import numpy as np
 import plotly.plotly as py
 import plotly.tools as tls 
 import plotly.graph_objs as go
-## commented out to align with Django
-#import school_info
-#from plotly.graph_objs import *
-
-
-# Sign-in accounts in case hit the 50/chart daily limit on plotly
-# i.e. when request is "throtteled"
-#py.sign_in('vi-tnguyen', '2j59j4yh6y')
-py.sign_in('siruif', '1xbbym8vxv')
-#py.sign_in('nvi613', 'dceant1x53')
-#py.sign_in('turabhassan', 'qu73c973p4')
-#py.sign_in('turabhassan', 'qu73c973p4')
-#py.sign_in('sarahfsr', 'g263mhd6au')
-
-## Reserve for demo
-#py.sign_in('vnguyen31', '4x69erhlu4')
-#py.sign_in('vi.nguyen61388', 'w8p15c6rq4')
 
 sign_in_keys = [('vi-tnguyen', '2j59j4yh6y'),('siruif', '1xbbym8vxv'),\
                  ('nvi613', 'dceant1x53'), ('turabhassan', 'qu73c973p4'),\
-                 ('vnguyen31', '4x69erhlu4'),('vi.nguyen61388', 'w8p15c6rq4') ]
-
-print('coming in the chart file')
+                 ('vnguyen31', '4x69erhlu4'),('vi.nguyen61388', 'w8p15c6rq4')]
 
 def change_keys():
+    ''' 
+    Switches the Plotly username to deal with 50/day and 30/hr limits on 
+    free accounts
+    '''
 
     for key in sign_in_keys:
         try:
-            print(key,'coming in try')
             data = [go.Bar(x=[], y=[])]
             plot_url = py.plot(data, filename = 'test-bar', auto_open = False)
             break
         except Exception:
-            print(key,'coming in except')
             py.sign_in(key[0],key[1])
             continue
-
-
-
 
 # Key sets and dictionaries for processing and cleaning expenditure data
 Expenditure_Cat = set(['Admin Salary & Benefits', \
@@ -89,11 +70,12 @@ total_expend = set(['total_expend'])
 # Any school name would work here
 variables = list(district_data['Wolfgang A Mozart Elementary School'].keys())
 variables_charts = frlunch_cat | Expenditure_Cat | ethnicity_cat | \
-                   Expenditure_Cat_Unknown | students | total_expend | acad_perf_cat
+Expenditure_Cat_Unknown | students | total_expend | acad_perf_cat
 
 # List of variables that will not be a number, to be used to deal with type 
 # incongruencies
-non_num_var = set(['type', 'unit', 'perf_rating', 'address', 'attending_grades'])
+non_num_var = set(['type', 'unit', 'perf_rating', 'address', 
+'attending_grades'])
 
 # Deal with type incongruencies
 for school in district_data.keys():
@@ -135,7 +117,7 @@ def district_avg():
 
 
 def create_labels_values(school_name, data_dictionary, data_labels, \
-    renamed_labels):
+renamed_labels):
     '''
     Creates a list of labels, and a corresponding list of values for plotting
 
@@ -165,13 +147,13 @@ def create_labels_values(school_name, data_dictionary, data_labels, \
                 labels.append(key)
 
             value_string = school_data[key]
-            values.append(float(value_string))
+            values.append(value_string)
 
     return labels, values, school_data
 
 
 def expenditure_pie(school_data, school_name, labels_school, values_school, \
-    labels_distr, values_distr):
+labels_distr, values_distr):
     '''
     Charts the expenditure donut charts 
     Inputs:
@@ -188,17 +170,17 @@ def expenditure_pie(school_data, school_name, labels_school, values_school, \
             school, and district average (for comparison purposes)
     '''
     total_expend_per_stud = (school_data[school]['total_expend'] / \
-        float(school_data[school]['total_students']))
+    (school_data[school]['total_students']))
     title = 'Total Expenditures Per Student: \n ${0}'.format("{:,.0f}".\
         format(total_expend_per_stud))
     fig = {"data": [{"values": values_school, "labels": labels_school, "domain":\
-        {"x": [0, .48]},"name": school_name, "hoverinfo":"label+percent", "hole":\
-        .4, "type": "pie"}, {"values": values_distr, "labels": labels_distr,\
-        "textposition":"inside", "domain": {"x": [.52, 1]},"name": "District Average",\
-        "hole": .4, "type": "pie"}], "layout": {"title": title, "annotations":\
-         [{"font": {"size": 10}, "showarrow": False, 'text': 'School', "x": 0.20,\
-         "y": 0.5}, {"font": {"size": 10}, "showarrow": False, "text": 'District',\
-         "x": 0.8, "y": 0.5}]}}
+    {"x": [0, .48]},"name": school_name, "hoverinfo":"label+percent", "hole":\
+    .4, "type": "pie"}, {"values": values_distr, "labels": labels_distr,\
+    "textposition":"inside", "domain": {"x": [.52, 1]},"name": "District Average",\
+    "hole": .4, "type": "pie"}], "layout": {"title": title, "annotations":\
+    [{"font": {"size": 10}, "showarrow": False, 'text': 'School', "x": 0.20,\
+    "y": 0.5}, {"font": {"size": 10}, "showarrow": False, "text": 'District',\
+    "x": 0.8, "y": 0.5}]}}
 
     change_keys()     
     url = py.plot(fig, filename = 'Pie Chart: Expenditure', auto_open = False)
@@ -219,14 +201,12 @@ def expenditure_data(school_name, data_dictionary):
         values - values to use for plotting
     '''
     labels, values, school_data = create_labels_values(school_name, data_dictionary,\
-        Expenditure_Cat, renamed_labels = Expenditure_Cat_Rename)
+    Expenditure_Cat, renamed_labels = Expenditure_Cat_Rename)
 
     # converting values to numpy arrays to get spend per student
     values = np.array(values)
     students = school_data['total_students']
-    if type(students) is str:
-        students = students.replace(',', '')
-    values = values / float(students)
+    values = values / students
     values = values.tolist()
     
     # Grouping all 'Unknown' or '#N/A' categories together
@@ -234,7 +214,7 @@ def expenditure_data(school_name, data_dictionary):
     for key in school_data.keys():
         if key in Expenditure_Cat_Unknown:
             unknown_sum = unknown_sum + school_data[key]
-        unknown_per_student = unknown_sum / float(students)
+        unknown_per_student = unknown_sum / students
     labels.append('Unknown')
     values.append(unknown_per_student)
 
@@ -270,7 +250,7 @@ def bar(school_name, data_dictionary, data_distr_avg, cat_dict, cat_dict_rename,
 
     students = school_data['total_students']
     title = '{0} \n Total Students: {1}'.format(chart_title, 
-        "{:,.0f}".format(float(students)))
+        "{:,.0f}".format(students))
     layout = go.Layout(yaxis = dict(title = 'Percentage (%)'), \
              title = title, barmode = 'group')
 
