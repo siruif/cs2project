@@ -11,8 +11,8 @@ def create_school_dictionary():
 	Constructs a dictionary that stores information of the school. The key is the school name. The value
 	is a dictionary of specific attributes regarding the school.
 	'''
-	db_path = 'EducationData1.db'
-	csv_path = 'UpdatedLocations.csv'
+	db_path = 'edmoneyball/EducationData1.db'
+	csv_path = 'edmoneyball/UpdatedLocations.csv'
 	connection = sqlite3.connect(db_path)
 	cursor = connection.cursor()
 
@@ -124,7 +124,6 @@ def create_school_dictionary():
 #so that we dont have
 #to create it again and again indifferent functions
 SCHOOLS_DATA = create_school_dictionary()
-print(SCHOOLS_DATA)
 
 def get_radius(lat1, lon1):
 	'''
