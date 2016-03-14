@@ -145,7 +145,6 @@ renamed_labels):
                 labels.append(new_key)
             else:
                 labels.append(key)
-
             value_string = school_data[key]
             values.append(value_string)
 

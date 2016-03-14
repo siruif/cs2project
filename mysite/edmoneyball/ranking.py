@@ -1,15 +1,8 @@
-##CHICAGO PUBLIC SCHOOL - BUDGET, PERFORMANCE, AND OPTIONS##
-
-##Team: EdMoneyBall##
-##Team Members: Sirui Feng, Turab Hassan, & Vi Nguyen
-##CS122 Project, University of Chicago
+# CS 122 Project: EdMoneyBall
+# Makes recommendations based on user criteria
+# Vi Nguyen, Sirui Feng, Turab Hassan
 
 from . import school_info, chart, school_zone
-
-## commented out to align with Django
-#import school_info
-#import chart
-
 
 def clean_data(pref_criteria_from_ui):
     '''
