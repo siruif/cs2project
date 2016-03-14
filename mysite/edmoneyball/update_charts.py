@@ -60,7 +60,8 @@ list_of_schools = None):
 
     if recommend_indicator:
         clean_data = ranking.clean_data(pref_crit_from_ui)
-        list_of_schools, crit_met_indicator, crit_not_met_full_list = ranking.school_rank(clean_data)
+        list_of_schools, crit_met_indicator, crit_not_met_full_list = \
+        ranking.school_rank(clean_data)
 
     urls = {'school': list_of_schools}
 
