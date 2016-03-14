@@ -25,6 +25,27 @@ py.sign_in('siruif', '1xbbym8vxv')
 #py.sign_in('vnguyen31', '4x69erhlu4')
 #py.sign_in('vi.nguyen61388', 'w8p15c6rq4')
 
+sign_in_keys = [('vi-tnguyen', '2j59j4yh6y'),('siruif', '1xbbym8vxv'),\
+                 ('nvi613', 'dceant1x53'), ('turabhassan', 'qu73c973p4'),\
+                 ('vnguyen31', '4x69erhlu4'),('vi.nguyen61388', 'w8p15c6rq4') ]
+
+print('coming in the chart file')
+
+def change_keys():
+
+    for key in sign_in_keys:
+        try:
+            print(key,'coming in try')
+            data = [go.Bar(x=[], y=[])]
+            plot_url = py.plot(data, filename = 'test-bar', auto_open = False)
+            break
+        except Exception:
+            print(key,'coming in except')
+            py.sign_in(key[0],key[1])
+            continue
+
+
+
 
 # Key sets and dictionaries for processing and cleaning expenditure data
 Expenditure_Cat = set(['Admin Salary & Benefits', \
@@ -179,6 +200,7 @@ def expenditure_pie(school_data, school_name, labels_school, values_school, \
          "y": 0.5}, {"font": {"size": 10}, "showarrow": False, "text": 'District',\
          "x": 0.8, "y": 0.5}]}}
 
+    change_keys()     
     url = py.plot(fig, filename = 'Pie Chart: Expenditure', auto_open = False)
 
     return url
@@ -254,6 +276,7 @@ def bar(school_name, data_dictionary, data_distr_avg, cat_dict, cat_dict_rename,
 
     data = [trace1, trace2]
     fig = go.Figure(data = data, layout = layout)
+    change_keys()
     url = py.plot(fig, filename = 'Bar Chart: {}'.format(chart_title), \
         auto_open = False)
 
@@ -286,6 +309,7 @@ def frlunch_bar(school_name, data_dictionary, data_distr_avg):
     layout = go.Layout(title = title)
 
     fig = go.Figure(data = data, layout = layout)
+    change_keys()
     url = py.plot(fig, filename = 'Bar Chart: Income Indicator', auto_open = False)
 
     return url
@@ -349,6 +373,7 @@ def compare(list_of_schools, cat_dict, cat_dict_rename, chart_title, data_dictio
     layout = go.Layout(barmode = 'group', title = chart_title)
     
     fig = go.Figure(data = data, layout = layout)
+    change_keys()
     url = py.plot(fig, filename = 'grouped-bar {}'.format(chart_title), \
         auto_open = False)
     
