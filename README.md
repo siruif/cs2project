@@ -1,15 +1,15 @@
 # CS122project
 A group project for UChicago CS 122
 Team Name: EdMoneyBall
-Sirui Feng, Turab Hassan, & Vi Nguyen
+Created by: Sirui Feng, Turab Hassan, & Vi Nguyen
 
 ##Install Packages##
 Name: pyproj
- Use: Performs cartographic transformations and geodetic computations.
+ Use: performs cartographic transformations and geodetic computations.
  Installation command: sudo pip3 install pyproj
 
 Name: Shapely
- Use:Manipulation and analysis of geometric objects in the Cartesian plane.
+ Use: manipulation and analysis of geometric objects in the Cartesian plane.
  Installation command: sudo apt-get install python-shapely; sudo pip3 install shapely
 
 Name: Plotly
@@ -22,80 +22,90 @@ Name: Bootstrap Forms
 
 Name: Bootstrap
  Use: styling of site
- Installation command sudo pipe3 install django-bootstrap
+ Installation command: sudo pipe3 install django-bootstrap
 
 
 ##Data##
 Datasets folder
-    Chicago Public Schools Budget Fiscal Year 2015 Proposed - (did we use this?)
-    CPS_School_Locations_SY1415.xlsx - 
-    CPS_Schools_IDs_locations_13-14.xlsx -(this file has wrong geolocation information) 
-    FY2015 GL Expenditure Report as of 2015-06-30 - Schools 08-04-2015.xls - 
-    				    				SchoolQualityRatingPolicyResults&AccountabilityStatus_2015-6_full.xlsx
+    -CPS_School_Locations_SY1415.xlsx: we used this file to update the geolocation 
+    information
+    -CPS_Schools_IDs_locations_13-14.xlsx: this file had incorrect geolocation 
+    information
+    -FOIA#826: folder that contain results from Lingwei Cheng's FOIA request
+    -FY2015 GL Expenditure Report as of 2015-06-30: source of expenditure 
+    data that we used, from FOIA#826
+    -SchoolQualityRatingPolicyResults&AccountabilityStatus_2015-6_full.xlsx:
+    source of academic performance information for each school
+    -Chicago_Public_Schools_Budget_-_Fiscal_Year_2015_-_Proposed.csv: data
+    on planned budget spending, we didn't use it.
 
 
-##Django implmentation##
-mysite - folder that contains our Django implementation
-    Edmoneyball - folder that ...
-        static - folder that contains static css, js, images, and other files 
+##Django implementation##
+-mysite: folder that contains our Django implementation
+    -Edmoneyball: folder that contains our edmoneyball implementation
+        -static: folder that contains static css, js, images, and other files 
         for styling
             -all files in this folder, unless specified, were sourced from 
             http://startbootstrap.com/template-overviews/stylish-portfolio/; 
             only small modifications were made
-            *img/heatmap_sample.png was created by us ...
+            -img/heatmap_sample.png was created by us using rating.py
 
-        templates - folder that contains our html pages
-            edmoneyball - folder to house our html pages
-                explore.html - page where user can choose 1 school at a time to 
-                    look at data, or enter their address to see school zones and
-                    select the school to explore
-                address.html - page to display school zones after user enters 
-                    address in explore.html
-                comparison.html - page to let user choose schools they want to 
-                    compare; and displays the results
-                recommendation.html - page to let user enter preferences for 
-                    algorithm to recommend top performing schools
+        -templates: folder that contains our html pages
+            -edmoneyball: folder to house our html pages
+                -explore.html: page where user can choose 1 school at a time to 
+                look at data, or enter their address to see school zones and
+                select the school to explore
+                -address.html: page to display school zones after user enters 
+                address in explore.html
+                -comparison.html: page to let user choose schools they want to 
+                compare; and displays the results
+                -recommendation.html: page to let user enter preferences for 
+                algorithm to recommend top performing schools
 
-                individual.html - page to display charts for one school
-                plot_school_comparisons.html - page to display charts for 
-                    comparisons
-                plot_school_recommendations.html - page to display charts for
-                    recommended schools
+                -individual.html: page to display charts for one school
+                -plot_school_comparisons.html: page to display charts for 
+                comparisons
+                -plot_school_recommendations.html: page to display charts for
+                recommended schools
                 
 
                 # The 4 files below were sourced from 
                 http://startbootstrap.com/template-overviews/stylish-portfolio/; 
                     only small modifications were made
-                index.html  - homepage
-                javascript.html - brings in js components
-                head.html - brings in header styling 
-                navar.html - navigation bar
+                -index.html: homepage
+                -javascript.html: brings in js components
+                -head.html: brings in header styling 
+                -navar.html: navigation bar
 
         ##Python programs##
-        urls.py
-        views.py
-        admin.py
-        apps.py
-        forms.py
-        models.py
-        geocode.py
-        getcontext.py
-        chart.py - contains algorithms that clean the data and plot charts
-        ranking.py - algorithm that processes user inputs and generates recommendation
-        update_charts.py - calls on various functions to update charts with 
+        -urls.py: a file which tells us which page the user is on to call the 
+        correct function from views.py
+        -views.py: processes the Http request and redirects to the correct page 
+        based on the request
+        -admin.py
+        -apps.py
+        -forms.py: forms that the user see on the webpage get created here.
+        -models.py
+        -geocode.py: turns a user entered address into lat, lon location
+        -getcontext.py: Based on the user input, builds the context for the 
+        html page
+        -chart.py: contains algorithms that clean the data and plot charts
+        -ranking.py: algorithm that processes user inputs and generates 
+        recommendation
+        -update_charts.py: calls on various functions to update charts with 
         selected/relevant schools
-        rating.py - contains algorithms that fetch data from the database to generate heatmap
-        school_info.py - contains algorithms that fetch data from the dabase and do related computations
-        school_zone.py - contains algorithms that clean up the zone geolocation information
-        views.py Processes the Http request and redirects to the correct page based on the request
-        geocode.py Turns a user entered address into lat, lon location
-        getcontext.py Based on the user input, builds the context for the html page
-        urls.py Django Urls file, a file which tells us which page the user is on to call the correct function from views.py
-        forms.py Django forms file, the forms that the user see on the webpage get created over here.
-        scores.csv - generated by rating.py to draw heatmap
-        UpdatedLocations.csv - correct geolocation of the CPS schools
-        EducationData1.db -school information database
-        network_info.geojson -school zone geolocations
+        -rating.py: contains algorithms that fetch data from the database to 
+        generate heatmap
+        -school_info.py: contains algorithms that fetch data from the dabase 
+        and do related computations
+        -school_zone.py: contains algorithms that clean up the zone geolocation 
+        information
+        -scores.csv: generated by rating.py to draw heatmap
+        
+        ##Data files##
+        -UpdatedLocations.csv: correct geolocation of the CPS schools
+        -EducationData1.db: school information database
+        -network_info.geojson: school zone geolocations
 
         
 
