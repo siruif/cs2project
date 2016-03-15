@@ -72,7 +72,7 @@ def recommendationtool(request):
             data = form.cleaned_data
             indicator, context = getcontext.\
             build_context_from_recommendation(data)
-
+            print(context)
             #Criteria met show this page
             if indicator:
                 return render( request, \
@@ -105,7 +105,7 @@ def comparisontool(request):
         
         if form.is_valid():
             data = form.cleaned_data
-            context = getcontext.build_context_from_recommendation(data)
+            context = getcontext.build_context_from_comparison(data)
         return render( request, 'edmoneyball/plot_school_comparisons.html', context)
     
     else:

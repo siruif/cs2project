@@ -67,7 +67,7 @@ def build_context_from_recommendation(data):
     context['not_met'] = not_met
     return indicator, context
 
-def build_context_from_recommendation(data):
+def build_context_from_comparison(data):
   '''
   Given the data the user entered to compare schools, build the context from
   the update charts file and return it.
