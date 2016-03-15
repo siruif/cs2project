@@ -46,6 +46,7 @@ def explore(request):
             else:
                 ulat,ulon = geocode.get_latlon(address)                
                 context = getcontext.build_context_from_address(ulat, ulon)
+                context['form'] = form
                 return render( request, 'edmoneyball/address.html', context)
     
     #Populating the Initial Page by displaying all the shcools
