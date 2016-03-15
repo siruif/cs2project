@@ -21,6 +21,7 @@ def change_keys():
 
     for key in sign_in_keys:
         try:
+            print(key)
             data = [go.Bar(x=[], y=[])]
             plot_url = py.plot(data, filename = 'test-bar', auto_open = False)
             break

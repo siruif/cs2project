@@ -1,4 +1,8 @@
-import urllib.parse
+# CS 122 Project: EdMoneyBall
+# Creates the Plotly charts
+# Vi Nguyen, Sirui Feng, Turab Hassan
+# All Original Code
+
 from django.shortcuts import render
 from django.http import HttpResponse
 from django.http import HttpResponseRedirect
@@ -53,41 +57,32 @@ def recommendationtool(request):
     '''
     Based on the Http Request, return the recommendations page. There are two
     possibilites, we can either find atleast once school which meets the 
-    recommendation or we cannot find any shcool that meets the recommendation
+    recommendation or we cannot find any shcool that meets the recommendation.
+    Based on this we render either the recommendation met page or the
+    recommendation not met page
+    Input: Http request
+    Output: Http Request with the html page and the context we want the html
+    page to render
     '''
     if request.method == 'POST':
         form = RecommendationForm(request.POST)
-        print('post request')
-        #print(form)
+
         if form.is_valid():
             data = form.cleaned_data
-            if data['location'] != '':
-                address = urllib.parse.quote_plus ( data['location'] )
-                latlon = geocode.get_latlon(address)
-                data['location'] = latlon
-            data ['ethnicity'] = data['ethnicity'].lower()
-            urls, indicator, not_met = update_charts.compare_recommend(True, pref_crit_from_ui = data)
+            indicator, context = getcontext.\
+            build_context_from_recommendation(data)
+
+            #Criteria met show this page
             if indicator:
-                context =  urls
-                school_list = context['school']
-                i = 0
-                for each_school in school_list:
-                    if each_school != 'District Average*':
-                        key = "school" + str(i)
-                        context[key] = each_school
-                        i += 1
-                return render( request, 'edmoneyball/plot_school_recommendations.html', context)
+                return render( request, \
+                    'edmoneyball/plot_school_recommendations.html', context)
+            
+            #Criteria not met Show this page
             else:
-                context = urls
-                school_list = context['school']
-                i = 0
-                for each_school in school_list:
-                    if each_school != 'District Average*':
-                        key = "school" + str(i)
-                        context[key] = each_school
-                        i += 1
-                context['not_met'] = not_met
-                return render( request, 'edmoneyball/plot_school_recommendations_notmet.html', context)
+                return render( request, \
+                    'edmoneyball/plot_school_recommendations_notmet.html', context)         
+    
+    #User coming in for the first time, load the base page
     else:
         form = RecommendationForm() 
         context = {'form':form}
@@ -106,14 +101,12 @@ def comparisontool(request):
 
     if request.method == 'POST':
         form = ComparisonForm(request.POST)
+        
         if form.is_valid():
             data = form.cleaned_data
-            school_list = []
-            for key in data.keys():
-                if data[key] != '':
-                    school_list.append(data[key]) 
-            context = update_charts.compare_recommend(False, list_of_schools = school_list )            
+            context = getcontext.build_context_from_recommendation(data)
         return render( request, 'edmoneyball/plot_school_comparisons.html', context)
+    
     else:
         form = ComparisonForm ( )
         context = {'form':form}

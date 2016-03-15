@@ -1,3 +1,9 @@
+# CS 122 Project: EdMoneyBall
+# Creates the Plotly charts
+# Vi Nguyen, Sirui Feng, Turab Hassan
+# Modified, looked up from https://docs.djangoproject.com/en/1.9/intro/tutorial01/
+
+
 from django.conf.urls import url
 
 from . import views
