@@ -45,26 +45,31 @@ mysite - folder that contains our Django implementation
             *img/heatmap_sample.png was created by us ...
 
         templates - folder that contains our html pages
-            edmoneyball
-                address.html - 
-                comparison.html - page to let user choose schools they want to 
-                compare; and displays the results
+            edmoneyball - folder to house our html pages
                 explore.html - page where user can choose 1 school at a time to 
-                look at data for
-                heatmap.html - 
-                individual.html - 
-                recommendation.html
+                    look at data, or enter their address to see school zones and
+                    select the school to explore
+                address.html - page to display school zones after user enters 
+                    address in explore.html
+                comparison.html - page to let user choose schools they want to 
+                    compare; and displays the results
+                recommendation.html - page to let user enter preferences for 
+                    algorithm to recommend top performing schools
+
+                individual.html - page to display charts for one school
+                plot_school_comparisons.html - page to display charts for 
+                    comparisons
+                plot_school_recommendations.html - page to display charts for
+                    recommended schools
+                
 
                 # The 4 files below were sourced from 
                 http://startbootstrap.com/template-overviews/stylish-portfolio/; 
-                only small modifications were made
+                    only small modifications were made
                 index.html  - homepage
                 javascript.html - brings in js components
-                head.html - brings in 
+                head.html - brings in header styling 
                 navar.html - navigation bar
-
-                plot_school_comparisons.html
-                plot_school_recommendations.html
 
         ##Python programs##
         urls.py
