@@ -1,7 +1,7 @@
 # CS 122 Project: EdMoneyBall
 # Creates the Plotly charts
 # Vi Nguyen, Sirui Feng, Turab Hassan
-# Highly Modified, made reading the documentation at 
+# Substantially Modified, made reading the documentation at 
 # https://docs.djangoproject.com/en/1.9/ref/forms/fields/
 
 from django import forms

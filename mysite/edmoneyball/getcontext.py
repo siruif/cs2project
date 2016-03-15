@@ -1,8 +1,6 @@
 # CS 122 Project: EdMoneyBall
-# Creates the Plotly charts
-# Vi Nguyen, Sirui Feng, Turab Hassan
-# All Original Code
-# This files builds the information that needs to be passed to the html file
+# Builds the information that needs to be passed to the html file
+# Created by: Vi Nguyen, Sirui Feng, Turab Hassan
 
 import urllib.parse
 from . import school_info, school_zone, update_charts, geocode

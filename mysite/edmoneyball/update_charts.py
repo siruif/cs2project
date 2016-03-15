@@ -1,7 +1,7 @@
 # CS 122 Project: EdMoneyBall
 # Passes key variables (titles, school data, etc) to the plotting functions to 
 # generate needed urls
-# Vi Nguyen, Sirui Feng, Turab Hassan
+# Created by: Vi Nguyen, Sirui Feng, Turab Hassan
 
 from . import school_info, chart, ranking, school_zone
 

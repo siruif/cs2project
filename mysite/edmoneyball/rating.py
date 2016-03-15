@@ -1,4 +1,8 @@
-#This file is used to fetch information from the database and transform data to create a heatmap.
+# CS 122 Project: EdMoneyBall
+# This file is used to fetch information from the database and transform 
+# data to create a heatmap.
+# Created by: Vi Nguyen, Sirui Feng, Turab Hassan
+
 import sqlite3
 import math
 import csv

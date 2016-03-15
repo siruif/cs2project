@@ -1,7 +1,7 @@
 # CS 122 Project: EdMoneyBall
 # Creates the Plotly charts
-# Vi Nguyen, Sirui Feng, Turab Hassan
-# Modified, original at 
+# Created by Vi Nguyen, Sirui Feng, Turab Hassan
+# Substantially modified, original at 
 # https://developers.google.com/maps/documentation/geocoding/intro#GeocodingResponses
 
 import urllib.parse

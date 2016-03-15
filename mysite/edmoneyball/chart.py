@@ -1,6 +1,6 @@
 # CS 122 Project: EdMoneyBall
 # Creates the Plotly charts
-# Vi Nguyen, Sirui Feng, Turab Hassan
+# Created by: Vi Nguyen, Sirui Feng, Turab Hassan
 
 from . import school_info
 import matplotlib.pylab as plt

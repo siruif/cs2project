@@ -1,5 +1,8 @@
-#This file imports the geolocation information regarding school zones, 
-#and do related computations.
+# CS 122 Project: EdMoneyBall
+# Imports the geolocation information regarding school zones, 
+# and do related computations.
+# Created by: Vi Nguyen, Sirui Feng, Turab Hassan
+
 from . import school_info
 import json
 import pyproj

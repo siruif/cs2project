@@ -1,8 +1,10 @@
-# This file fetches useful information from the database to create a 
+# CS 122 Project: EdMoneyBall
+# Fetches useful information from the database to create a 
 # dictionary containing school information.
-# Also, this file updates teh geolocation of the school with the correct
-# lat,lon.
-# This file also contains functions that do radius-related computations.
+# Updates teh geolocation of the school with the correct lat,lon.
+# Contains functions that do radius-related computations
+# Created by: Vi Nguyen, Sirui Feng, Turab Hassan
+
 import sqlite3
 from math import *
 import operator

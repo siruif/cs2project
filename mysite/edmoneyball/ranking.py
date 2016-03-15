@@ -1,6 +1,6 @@
 # CS 122 Project: EdMoneyBall
 # Makes recommendations based on user criteria
-# Vi Nguyen, Sirui Feng, Turab Hassan
+# Created by: Vi Nguyen, Sirui Feng, Turab Hassan
 
 from . import school_info, chart, school_zone
 

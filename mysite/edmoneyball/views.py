@@ -1,7 +1,6 @@
 # CS 122 Project: EdMoneyBall
-# Creates the Plotly charts
-# Vi Nguyen, Sirui Feng, Turab Hassan
-# All Original Code
+# Creates views for our html pages
+# Created by: Vi Nguyen, Sirui Feng, Turab Hassan
 
 from django.shortcuts import render
 from django.http import HttpResponse
