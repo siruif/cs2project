@@ -8,6 +8,7 @@ from django.http import HttpResponse
 from django.http import HttpResponseRedirect
 from .forms import AddressForm, RecommendationForm, ComparisonForm
 from . import getcontext, geocode, school_info, update_charts
+import urllib.parse
 
 def explore(request):
     '''
