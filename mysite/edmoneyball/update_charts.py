@@ -57,7 +57,6 @@ list_of_schools = None):
     Outputs:
         list of urls where plotly charted the graphs
     '''
-
     if recommend_indicator:
         clean_data = ranking.clean_data(pref_crit_from_ui)
         list_of_schools, crit_met_indicator, crit_not_met_full_list = \

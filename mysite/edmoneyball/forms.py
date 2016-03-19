@@ -13,7 +13,7 @@ SCHOOL_CHOICES = school_info.school_names()
 
 RACE_CHOICES = ['Asian','Black', 'White', 'Hispanic', 'Multiracial']
 
-SCHOOL_TYPES = ['Charter', 'Neighborhood']
+SCHOOL_TYPES = ['Charter', 'Regular']
 
 class AddressForm(forms.Form):
     '''

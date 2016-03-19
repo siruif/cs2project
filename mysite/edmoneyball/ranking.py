@@ -40,6 +40,7 @@ def clean_data(pref_criteria_from_ui):
     return clean_pref
 
 
+
 def school_rank(clean_pref):
     '''
     Takes in the cleaned preferences of the users from the user interface 
@@ -67,6 +68,8 @@ def school_rank(clean_pref):
 
     district_data = school_info.create_school_dictionary()
 
+    school_ordered_by_perf = []
+
     # Gets list of schools that fit radius parameters
     if 'location' in clean_pref.keys():
         lat, lon = clean_pref['location']
@@ -79,27 +82,41 @@ def school_rank(clean_pref):
         # Generates schoos in zone of location
         schools_in_network = school_zone.school_in_zone(lat, lon)
 
-    # Go through all schools to find 2 scores, one to note whether the school 
-    # met the minimum criteria, and the second to note how well they perform 
-    # academically
+    
+    # Go through all the schools to create a list of tuple that contains
+    # school name and performance ranking
     for school in district_data.keys():
+        school_data = district_data[school]
+        school_rank = (school_data['rdg_growth'] + \
+        school_data['math_growth'] + \
+        school_data['rdg_attainment'] + \
+        school_data['math_attainment']) / 2
+        school_ordered_by_perf.append((school, school_rank))
+    school_ordered_by_perf = sorted(school_ordered_by_perf, key = lambda x: (x[1]))
+    print(school_ordered_by_perf[1:6])
+
+    # Go through all schools to find 2 scores (index 1), one to note whether the school 
+    # met the minimum criteria, and the second to note how well they perform 
+    # academically (index 3)
+    for school in school_ordered_by_perf:
         # Assume they meet it until we come across a criteria where they don't
         school_crit_met = 1 
-        school_rank = 0
-        school_data = district_data[school]
+        school_rank = school[1]
+        school_name = school[0]
+        school_data = district_data[school_name]
         crit_not_met = []
         open_school = False
 
         if schools_in_distance != []:
-            if school not in schools_in_distance:
+            if school_name not in schools_in_distance:
                 school_crit_met = 0
                 crit_not_met.append('distance')
             else:
                 open_school = True
 
         if schools_in_network != []:
-            if (school not in schools_in_network) and \
-                (district_data[school]['type'] is not 'charter'):
+            if (school_name not in schools_in_network) and \
+                (school_data['type'] is not 'charter'):
                 school_crit_met = 0
                 crit_not_met.append('school network')
             else:
@@ -115,27 +132,31 @@ def school_rank(clean_pref):
                     if school_data[key] < clean_pref[key]:
                         school_crit_met = 0
                         crit_not_met.append(key)
-                school_rank = (school_data['rdg_growth'] + \
-                    school_data['math_growth'] + \
-                    school_data['rdg_attainment'] + \
-                    school_data['math_attainment']) / 2
+
+        if school_crit_met == 1:
+            print(school_name, school_crit_met, crit_not_met, school_rank)
         if len(top_matches) < 5:
-            top_matches.append((school, school_crit_met, crit_not_met, \
+            top_matches.append((school_name, school_crit_met, crit_not_met, \
                 school_rank))
         else:
+            # Rank the schools by best matches last to do de-ranking
+            top_matches = sorted(top_matches, key = lambda x: (x[1], x[3]))
+            #print('sorted_top_matches:', ranked_top_matches)
             for i in range(len(top_matches)):
                 if (school_crit_met > top_matches[i][1]) or \
                     ((school_crit_met == top_matches[i][1]) and \
-                    (school_rank > top_matches[i][3])) :
+                    (school_rank > top_matches[i][3])):
                     deranked_school = top_matches[i]
                     top_matches.remove(deranked_school)
-                    top_matches.append((school, school_crit_met, crit_not_met,
+                    top_matches.append((school_name, school_crit_met, crit_not_met,
                     school_rank))
+                    #print('switching out schools')
+                    #print('deranked:', deranked_school, 'adding:', school_name, school_crit_met, school_rank)
                     break
 
-    # Rank the schools by best matches
-    ranked_top_matches = sorted(top_matches, key = lambda x: (x[1], x[2]),
-        reverse = True)
+    # Rank the schools by best matchest first for displaying
+    ranked_top_matches = sorted(top_matches, key = lambda x: (x[1], x[3]),
+    reverse = True)
 
     top_school_names = []
     crit_not_met_full_string = ''
@@ -151,13 +172,13 @@ def school_rank(clean_pref):
                     else: 
                         crit_not_met_full_string = criteria_not_met
 
-    
     # Indicator that the returned schools met all the criteria
     if len(crit_not_met_full_string) > 0:
         crit_met_indicator = False
     else:
         crit_met_indicator = True
 
+    print(ranked_top_matches)
     return top_school_names, crit_met_indicator, crit_not_met_full_string
 
 
