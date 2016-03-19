@@ -90,10 +90,9 @@ def school_rank(clean_pref):
         school_rank = (school_data['rdg_growth'] + \
         school_data['math_growth'] + \
         school_data['rdg_attainment'] + \
-        school_data['math_attainment']) / 2
+        school_data['math_attainment']) / 4
         school_ordered_by_perf.append((school, school_rank))
     school_ordered_by_perf = sorted(school_ordered_by_perf, key = lambda x: (x[1]))
-    print(school_ordered_by_perf[1:6])
 
     # Go through all schools to find 2 scores (index 1), one to note whether the school 
     # met the minimum criteria, and the second to note how well they perform 
@@ -141,7 +140,6 @@ def school_rank(clean_pref):
         else:
             # Rank the schools by best matches last to do de-ranking
             top_matches = sorted(top_matches, key = lambda x: (x[1], x[3]))
-            #print('sorted_top_matches:', ranked_top_matches)
             for i in range(len(top_matches)):
                 if (school_crit_met > top_matches[i][1]) or \
                     ((school_crit_met == top_matches[i][1]) and \
@@ -150,11 +148,9 @@ def school_rank(clean_pref):
                     top_matches.remove(deranked_school)
                     top_matches.append((school_name, school_crit_met, crit_not_met,
                     school_rank))
-                    #print('switching out schools')
-                    #print('deranked:', deranked_school, 'adding:', school_name, school_crit_met, school_rank)
                     break
 
-    # Rank the schools by best matchest first for displaying
+    # Rank the schools by best matches first for displaying
     ranked_top_matches = sorted(top_matches, key = lambda x: (x[1], x[3]),
     reverse = True)
 
@@ -178,7 +174,6 @@ def school_rank(clean_pref):
     else:
         crit_met_indicator = True
 
-    print(ranked_top_matches)
     return top_school_names, crit_met_indicator, crit_not_met_full_string
 
 

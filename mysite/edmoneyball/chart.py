@@ -12,7 +12,7 @@ import plotly.graph_objs as go
 sign_in_keys = [('vi-tnguyen', '2j59j4yh6y'),('siruif', '1xbbym8vxv'),\
                  ('nvi613', 'dceant1x53'), ('turabhassan', 'qu73c973p4'),\
                  ('vnguyen31', '4x69erhlu4'),('vi.nguyen61388', 'w8p15c6rq4'),
-                 ('siruif16', 'o31kpg19nx')]
+                 ('siruif16', 'o31kpg19nx'), ('educationvis', '1whtwpbqkt')]
 
 def change_keys():
     ''' 
