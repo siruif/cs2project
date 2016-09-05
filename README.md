@@ -122,7 +122,8 @@ Trash - backup of files that we had referred to and/or could use in the future
 
 
 ##Run site locally##
-python3 cs2project/mysite/manage.py runserver
+cd cs2project/mysite/
+python3 manage.py runserver
 
 
 =======
