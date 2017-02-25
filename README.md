@@ -3,6 +3,8 @@ A group project for UChicago CS 122
 Team Name: EdMoneyBall
 Created by: Sirui Feng, Turab Hassan, & Vi Nguyen
 
+###Link to live site: http://edmoneyball.pythonanywhere.com/
+
 ##NOTES ON SOURCES##
 In each file, if we have sourced the code from somewhere else, 
 we've included a note about the extent to which we modified it. In cases 
